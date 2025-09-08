@@ -8,120 +8,73 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body class="page page--auth">
+<body class="page page--auth page--login">
     <div class="auth-layout">
         <!-- Signup Form Section -->
         <div class="auth-layout__form">
             <div class="auth-layout__content">
-                <div class="auth-layout__logo">FM</div>
-                <h1 class="auth-layout__title">Create Account</h1>
-                <p class="auth-layout__subtitle">Join our fleet management platform</p>
+                <h1 class="auth-layout__title">Create your account</h1>
 
                 <form class="form" action="otp.html" method="post">
                     <div class="form__group">
-                        <label class="form__label" for="name">Full Name</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            class="form__input"
-                            placeholder="Enter your full name"
-                            required
-                        >
-                    </div>
-
-                    <div class="form__group">
-                        <label class="form__label" for="email">Email Address</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            class="form__input"
-                            placeholder="Enter your email"
-                            required
-                        >
-                    </div>
-
-                    <div class="form__group">
-                        <label class="form__label" for="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            class="form__input form__input--password"
-                            placeholder="Create a password"
-                            required
-                        >
-                        <small class="form__help">Password must be at least 8 characters long</small>
-                    </div>
-
-                    <div class="form__group">
-                        <label class="form__label" for="confirmPassword">Confirm Password</label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            class="form__input form__input--password"
-                            placeholder="Confirm your password"
-                            required
-                        >
-                    </div>
-
-                    <div class="form__group">
-                        <div class="form__checkbox">
+                        <label class="form__label" for="warehouse">Warehouse name</label>
+                        <div class="form__input-wrapper">
+                            <span class="form__input-icon form__input-icon--warehouse"></span>
                             <input
-                                type="checkbox"
-                                id="terms"
-                                name="terms"
-                                class="form__checkbox-input"
+                                type="text"
+                                id="warehouse"
+                                name="warehouse"
+                                class="form__input"
+                                placeholder="Enter warehouse name"
                                 required
                             >
-                            <label for="terms" style="margin: 0;">
-                                I agree to the <a href="#" style="color: var(--color-primary);">Terms of Service</a> and <a href="#" style="color: var(--color-primary);">Privacy Policy</a>
-                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form__group">
+                        <label class="form__label" for="owner">Owner / Manager's name</label>
+                        <div class="form__input-wrapper">
+                            <span class="form__input-icon form__input-icon--user"></span>
+                            <input
+                                type="text"
+                                id="owner"
+                                name="owner"
+                                class="form__input"
+                                placeholder="Enter owner / manager's name"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form__group">
+                        <label class="form__label" for="phone">Phone number</label>
+                        <div class="form__input-wrapper">
+                            <span class="form__input-icon form__input-icon--phone"></span>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                class="form__input"
+                                placeholder="Enter phone number"
+                                required
+                            >
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn--primary btn--full">
-                        Create Account
+                        Continue
                     </button>
-
-                    <div class="form__group" style="text-align: center; margin-top: var(--spacing-xl); border-top: 1px solid var(--color-gray-medium); padding-top: var(--spacing-xl);">
-                        <p class="text-secondary">
-                            Already have an account?
-                            <a href="login.html" style="color: var(--color-primary); font-weight: 500;">Sign in</a>
-                        </p>
-                    </div>
                 </form>
+
+                <div class="auth-layout__footer">
+                    <p>2025 Clickit Solutions All Right Received</p>
+                </div>
             </div>
         </div>
 
         <!-- Branding Section -->
         <div class="auth-layout__branding">
-            <div class="auth-layout__content">
-                <h2 style="color: var(--color-white); font-size: var(--font-size-3xl); font-weight: 600; margin-bottom: var(--spacing-lg);">
-                    Get Started Today
-                </h2>
-                <p style="color: rgba(255, 255, 255, 0.8); font-size: var(--font-size-lg); line-height: 1.6;">
-                    Join thousands of businesses already using our platform to manage their vehicle fleets efficiently.
-                    Start your free trial and see the difference.
-                </p>
-
-                <div style="margin-top: var(--spacing-3xl);">
-                    <div style="display: flex; align-items: center; margin-bottom: var(--spacing-lg);">
-                        <div style="width: 20px; height: 20px; background-color: var(--color-white); border-radius: 50%; margin-right: var(--spacing-md);"></div>
-                        <span style="color: var(--color-white);">14-day free trial</span>
-                    </div>
-                    <div style="display: flex; align-items: center; margin-bottom: var(--spacing-lg);">
-                        <div style="width: 20px; height: 20px; background-color: var(--color-white); border-radius: 50%; margin-right: var(--spacing-md);"></div>
-                        <span style="color: var(--color-white);">No credit card required</span>
-                    </div>
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 20px; height: 20px; background-color: var(--color-white); border-radius: 50%; margin-right: var(--spacing-md);"></div>
-                        <span style="color: var(--color-white);">Cancel anytime</span>
-                    </div>
-                </div>
-            </div>
+            <img src="images/home.png" alt="Fleet branding" class="auth-layout__image">
         </div>
     </div>
 

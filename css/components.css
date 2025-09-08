@@ -792,6 +792,66 @@
     transform: translateY(-50%) scaleX(-1);
 }
 
+.page--login .form__input-icon--warehouse {
+    background-image: url('../images/icons/warehouse.png');
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(0) saturate(100%);
+}
+
+.page--login .form__input-icon--user {
+    background-image: url('../images/icons/user.png');
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(0) saturate(100%);
+}
+
+/* OTP Inputs Layout */
+.page--login .otp-inputs {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.page--login .form__input--otp {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    border: 1px solid #e1e5e9;
+    border-radius: 12px;
+    padding: 0;
+}
+
+.page--login .form__input--otp:focus {
+    border-color: #374151;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.1);
+}
+
+.page--login .auth-layout__subtitle {
+    color: #6b7280;
+    font-size: 16px;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+/* Success Page Styling */
+.success-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+}
+
+.success-title {
+    text-align: center !important;
+    margin-bottom: 40px !important;
+}
+
 .page--login .form__input:focus {
     border-color: #374151;
     outline: none;

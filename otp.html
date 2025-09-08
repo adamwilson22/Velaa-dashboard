@@ -8,22 +8,17 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body class="page page--auth">
+<body class="page page--auth page--login">
     <div class="auth-layout">
         <!-- OTP Form Section -->
         <div class="auth-layout__form">
             <div class="auth-layout__content">
-                <div class="auth-layout__logo">FM</div>
-                <h1 class="auth-layout__title">Verify Your Email</h1>
-                <p class="auth-layout__subtitle">
-                    We've sent a 4-digit verification code to your email address.<br>
-                    Enter the code below to continue.
-                </p>
+                <h1 class="auth-layout__title">Verify phone number</h1>
+                <p class="auth-layout__subtitle">Enter Otp code sent on your phone number</p>
 
                 <form class="form" action="create-password.html" method="post">
                     <div class="form__group">
-                        <label class="form__label">Verification Code</label>
-                        <div style="display: flex; gap: var(--spacing-md); justify-content: center; margin-bottom: var(--spacing-lg);">
+                        <div class="otp-inputs">
                             <input type="text" maxlength="1" class="form__input form__input--otp" required>
                             <input type="text" maxlength="1" class="form__input form__input--otp" required>
                             <input type="text" maxlength="1" class="form__input form__input--otp" required>
@@ -31,55 +26,24 @@
                         </div>
                     </div>
 
+                    <div class="form__group" style="text-align: left; margin-bottom: 2rem;">
+                        <a href="#" class="form__link" onclick="resendCode()">Resend codes</a>
+                    </div>
+
                     <button type="submit" class="btn btn--primary btn--full">
-                        Verify Code
+                        Verify
                     </button>
-
-                    <div class="form__group" style="text-align: center; margin-top: var(--spacing-lg);">
-                        <p class="text-secondary" style="margin-bottom: var(--spacing-sm);">
-                            Didn't receive the code?
-                        </p>
-                        <button type="button" class="btn btn--outline" style="margin-bottom: var(--spacing-md);" id="resendBtn">
-                            Resend Code
-                        </button>
-                        <p style="font-size: var(--font-size-sm); color: var(--color-secondary);">
-                            Resend available in <span id="countdown">30</span> seconds
-                        </p>
-                    </div>
-
-                    <div class="form__group" style="text-align: center; margin-top: var(--spacing-xl); border-top: 1px solid var(--color-gray-medium); padding-top: var(--spacing-xl);">
-                        <a href="signup.html" class="text-secondary">← Back to Sign Up</a>
-                    </div>
                 </form>
+
+                <div class="auth-layout__footer">
+                    <p>2025 Clickit Solutions All Right Received</p>
+                </div>
             </div>
         </div>
 
         <!-- Branding Section -->
         <div class="auth-layout__branding">
-            <div class="auth-layout__content">
-                <h2 style="color: var(--color-white); font-size: var(--font-size-3xl); font-weight: 600; margin-bottom: var(--spacing-lg);">
-                    Email Verification
-                </h2>
-                <p style="color: rgba(255, 255, 255, 0.8); font-size: var(--font-size-lg); line-height: 1.6;">
-                    For your security, we need to verify your email address before you can access your account.
-                    Check your inbox and enter the verification code we sent you.
-                </p>
-
-                <div style="margin-top: var(--spacing-3xl);">
-                    <div style="display: flex; align-items: center; margin-bottom: var(--spacing-lg);">
-                        <div style="width: 20px; height: 20px; background-color: var(--color-white); border-radius: 50%; margin-right: var(--spacing-md);"></div>
-                        <span style="color: var(--color-white);">Secure verification process</span>
-                    </div>
-                    <div style="display: flex; align-items: center; margin-bottom: var(--spacing-lg);">
-                        <div style="width: 20px; height: 20px; background-color: var(--color-white); border-radius: 50%; margin-right: var(--spacing-md);"></div>
-                        <span style="color: var(--color-white);">One-time verification code</span>
-                    </div>
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 20px; height: 20px; background-color: var(--color-white); border-radius: 50%; margin-right: var(--spacing-md);"></div>
-                        <span style="color: var(--color-white);">Code expires in 10 minutes</span>
-                    </div>
-                </div>
-            </div>
+            <img src="images/home.png" alt="Fleet branding" class="auth-layout__image">
         </div>
     </div>
 
