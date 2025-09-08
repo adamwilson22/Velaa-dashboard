@@ -9,88 +9,99 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="page page--auth">
+<body class="page page--auth page--login">
     <div class="auth-layout">
         <!-- Login Form Section -->
         <div class="auth-layout__form">
             <div class="auth-layout__content">
-                <h1 class="auth-layout__title" style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem; color: #1a1a1a;">Welcome Back</h1>
+                <h1 class="auth-layout__title">Welcome Back</h1>
 
                 <form class="form" action="dashboard.html" method="post">
                     <div class="form__group">
-                        <label class="form__label" for="phone" style="font-weight: 500; color: #4a4a4a; margin-bottom: 0.5rem;">Phone number</label>
-                        <div style="position: relative;">
-                            <i class="fas fa-phone" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #9ca3af; z-index: 1;"></i>
+                        <label class="form__label" for="phone">Phone number</label>
+                        <div class="form__input-wrapper">
+                            <span class="form__input-icon form__input-icon--phone"></span>
                             <input
                                 type="tel"
                                 id="phone"
                                 name="phone"
                                 class="form__input"
                                 placeholder="Enter your phone number"
-                                style="padding-left: 45px; border: 2px solid #e5e7eb; border-radius: 8px; height: 50px; font-size: 16px;"
                                 required
                             >
                         </div>
                     </div>
 
                     <div class="form__group">
-                        <label class="form__label" for="password" style="font-weight: 500; color: #4a4a4a; margin-bottom: 0.5rem;">Password</label>
-                        <div style="position: relative;">
-                            <i class="fas fa-lock" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #9ca3af; z-index: 1;"></i>
+                        <label class="form__label" for="password">Password</label>
+                        <div class="form__input-wrapper">
+                            <span class="form__input-icon form__input-icon--lock"></span>
                             <input
                                 type="password"
                                 id="password"
                                 name="password"
                                 class="form__input form__input--password"
                                 placeholder="Password"
-                                style="padding-left: 45px; padding-right: 45px; border: 2px solid #e5e7eb; border-radius: 8px; height: 50px; font-size: 16px;"
                                 required
                             >
-                            <i class="fas fa-eye" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #9ca3af; cursor: pointer; z-index: 1;"></i>
+                            <span class="form__input-icon form__input-icon--right form__input-icon--eye" id="togglePassword"></span>
                         </div>
                     </div>
 
-                    <div class="form__group" style="display: flex; justify-content: space-between; align-items: center; margin: 1.5rem 0;">
-                        <div class="form__checkbox" style="display: flex; align-items: center;">
+                    <div class="form__group form__group--options">
+                        <div class="form__checkbox">
                             <input
                                 type="checkbox"
                                 id="remember"
                                 name="remember"
                                 class="form__checkbox-input"
-                                style="margin-right: 8px;"
                             >
-                            <label for="remember" style="margin: 0; color: #4a4a4a; font-size: 14px;">Remember me</label>
+                            <label for="remember">Remember me</label>
                         </div>
-                        <a href="recover-password.html" style="color: #6b7280; text-decoration: none; font-size: 14px;">forgot password?</a>
+                        <a href="recover-password.html" class="form__link">forgot password ?</a>
                     </div>
 
-                    <button type="submit" class="btn btn--primary btn--full" style="background-color: #374151; color: white; border: none; border-radius: 8px; height: 50px; font-size: 16px; font-weight: 600; margin-bottom: 2rem;">
+                    <button type="submit" class="btn btn--primary btn--full">
                         Login
                     </button>
 
-                    <div class="form__group" style="text-align: center; margin-top: 2rem;">
-                        <p style="color: #6b7280; font-size: 14px;">
-                            Don't have an account?
-                            <a href="signup.html" style="color: #374151; font-weight: 600; text-decoration: none;">Register</a>
+                    <div class="form__group form__group--register">
+                        <p>
+                            Don't have an account? <a href="signup.html" class="form__link--primary">Register</a>
                         </p>
                     </div>
                 </form>
 
-                <div style="position: absolute; bottom: 20px; left: 0; right: 0; text-align: center;">
-                    <p style="color: #9ca3af; font-size: 12px; margin: 0;">2025 Clickit Solutions All Right Received</p>
+                <div class="auth-layout__footer">
+                    <p>2025 Clickit Solutions All Right Received</p>
                 </div>
             </div>
         </div>
 
         <!-- Branding Section -->
         <div class="auth-layout__branding">
-            <div class="auth-layout__content" style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; padding: 0; overflow: hidden;">
-                <img src="images/home.png" alt="Fleet branding" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
+            <img src="images/home.png" alt="Fleet branding" class="auth-layout__image">
         </div>
     </div>
 
     <script src="js/scripts.js"></script>
+    <script>
+        // Password toggle functionality
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this;
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    </script>
 </body>
 </html>
 

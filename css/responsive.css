@@ -19,6 +19,33 @@
     }
 }
 
+/* Tablet Styles */
+@media (max-width: 1024px) {
+    /* Login page tablet adjustments */
+    .page--login .auth-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .page--login .auth-layout__form {
+        padding: 1.5rem;
+    }
+
+    .page--login .auth-layout__branding {
+        margin: 20px 20px 20px 0;
+    }
+
+    .page--login .auth-layout__title {
+        font-size: 2rem;
+    }
+
+    .page--login .auth-layout__footer {
+        bottom: 15px;
+        left: 20px;
+        right: auto;
+    }
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
     :root {
@@ -59,11 +86,41 @@
         flex-direction: column;
     }
 
-    .auth-layout__form,
-    .auth-layout__branding {
-        flex: none;
-        min-height: 50vh;
-        padding: var(--spacing-xl);
+    /* Login page mobile layout */
+    .page--login .auth-layout {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: none;
+    }
+
+    .page--login .auth-layout__form {
+        order: 1;
+        padding: 1.5rem;
+        min-height: auto;
+    }
+
+    .page--login .auth-layout__branding {
+        order: 2;
+        margin: 0;
+        border-radius: 0;
+        height: 50vh;
+        min-height: 300px;
+    }
+
+    .page--login .auth-layout__title {
+        font-size: 1.875rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .page--login .auth-layout__footer {
+        position: fixed;
+        bottom: 15px;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 0;
+        text-align: center;
+        padding: 0 1.5rem;
     }
 
     .auth-layout__content {
@@ -131,13 +188,69 @@
         padding: 0 var(--spacing-sm);
     }
 
-    .auth-layout__form,
-    .auth-layout__branding {
+    .auth-layout__form {
         padding: var(--spacing-lg);
+    }
+
+    .auth-layout__branding {
+        padding: 0;
     }
 
     .auth-layout__title {
         font-size: var(--font-size-2xl);
+    }
+
+    /* Login page small mobile */
+    .page--login .auth-layout__form {
+        padding: 1rem;
+    }
+
+    .page--login .auth-layout__title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .page--login .form__input {
+        height: 48px;
+        font-size: 16px;
+        padding: 0 16px 0 45px;
+    }
+
+    .page--login .form__input-icon {
+        left: 16px;
+        width: 16px;
+        height: 16px;
+    }
+
+    .page--login .form__input-icon--phone {
+        background-image: url('../images/icons/phone.png');
+        background-size: 16px 16px;
+        filter: brightness(0) saturate(100%);
+    }
+
+    .page--login .form__input-icon--lock {
+        background-image: url('../images/icons/lock.png');
+        background-size: 16px 16px;
+        filter: brightness(0) saturate(100%);
+    }
+
+    .page--login .form__input-icon--eye {
+        background-image: url('../images/icons/eye.png');
+        background-size: 16px 16px;
+        filter: brightness(0) saturate(100%);
+    }
+
+    .page--login .form__input-icon--right {
+        right: 16px;
+    }
+
+    .page--login .btn--primary {
+        height: 48px;
+    }
+
+    .page--login .auth-layout__branding {
+        height: 40vh;
+        min-height: 250px;
     }
 
     .form {
@@ -294,7 +407,7 @@
 
     * {
         -webkit-print-color-adjust: exact !important;
-        color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 }
 
