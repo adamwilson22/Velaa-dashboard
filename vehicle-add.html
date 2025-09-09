@@ -60,13 +60,17 @@
         <div class="dashboard-layout__main">
             <!-- Header -->
             <header class="header">
-                <div class="header__left">
+                <button class="mobile-menu-toggle" id="menuToggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <div class="header__center">
                     <h1 class="header__title">Vehicles management</h1>
                 </div>
-
                 <div class="header__right">
                     <button class="header__notifications">
-                        <span class="notification-icon">🔔</span>
+                        <img src="images/icons/Bell.png" alt="Notifications" class="notification-icon">
                         <span class="notification-text">Notifications</span>
                         <span class="notification-dot"></span>
                     </button>
@@ -81,7 +85,8 @@
 
             <!-- Content -->
             <main class="dashboard-layout__content">
-                <div class="vehicle-form-container">
+                <div class="dashboard-container">
+                    <div class="vehicle-form-container">
                     <form class="vehicle-form" action="vehicles.html" method="post">
                         <!-- Row 1 -->
                         <div class="form-row">
@@ -107,7 +112,7 @@
                         </div>
 
                         <!-- Row 2 -->
-                        <div class="form-row">
+                        <div class="form-row single-column">
                             <div class="form-group">
                                 <label class="form-label">Enter chassis number</label>
                                 <input type="text" class="form-input" name="chassis" placeholder="Enter chassis number" required>
@@ -136,7 +141,7 @@
                         </div>
 
                         <!-- Row 4 -->
-                        <div class="form-row">
+                        <div class="form-row two-columns">
                             <div class="form-group">
                                 <label class="form-label">Arrival date</label>
                                 <input type="text" class="form-input" name="arrival_date" placeholder="Enter arrival date of the vehicle" required>
@@ -173,7 +178,7 @@
                         </div>
 
                         <!-- Keywords -->
-                        <div class="form-row">
+                        <div class="form-row single-column">
                             <div class="form-group full-width">
                                 <label class="form-label">Keywords</label>
                                 <textarea class="form-textarea" name="keywords" placeholder="Keywords" rows="3"></textarea>
@@ -181,7 +186,7 @@
                         </div>
 
                         <!-- Image Upload -->
-                        <div class="form-row">
+                        <div class="form-row single-column">
                             <div class="form-group full-width">
                                 <label class="form-label">Insert vehicle Pictures</label>
                                 <div class="image-upload-area">
@@ -193,10 +198,11 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <div class="form-row">
+                        <div class="form-row single-column">
                             <button type="submit" class="submit-btn">Submit</button>
                         </div>
                     </form>
+                    </div>
                 </div>
             </main>
         </div>

@@ -450,9 +450,73 @@ class FleetManager {
     }
 }
 
+// Mobile Menu Toggle Functionality
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    if (sidebar) {
+        sidebar.classList.toggle('sidebar--open');
+        
+        // Create overlay if it doesn't exist
+        if (!overlay && sidebar.classList.contains('sidebar--open')) {
+            const newOverlay = document.createElement('div');
+            newOverlay.className = 'sidebar-overlay';
+            newOverlay.onclick = closeSidebar;
+            document.body.appendChild(newOverlay);
+        } else if (overlay && !sidebar.classList.contains('sidebar--open')) {
+            overlay.remove();
+        }
+    }
+}
+
+function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    if (sidebar) {
+        sidebar.classList.remove('sidebar--open');
+    }
+    
+    if (overlay) {
+        overlay.remove();
+    }
+}
+
+// Close sidebar when clicking outside on mobile
+document.addEventListener('click', (e) => {
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    
+    if (window.innerWidth <= 767 && sidebar && sidebar.classList.contains('sidebar--open')) {
+        if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+            closeSidebar();
+        }
+    }
+});
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    if (window.innerWidth > 767 && sidebar) {
+        sidebar.classList.remove('sidebar--open');
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+});
+
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.fleetManager = new FleetManager();
+    
+    // Setup mobile menu toggle
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    if (menuToggle) {
+        menuToggle.addEventListener('click', toggleSidebar);
+    }
 });
 
 // Export for module usage

@@ -61,12 +61,20 @@
             <!-- Header -->
             <header class="header">
                 <div class="header__left">
+                    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+
+                <div class="header__center">
                     <h1 class="header__title">Add new client</h1>
                 </div>
 
                 <div class="header__right">
                     <button class="header__notifications">
-                        <span class="notification-icon">🔔</span>
+                        <img src="images/icons/Bell.png" alt="Notifications" class="notification-icon">
                         <span class="notification-text">Notifications</span>
                         <span class="notification-dot"></span>
                     </button>
@@ -81,48 +89,50 @@
 
             <!-- Content -->
             <main class="dashboard-layout__content">
-                <div class="client-form-container">
-                    <form class="client-form" action="clients.html" method="post">
-                        <!-- Row 1 -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Enter client name</label>
-                                <input type="text" class="form-input" name="client_name" placeholder="Enter client name" required>
+                <div class="dashboard-container">
+                    <div class="client-form-container">
+                        <form class="client-form" action="clients.html" method="post">
+                            <!-- Row 1: Three columns -->
+                            <div class="form-row three-columns">
+                                <div class="form-group">
+                                    <label class="form-label">Enter client name</label>
+                                    <input type="text" class="form-input" name="client_name" placeholder="Enter client name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Enter client phone number</label>
+                                    <input type="tel" class="form-input" name="phone_number" placeholder="Enter client phone number" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Client type</label>
+                                    <div class="dropdown-container">
+                                        <select class="form-input" name="client_type" required>
+                                            <option value="">Select client type</option>
+                                            <option value="individual">Individual</option>
+                                            <option value="dealer">Dealer</option>
+                                            <option value="company">Company</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Enter client phone number</label>
-                                <input type="tel" class="form-input" name="phone_number" placeholder="Enter client phone number" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Client type</label>
-                                <div class="dropdown-container">
-                                    <select class="form-input" name="client_type" required>
-                                        <option value="">Select client type</option>
-                                        <option value="individual">Individual</option>
-                                        <option value="dealer">Dealer</option>
-                                        <option value="company">Company</option>
+
+                            <!-- Row 2: Single column -->
+                            <div class="form-row single-column">
+                                <div class="form-group">
+                                    <label class="form-label">System status</label>
+                                    <select class="form-input" name="system_status" required>
+                                        <option value="">Active / Inactive</option>
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Row 2 -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">System status</label>
-                                <select class="form-input" name="system_status" required>
-                                    <option value="">Active / Inactive</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
+                            <!-- Submit Button -->
+                            <div class="form-row single-column">
+                                <button type="submit" class="submit-btn">Submit</button>
                             </div>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="form-row">
-                            <button type="submit" class="submit-btn">Submit</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </main>
         </div>
