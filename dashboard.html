@@ -24,13 +24,13 @@
                 <ul class="sidebar__nav-list">
                     <li class="sidebar__nav-item">
                         <a href="dashboard.html" class="sidebar__nav-link sidebar__nav-link--active">
-                            <span class="sidebar__nav-icon">📊</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard.svg" alt="Dashboard" class="nav-icon"></span>
                             Dashboard
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicles.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">🚗</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/vehicles.svg" alt="Vehicles" class="nav-icon"></span>
                             Vehicles
                         </a>
                     </li>
@@ -42,7 +42,7 @@
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="clients.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">👥</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/clients.svg" alt="Clients" class="nav-icon"></span>
                             Clients
                         </a>
                     </li>
@@ -61,9 +61,8 @@
             <!-- Header -->
             <header class="header">
                 <div class="header__left">
-                    <h1 class="header__title">Dashboard Overview</h1>
+                    <input class="header__search" type="text" placeholder="Search by chassis number" />
                 </div>
-
                 <div class="header__right">
                     <button class="header__notifications">
                         <span class="notification-icon">🔔</span>
@@ -91,38 +90,29 @@
                     <!-- Metrics Cards -->
                     <div class="dashboard-stats">
                         <div class="stat-card">
-                            <div class="stat-icon">🚛</div>
+                            <div class="stat-icon">↗</div>
                             <div class="stat-content">
-                                <div class="stat-number">24</div>
-                                <div class="stat-label">Total Vehicles</div>
-                                <div class="stat-change positive">+12% FROM LAST MONTH</div>
+                                <div class="stat-label">Total vehicles in<br>Stock</div>
+                                <div class="stat-number">85</div>
+                                <div class="stat-change ">+5.8 than last month</div>
                             </div>
                         </div>
 
                         <div class="stat-card">
-                            <div class="stat-icon">👥</div>
+                            <div class="stat-icon">↗</div>
                             <div class="stat-content">
-                                <div class="stat-number">156</div>
-                                <div class="stat-label">Active Clients</div>
-                                <div class="stat-change positive">+8% FROM LAST MONTH</div>
+                                <div class="stat-label">Vehicles available<br>for sale</div>
+                                <div class="stat-number">35</div>
+                                <div class="stat-change ">+3% than last month</div>
                             </div>
                         </div>
 
                         <div class="stat-card">
-                            <div class="stat-icon">📦</div>
+                            <div class="stat-icon">↗</div>
                             <div class="stat-content">
-                                <div class="stat-number">89</div>
-                                <div class="stat-label">Deliveries Today</div>
-                                <div class="stat-change warning">+5% FROM YESTERDAY</div>
-                            </div>
-                        </div>
-
-                        <div class="stat-card">
-                            <div class="stat-icon">💰</div>
-                            <div class="stat-content">
-                                <div class="stat-number">$12,450</div>
-                                <div class="stat-label">Revenue Today</div>
-                                <div class="stat-change positive">+15% FROM YESTERDAY</div>
+                                <div class="stat-label">Total vehicles</div>
+                                <div class="stat-number">78</div>
+                                <div class="stat-change positive"></div>
                             </div>
                         </div>
                     </div>

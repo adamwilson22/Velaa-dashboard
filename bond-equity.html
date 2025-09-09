@@ -13,45 +13,42 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
-                <div class="sidebar__logo">FM</div>
-                <h2 class="sidebar__title">FleetManager</h2>
+                <h1 class="sidebar__brand">Velaa</h1>
+                <div class="sidebar__greeting">
+                    <p class="sidebar__greeting-text">Good Evening</p>
+                    <p class="sidebar__greeting-name">Mr : Managers name</p>
+                </div>
             </div>
 
             <nav class="sidebar__nav">
                 <ul class="sidebar__nav-list">
                     <li class="sidebar__nav-item">
                         <a href="dashboard.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">
-                                <img src="images/icons/dashboard.svg" alt="Dashboard" class="nav-icon">
-                            </span>
+                            <span class="sidebar__nav-icon">📊</span>
                             Dashboard
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicles.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">
-                                <img src="images/icons/vehicles.svg" alt="Vehicles" class="nav-icon">
-                            </span>
+                            <span class="sidebar__nav-icon">🚗</span>
                             Vehicles
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
+                        <a href="vehicle-billing.html" class="sidebar__nav-link">
+                            <span class="sidebar__nav-icon">💰</span>
+                            Billing and finance
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
                         <a href="clients.html" class="sidebar__nav-link sidebar__nav-link--active">
-                            <span class="sidebar__nav-icon">
-                                <img src="images/icons/clients.svg" alt="Clients" class="nav-icon">
-                            </span>
+                            <span class="sidebar__nav-icon">👥</span>
                             Clients
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="#" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">💳</span>
-                            Billing
-                        </a>
-                    </li>
-                    <li class="sidebar__nav-item">
-                        <a href="#" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">📈</span>
+                            <span class="sidebar__nav-icon">📋</span>
                             Reports
                         </a>
                     </li>
@@ -64,18 +61,20 @@
             <!-- Header -->
             <header class="header">
                 <div class="header__left">
-                    <button class="header__menu-btn" id="menuToggle">
-                        <span style="display: block; width: 20px; height: 2px; background: var(--color-primary); margin: 3px 0;"></span>
-                        <span style="display: block; width: 20px; height: 2px; background: var(--color-primary); margin: 3px 0;"></span>
-                        <span style="display: block; width: 20px; height: 2px; background: var(--color-primary); margin: 3px 0;"></span>
-                    </button>
-                    <div class="header__logo">FleetManager</div>
+                    <h1 class="header__title">Bond & Equity Management</h1>
                 </div>
 
                 <div class="header__right">
+                    <button class="header__notifications">
+                        <span class="notification-icon">🔔</span>
+                        <span class="notification-text">Notifications</span>
+                        <span class="notification-dot"></span>
+                    </button>
                     <div class="header__profile">
-                        <div class="header__profile-avatar">JD</div>
-                        <span class="header__profile-name">John Doe</span>
+                        <div class="header__profile-avatar">
+                            <img src="images/avatar.png" alt="Owner" class="avatar-img">
+                        </div>
+                        <span class="header__profile-name">Owner's name</span>
                     </div>
                 </div>
             </header>
@@ -419,21 +418,6 @@
 
     <script src="js/scripts.js"></script>
     <script>
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('sidebar--open');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('sidebar--open');
-            }
-        });
-
         // Search and filter functionality
         const searchInput = document.getElementById('searchInput');
         const typeFilter = document.getElementById('typeFilter');
@@ -464,10 +448,10 @@
             });
         }
 
-        searchInput.addEventListener('input', filterTable);
-        typeFilter.addEventListener('change', filterTable);
-        statusFilter.addEventListener('change', filterTable);
-        filterBtn.addEventListener('click', filterTable);
+        if (searchInput) searchInput.addEventListener('input', filterTable);
+        if (typeFilter) typeFilter.addEventListener('change', filterTable);
+        if (statusFilter) statusFilter.addEventListener('change', filterTable);
+        if (filterBtn) filterBtn.addEventListener('click', filterTable);
     </script>
 </body>
 </html>
