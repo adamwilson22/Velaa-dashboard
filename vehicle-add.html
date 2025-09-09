@@ -13,8 +13,11 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
-                <div class="sidebar__logo">FM</div>
-                <h2 class="sidebar__title">FleetManager</h2>
+                <h1 class="sidebar__brand">Velaa</h1>
+                <div class="sidebar__greeting">
+                    <p class="sidebar__greeting-text">Good Evening</p>
+                    <p class="sidebar__greeting-name">Mr : Managers name</p>
+                </div>
             </div>
 
             <nav class="sidebar__nav">
@@ -27,8 +30,14 @@
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicles.html" class="sidebar__nav-link sidebar__nav-link--active">
-                            <span class="sidebar__nav-icon">🚛</span>
+                            <span class="sidebar__nav-icon">🚗</span>
                             Vehicles
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="vehicle-billing.html" class="sidebar__nav-link">
+                            <span class="sidebar__nav-icon">💰</span>
+                            Billing and finance
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
@@ -39,13 +48,7 @@
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="#" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">💳</span>
-                            Billing
-                        </a>
-                    </li>
-                    <li class="sidebar__nav-item">
-                        <a href="#" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">📈</span>
+                            <span class="sidebar__nav-icon">📋</span>
                             Reports
                         </a>
                     </li>
@@ -58,368 +61,147 @@
             <!-- Header -->
             <header class="header">
                 <div class="header__left">
-                    <button class="header__menu-btn" id="menuToggle">
-                        <span style="display: block; width: 20px; height: 2px; background: var(--color-primary); margin: 3px 0;"></span>
-                        <span style="display: block; width: 20px; height: 2px; background: var(--color-primary); margin: 3px 0;"></span>
-                        <span style="display: block; width: 20px; height: 2px; background: var(--color-primary); margin: 3px 0;"></span>
-                    </button>
-                    <div class="header__logo">FleetManager</div>
+                    <h1 class="header__title">Vehicles management</h1>
                 </div>
 
                 <div class="header__right">
+                    <button class="header__notifications">
+                        <span class="notification-icon">🔔</span>
+                        <span class="notification-text">Notifications</span>
+                        <span class="notification-dot"></span>
+                    </button>
                     <div class="header__profile">
-                        <div class="header__profile-avatar">JD</div>
-                        <span class="header__profile-name">John Doe</span>
+                        <div class="header__profile-avatar">
+                            <img src="images/avatar.png" alt="Owner" class="avatar-img">
+                        </div>
+                        <span class="header__profile-name">Owner's name</span>
                     </div>
                 </div>
             </header>
 
             <!-- Content -->
             <main class="dashboard-layout__content">
-                <div class="container">
-                    <!-- Page Header -->
-                    <div style="margin-bottom: var(--spacing-2xl);">
-                        <div style="display: flex; align-items: center; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
-                            <a href="vehicles.html" style="color: var(--color-secondary); text-decoration: none;">← Back to Vehicles</a>
-                        </div>
-                        <h1 style="font-size: var(--font-size-3xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-sm);">
-                            Add New Vehicle
-                        </h1>
-                        <p style="color: var(--color-secondary); font-size: var(--font-size-lg);">
-                            Enter the vehicle details below to add it to your fleet.
-                        </p>
-                    </div>
-
-                    <!-- Vehicle Form -->
-                    <div class="grid grid--2">
-                        <!-- Main Form -->
-                        <div>
-                            <form class="form" action="vehicles.html" method="post">
-                                <!-- Basic Information -->
-                                <div class="card" style="margin-bottom: var(--spacing-xl);">
-                                    <div class="card__header">
-                                        <h3 class="card__title">Basic Information</h3>
-                                    </div>
-                                    <div class="card__body">
-                                        <div class="form__group">
-                                            <label class="form__label" for="vehicleId">Vehicle ID *</label>
-                                            <input
-                                                type="text"
-                                                id="vehicleId"
-                                                name="vehicleId"
-                                                class="form__input"
-                                                placeholder="e.g., VH-025"
-                                                required
-                                            >
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="make">Make *</label>
-                                            <input
-                                                type="text"
-                                                id="make"
-                                                name="make"
-                                                class="form__input"
-                                                placeholder="e.g., Ford, Chevrolet"
-                                                required
-                                            >
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="model">Model *</label>
-                                            <input
-                                                type="text"
-                                                id="model"
-                                                name="model"
-                                                class="form__input"
-                                                placeholder="e.g., F-150, Silverado"
-                                                required
-                                            >
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="year">Year *</label>
-                                            <input
-                                                type="number"
-                                                id="year"
-                                                name="year"
-                                                class="form__input"
-                                                placeholder="e.g., 2023"
-                                                min="1900"
-                                                max="2025"
-                                                required
-                                            >
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="vin">VIN (Vehicle Identification Number)</label>
-                                            <input
-                                                type="text"
-                                                id="vin"
-                                                name="vin"
-                                                class="form__input"
-                                                placeholder="17-character VIN"
-                                                maxlength="17"
-                                            >
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="licensePlate">License Plate *</label>
-                                            <input
-                                                type="text"
-                                                id="licensePlate"
-                                                name="licensePlate"
-                                                class="form__input"
-                                                placeholder="e.g., ABC-1234"
-                                                required
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Vehicle Details -->
-                                <div class="card" style="margin-bottom: var(--spacing-xl);">
-                                    <div class="card__header">
-                                        <h3 class="card__title">Vehicle Details</h3>
-                                    </div>
-                                    <div class="card__body">
-                                        <div class="form__group">
-                                            <label class="form__label" for="vehicleType">Vehicle Type *</label>
-                                            <select id="vehicleType" name="vehicleType" class="form__select" required>
-                                                <option value="">Select Type</option>
-                                                <option value="truck">Truck</option>
-                                                <option value="van">Van</option>
-                                                <option value="suv">SUV</option>
-                                                <option value="car">Car</option>
-                                                <option value="motorcycle">Motorcycle</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="status">Status *</label>
-                                            <select id="status" name="status" class="form__select" required>
-                                                <option value="">Select Status</option>
-                                                <option value="active">Active</option>
-                                                <option value="maintenance">Maintenance</option>
-                                                <option value="inactive">Inactive</option>
-                                                <option value="sold">Sold</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="fuelType">Fuel Type *</label>
-                                            <select id="fuelType" name="fuelType" class="form__select" required>
-                                                <option value="">Select Fuel Type</option>
-                                                <option value="gasoline">Gasoline</option>
-                                                <option value="diesel">Diesel</option>
-                                                <option value="electric">Electric</option>
-                                                <option value="hybrid">Hybrid</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="capacity">Capacity (tons)</label>
-                                            <input
-                                                type="number"
-                                                id="capacity"
-                                                name="capacity"
-                                                class="form__input"
-                                                placeholder="e.g., 5.5"
-                                                step="0.1"
-                                                min="0"
-                                            >
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="mileage">Current Mileage</label>
-                                            <input
-                                                type="number"
-                                                id="mileage"
-                                                name="mileage"
-                                                class="form__input"
-                                                placeholder="e.g., 45000"
-                                                min="0"
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Location & Assignment -->
-                                <div class="card" style="margin-bottom: var(--spacing-xl);">
-                                    <div class="card__header">
-                                        <h3 class="card__title">Location & Assignment</h3>
-                                    </div>
-                                    <div class="card__body">
-                                        <div class="form__group">
-                                            <label class="form__label" for="location">Current Location *</label>
-                                            <select id="location" name="location" class="form__select" required>
-                                                <option value="">Select Location</option>
-                                                <option value="downtown-depot">Downtown Depot</option>
-                                                <option value="north-terminal">North Terminal</option>
-                                                <option value="east-warehouse">East Warehouse</option>
-                                                <option value="west-depot">West Depot</option>
-                                                <option value="service-center">Service Center</option>
-                                                <option value="storage-lot">Storage Lot</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="assignedDriver">Assigned Driver</label>
-                                            <select id="assignedDriver" name="assignedDriver" class="form__select">
-                                                <option value="">Select Driver</option>
-                                                <option value="john-smith">John Smith</option>
-                                                <option value="sarah-jones">Sarah Jones</option>
-                                                <option value="mike-brown">Mike Brown</option>
-                                                <option value="lisa-davis">Lisa Davis</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form__group">
-                                            <label class="form__label" for="department">Department</label>
-                                            <select id="department" name="department" class="form__select">
-                                                <option value="">Select Department</option>
-                                                <option value="delivery">Delivery</option>
-                                                <option value="logistics">Logistics</option>
-                                                <option value="maintenance">Maintenance</option>
-                                                <option value="administration">Administration</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Submit Buttons -->
-                                <div style="display: flex; gap: var(--spacing-md); justify-content: flex-end;">
-                                    <a href="vehicles.html" class="btn btn--outline">Cancel</a>
-                                    <button type="submit" class="btn btn--primary">Add Vehicle</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Sidebar Information -->
-                        <div>
-                            <!-- Help Information -->
-                            <div class="card" style="margin-bottom: var(--spacing-xl);">
-                                <div class="card__header">
-                                    <h3 class="card__title">💡 Help & Tips</h3>
-                                </div>
-                                <div class="card__body">
-                                    <ul style="list-style: none; padding: 0; margin: 0;">
-                                        <li style="margin-bottom: var(--spacing-md); display: flex; align-items: flex-start; gap: var(--spacing-sm);">
-                                            <span style="color: var(--color-primary); font-weight: 600;">•</span>
-                                            <span style="font-size: var(--font-size-sm); color: var(--color-secondary);">
-                                                Vehicle ID should be unique and follow the format VH-XXX
-                                            </span>
-                                        </li>
-                                        <li style="margin-bottom: var(--spacing-md); display: flex; align-items: flex-start; gap: var(--spacing-sm);">
-                                            <span style="color: var(--color-primary); font-weight: 600;">•</span>
-                                            <span style="font-size: var(--font-size-sm); color: var(--color-secondary);">
-                                                VIN must be exactly 17 characters if provided
-                                            </span>
-                                        </li>
-                                        <li style="margin-bottom: var(--spacing-md); display: flex; align-items: flex-start; gap: var(--spacing-sm);">
-                                            <span style="color: var(--color-primary); font-weight: 600;">•</span>
-                                            <span style="font-size: var(--font-size-sm); color: var(--color-secondary);">
-                                                All required fields are marked with an asterisk (*)
-                                            </span>
-                                        </li>
-                                        <li style="margin-bottom: var(--spacing-md); display: flex; align-items: flex-start; gap: var(--spacing-sm);">
-                                            <span style="color: var(--color-primary); font-weight: 600;">•</span>
-                                            <span style="font-size: var(--font-size-sm); color: var(--color-secondary);">
-                                                Capacity should be in tons for trucks and vans
-                                            </span>
-                                        </li>
-                                    </ul>
+                <div class="vehicle-form-container">
+                    <form class="vehicle-form" action="vehicles.html" method="post">
+                        <!-- Row 1 -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Select customer</label>
+                                <select class="form-input" name="customer" required>
+                                    <option value="">Select customer</option>
+                                    <option value="customer1">Customer 1</option>
+                                    <option value="customer2">Customer 2</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Asking Price / Starting from</label>
+                                <input type="text" class="form-input" name="price" placeholder="Enter price" required>
+                            </div>
+                            <div class="form-group marketplace-toggle">
+                                <label class="form-label">Show in market place :</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="marketplace" name="marketplace" class="toggle-input">
+                                    <label for="marketplace" class="toggle-label"></label>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Recent Vehicles -->
-                            <div class="card">
-                                <div class="card__header">
-                                    <h3 class="card__title">Recently Added</h3>
-                                </div>
-                                <div class="card__body">
-                                    <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
-                                        <div style="display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm); border-radius: var(--border-radius-sm); background-color: var(--color-gray-light);">
-                                            <div style="width: 32px; height: 32px; background-color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-sm); font-weight: 600;">VH</div>
-                                            <div>
-                                                <div style="font-weight: 600; font-size: var(--font-size-sm);">VH-024</div>
-                                                <div style="color: var(--color-secondary); font-size: var(--font-size-xs);">Ford Transit - 2 hours ago</div>
-                                            </div>
-                                        </div>
-                                        <div style="display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm); border-radius: var(--border-radius-sm); background-color: var(--color-gray-light);">
-                                            <div style="width: 32px; height: 32px; background-color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-sm); font-weight: 600;">VH</div>
-                                            <div>
-                                                <div style="font-weight: 600; font-size: var(--font-size-sm);">VH-023</div>
-                                                <div style="color: var(--color-secondary); font-size: var(--font-size-xs);">Chevy Tahoe - Yesterday</div>
-                                            </div>
-                                        </div>
-                                        <div style="display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm); border-radius: var(--border-radius-sm); background-color: var(--color-gray-light);">
-                                            <div style="width: 32px; height: 32px; background-color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-sm); font-weight: 600;">VH</div>
-                                            <div>
-                                                <div style="font-weight: 600; font-size: var(--font-size-sm);">VH-022</div>
-                                                <div style="color: var(--color-secondary); font-size: var(--font-size-xs);">Ram 1500 - 2 days ago</div>
-                                            </div>
-                                        </div>
+                        <!-- Row 2 -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Enter chassis number</label>
+                                <input type="text" class="form-input" name="chassis" placeholder="Enter chassis number" required>
+                            </div>
+                        </div>
+
+                        <!-- Row 3 -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Make</label>
+                                <select class="form-input" name="make" required>
+                                    <option value="">Select make</option>
+                                    <option value="toyota">Toyota</option>
+                                    <option value="honda">Honda</option>
+                                    <option value="nissan">Nissan</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Year</label>
+                                <input type="text" class="form-input" name="year" placeholder="Enter year of manufacture" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Color</label>
+                                <input type="text" class="form-input" name="color" placeholder="Enter vehicle color" required>
+                            </div>
+                        </div>
+
+                        <!-- Row 4 -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Arrival date</label>
+                                <input type="text" class="form-input" name="arrival_date" placeholder="Enter arrival date of the vehicle" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Bond expiry date</label>
+                                <input type="text" class="form-input" name="bond_expiry" placeholder="Enter arrival date of the vehicle" required>
+                            </div>
+                        </div>
+
+                        <!-- Row 5 -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Current status</label>
+                                <select class="form-input" name="current_status" required>
+                                    <option value="">Select status</option>
+                                    <option value="available">Available</option>
+                                    <option value="not_available">Not available</option>
+                                    <option value="sold">Sold</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">System status</label>
+                                <select class="form-input" name="system_status" required>
+                                    <option value="">Active / Inactive</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Monthly fee</label>
+                                <input type="text" class="form-input" name="monthly_fee" placeholder="Enter monthly fee" required>
+                            </div>
+                        </div>
+
+                        <!-- Keywords -->
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label class="form-label">Keywords</label>
+                                <textarea class="form-textarea" name="keywords" placeholder="Keywords" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label class="form-label">Insert vehicle Pictures</label>
+                                <div class="image-upload-area">
+                                    <div class="upload-placeholder">
+                                        <button type="button" class="upload-btn">Click to add images</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-row">
+                            <button type="submit" class="submit-btn">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </main>
         </div>
     </div>
 
     <script src="js/scripts.js"></script>
-    <script>
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('sidebar--open');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('sidebar--open');
-            }
-        });
-
-        // Auto-generate Vehicle ID
-        const vehicleIdInput = document.getElementById('vehicleId');
-        const makeInput = document.getElementById('make');
-        const modelInput = document.getElementById('model');
-
-        function generateVehicleId() {
-            const make = makeInput.value.substring(0, 2).toUpperCase();
-            const model = modelInput.value.substring(0, 2).toUpperCase();
-            const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-            vehicleIdInput.value = `VH-${randomNum}`;
-        }
-
-        makeInput.addEventListener('input', () => {
-            if (makeInput.value && modelInput.value && !vehicleIdInput.value) {
-                generateVehicleId();
-            }
-        });
-
-        modelInput.addEventListener('input', () => {
-            if (makeInput.value && modelInput.value && !vehicleIdInput.value) {
-                generateVehicleId();
-            }
-        });
-
-        // VIN validation
-        const vinInput = document.getElementById('vin');
-        vinInput.addEventListener('input', (e) => {
-            e.target.value = e.target.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g, '');
-            if (e.target.value.length > 17) {
-                e.target.value = e.target.value.substring(0, 17);
-            }
-        });
-    </script>
 </body>
 </html>
-

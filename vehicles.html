@@ -13,8 +13,11 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
-                <div class="sidebar__logo">FM</div>
-                <h2 class="sidebar__title">FleetManager</h2>
+                <h1 class="sidebar__brand">Velaa</h1>
+                <div class="sidebar__greeting">
+                    <p class="sidebar__greeting-text">Good Evening</p>
+                    <p class="sidebar__greeting-name">Mr : Managers name</p>
+                </div>
             </div>
 
             <nav class="sidebar__nav">
@@ -27,8 +30,14 @@
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicles.html" class="sidebar__nav-link sidebar__nav-link--active">
-                            <span class="sidebar__nav-icon">🚛</span>
+                            <span class="sidebar__nav-icon">🚗</span>
                             Vehicles
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="vehicle-billing.html" class="sidebar__nav-link">
+                            <span class="sidebar__nav-icon">💰</span>
+                            Billing and finance
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
@@ -39,13 +48,7 @@
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="#" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">💳</span>
-                            Billing
-                        </a>
-                    </li>
-                    <li class="sidebar__nav-item">
-                        <a href="#" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">📈</span>
+                            <span class="sidebar__nav-icon">📋</span>
                             Reports
                         </a>
                     </li>
@@ -58,231 +61,114 @@
             <!-- Header -->
             <header class="header">
                 <div class="header__left">
-                    <button class="header__menu-btn" id="menuToggle">
-                        <span style="display: block; width: 20px; height: 2px; background: var(--color-primary); margin: 3px 0;"></span>
-                        <span style="display: block; width: 20px; height: 2px; background: var(--color-primary); margin: 3px 0;"></span>
-                        <span style="display: block; width: 20px; height: 2px; background: var(--color-primary); margin: 3px 0;"></span>
-                    </button>
-                    <div class="header__logo">FleetManager</div>
+                    <h1 class="header__title">Vehicles management</h1>
                 </div>
 
                 <div class="header__right">
+                    <button class="header__notifications">
+                        <span class="notification-icon">🔔</span>
+                        <span class="notification-text">Notifications</span>
+                        <span class="notification-dot"></span>
+                    </button>
                     <div class="header__profile">
-                        <div class="header__profile-avatar">JD</div>
-                        <span class="header__profile-name">John Doe</span>
+                        <div class="header__profile-avatar">
+                            <img src="images/avatar.png" alt="Owner" class="avatar-img">
+                        </div>
+                        <span class="header__profile-name">Owner's name</span>
                     </div>
                 </div>
             </header>
 
             <!-- Content -->
             <main class="dashboard-layout__content">
-                <div class="container">
-                    <!-- Page Header -->
-                    <div style="margin-bottom: var(--spacing-2xl); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-lg);">
-                        <div>
-                            <h1 style="font-size: var(--font-size-3xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-sm);">
-                                Vehicle Management
-                            </h1>
-                            <p style="color: var(--color-secondary); font-size: var(--font-size-lg);">
-                                Manage your fleet vehicles, track maintenance, and monitor performance.
-                            </p>
+                <div class="vehicles-container">
+                    <!-- Controls Section -->
+                    <div class="vehicles-controls">
+                        <button class="btn btn--primary add-vehicle-btn" onclick="window.location.href='vehicle-add.html'">
+                            <span class="btn-icon">➕</span>
+                            Add new vehicle
+                        </button>
+                        <div class="search-container">
+                            <input type="text" class="search-input" placeholder="Search by chassis number">
                         </div>
-                        <a href="vehicle-add.html" class="btn btn--primary">
-                            ➕ Add New Vehicle
-                        </a>
-                    </div>
-
-                    <!-- Filters and Search -->
-                    <div class="card" style="margin-bottom: var(--spacing-xl);">
-                        <div class="card__body">
-                            <div style="display: flex; gap: var(--spacing-lg); align-items: center; flex-wrap: wrap;">
-                                <div style="flex: 1; min-width: 200px;">
-                                    <input
-                                        type="text"
-                                        placeholder="Search vehicles..."
-                                        class="form__input"
-                                        style="margin: 0;"
-                                        id="searchInput"
-                                    >
-                                </div>
-                                <div style="min-width: 150px;">
-                                    <select class="form__select" style="margin: 0;" id="statusFilter">
-                                        <option value="">All Status</option>
-                                        <option value="active">Active</option>
-                                        <option value="maintenance">Maintenance</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                </div>
-                                <div style="min-width: 150px;">
-                                    <select class="form__select" style="margin: 0;" id="typeFilter">
-                                        <option value="">All Types</option>
-                                        <option value="truck">Truck</option>
-                                        <option value="van">Van</option>
-                                        <option value="car">Car</option>
-                                    </select>
-                                </div>
-                                <button class="btn btn--secondary" id="filterBtn">
-                                    🔍 Filter
-                                </button>
+                        <div class="total-vehicles-card">
+                            <div class="total-vehicles-content">
+                                <span class="total-vehicles-label">Total vehicles</span>
+                                <span class="total-vehicles-number">78</span>
                             </div>
+                            <span class="total-vehicles-icon">↗</span>
                         </div>
                     </div>
 
                     <!-- Vehicles Table -->
-                    <div class="card">
-                        <div class="card__header">
-                            <h3 class="card__title">Fleet Overview (24 Vehicles)</h3>
-                        </div>
-                        <div class="card__body" style="padding: 0;">
-                            <div class="table" style="margin: 0;">
-                                <table style="width: 100%;">
-                                    <thead class="table__header">
-                                        <tr>
-                                            <th class="table__cell table__cell--header">Vehicle ID</th>
-                                            <th class="table__cell table__cell--header">Model</th>
-                                            <th class="table__cell table__cell--header">Type</th>
-                                            <th class="table__cell table__cell--header">Status</th>
-                                            <th class="table__cell table__cell--header">Location</th>
-                                            <th class="table__cell table__cell--header">Last Service</th>
-                                            <th class="table__cell table__cell--header table__cell--actions">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="table__row">
-                                            <td class="table__cell">VH-001</td>
-                                            <td class="table__cell">Ford F-150</td>
-                                            <td class="table__cell">Truck</td>
-                                            <td class="table__cell"><span class="badge badge--success">Active</span></td>
-                                            <td class="table__cell">Downtown Depot</td>
-                                            <td class="table__cell">2024-01-15</td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Details">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Edit">✏️</button>
-                                                    <button class="btn btn--sm btn--outline" title="Track">📍</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row table__row--striped">
-                                            <td class="table__cell">VH-002</td>
-                                            <td class="table__cell">Chevy Silverado</td>
-                                            <td class="table__cell">Truck</td>
-                                            <td class="table__cell"><span class="badge badge--warning">Maintenance</span></td>
-                                            <td class="table__cell">Service Center</td>
-                                            <td class="table__cell">2024-01-10</td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Details">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Edit">✏️</button>
-                                                    <button class="btn btn--sm btn--outline" title="Track">📍</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row">
-                                            <td class="table__cell">VH-003</td>
-                                            <td class="table__cell">Mercedes Sprinter</td>
-                                            <td class="table__cell">Van</td>
-                                            <td class="table__cell"><span class="badge badge--success">Active</span></td>
-                                            <td class="table__cell">North Terminal</td>
-                                            <td class="table__cell">2024-01-08</td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Details">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Edit">✏️</button>
-                                                    <button class="btn btn--sm btn--outline" title="Track">📍</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row table__row--striped">
-                                            <td class="table__cell">VH-004</td>
-                                            <td class="table__cell">Ford Transit</td>
-                                            <td class="table__cell">Van</td>
-                                            <td class="table__cell"><span class="badge badge--success">Active</span></td>
-                                            <td class="table__cell">East Warehouse</td>
-                                            <td class="table__cell">2024-01-12</td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Details">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Edit">✏️</button>
-                                                    <button class="btn btn--sm btn--outline" title="Track">📍</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row">
-                                            <td class="table__cell">VH-005</td>
-                                            <td class="table__cell">Ram 1500</td>
-                                            <td class="table__cell">Truck</td>
-                                            <td class="table__cell"><span class="badge badge--error">Inactive</span></td>
-                                            <td class="table__cell">Storage Lot</td>
-                                            <td class="table__cell">2023-12-20</td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Details">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Edit">✏️</button>
-                                                    <button class="btn btn--sm btn--outline" title="Track">📍</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row table__row--striped">
-                                            <td class="table__cell">VH-006</td>
-                                            <td class="table__cell">GMC Yukon</td>
-                                            <td class="table__cell">SUV</td>
-                                            <td class="table__cell"><span class="badge badge--success">Active</span></td>
-                                            <td class="table__cell">City Center</td>
-                                            <td class="table__cell">2024-01-05</td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Details">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Edit">✏️</button>
-                                                    <button class="btn btn--sm btn--outline" title="Track">📍</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row">
-                                            <td class="table__cell">VH-007</td>
-                                            <td class="table__cell">Chevy Tahoe</td>
-                                            <td class="table__cell">SUV</td>
-                                            <td class="table__cell"><span class="badge badge--warning">Maintenance</span></td>
-                                            <td class="table__cell">Service Center</td>
-                                            <td class="table__cell">2024-01-14</td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Details">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Edit">✏️</button>
-                                                    <button class="btn btn--sm btn--outline" title="Track">📍</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row table__row--striped">
-                                            <td class="table__cell">VH-008</td>
-                                            <td class="table__cell">Ford Explorer</td>
-                                            <td class="table__cell">SUV</td>
-                                            <td class="table__cell"><span class="badge badge--success">Active</span></td>
-                                            <td class="table__cell">West Depot</td>
-                                            <td class="table__cell">2024-01-03</td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Details">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Edit">✏️</button>
-                                                    <button class="btn btn--sm btn--outline" title="Track">📍</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                    <div class="vehicles-table-container">
+                        <div class="vehicles-table">
+                            <div class="table-header">
+                                <div class="table-header-cell">Chassis number</div>
+                                <div class="table-header-cell">Make</div>
+                                <div class="table-header-cell">Arrival date</div>
+                                <div class="table-header-cell">Expiry date</div>
+                                <div class="table-header-cell">Status</div>
+                            </div>
+                            <div class="table-body">
+                                <div class="table-row">
+                                    <div class="table-cell">GYWBR32E779056478</div>
+                                    <div class="table-cell">Audi</div>
+                                    <div class="table-cell">18 Oct 2025</div>
+                                    <div class="table-cell">18 Sep 2025</div>
+                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">JTDBR32E720056478</div>
+                                    <div class="table-cell">Toyota</div>
+                                    <div class="table-cell">18 Oct 2025</div>
+                                    <div class="table-cell">18 Sep 2025</div>
+                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">WCT79827962718MLK</div>
+                                    <div class="table-cell">Benz</div>
+                                    <div class="table-cell">18 Oct 2025</div>
+                                    <div class="table-cell">18 Sep 2025</div>
+                                    <div class="table-cell"><span class="status-badge status-sold">Sold</span></div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">TCT79027962718MXV</div>
+                                    <div class="table-cell">Toyota</div>
+                                    <div class="table-cell">18 Oct 2025</div>
+                                    <div class="table-cell">18 Sep 2025</div>
+                                    <div class="table-cell"><span class="status-badge status-sold">Sold</span></div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">GYWBR32E779056478</div>
+                                    <div class="table-cell">Nissan</div>
+                                    <div class="table-cell">18 Oct 2025</div>
+                                    <div class="table-cell">18 Sep 2025</div>
+                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">JTDBR32E720056478</div>
+                                    <div class="table-cell">Nissan</div>
+                                    <div class="table-cell">18 Oct 2025</div>
+                                    <div class="table-cell">18 Sep 2025</div>
+                                    <div class="table-cell"><span class="status-badge status-sold">Sold</span></div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">GYWBR32E779056478</div>
+                                    <div class="table-cell">Audi</div>
+                                    <div class="table-cell">18 Oct 2025</div>
+                                    <div class="table-cell">18 Sep 2025</div>
+                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">JTDBR32E720056478</div>
+                                    <div class="table-cell">Toyota</div>
+                                    <div class="table-cell">18 Oct 2025</div>
+                                    <div class="table-cell">18 Sep 2025</div>
+                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="pagination">
-                        <a href="#" class="pagination__item">‹ Previous</a>
-                        <a href="#" class="pagination__item pagination__item--active">1</a>
-                        <a href="#" class="pagination__item">2</a>
-                        <a href="#" class="pagination__item">3</a>
-                        <span class="pagination__item" style="background: none; border: none; cursor: default;">...</span>
-                        <a href="#" class="pagination__item">10</a>
-                        <a href="#" class="pagination__item">Next ›</a>
                     </div>
                 </div>
             </main>
@@ -290,57 +176,5 @@
     </div>
 
     <script src="js/scripts.js"></script>
-    <script>
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('sidebar--open');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('sidebar--open');
-            }
-        });
-
-        // Search and filter functionality
-        const searchInput = document.getElementById('searchInput');
-        const statusFilter = document.getElementById('statusFilter');
-        const typeFilter = document.getElementById('typeFilter');
-        const filterBtn = document.getElementById('filterBtn');
-        const tableRows = document.querySelectorAll('.table__row');
-
-        function filterTable() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const statusValue = statusFilter.value.toLowerCase();
-            const typeValue = typeFilter.value.toLowerCase();
-
-            tableRows.forEach(row => {
-                const vehicleId = row.cells[0].textContent.toLowerCase();
-                const model = row.cells[1].textContent.toLowerCase();
-                const type = row.cells[2].textContent.toLowerCase();
-                const status = row.cells[3].textContent.toLowerCase();
-
-                const matchesSearch = vehicleId.includes(searchTerm) || model.includes(searchTerm);
-                const matchesStatus = !statusValue || status.includes(statusValue);
-                const matchesType = !typeValue || type.includes(typeValue);
-
-                if (matchesSearch && matchesStatus && matchesType) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        searchInput.addEventListener('input', filterTable);
-        statusFilter.addEventListener('change', filterTable);
-        typeFilter.addEventListener('change', filterTable);
-        filterBtn.addEventListener('click', filterTable);
-    </script>
 </body>
 </html>
-
