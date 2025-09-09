@@ -524,3 +524,77 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = FleetManager;
 }
 
+// Profile Dropdown Functions
+function toggleProfileDropdown() {
+    const dropdown = document.getElementById('profileDropdown');
+    const overlay = document.getElementById('profileDropdownOverlay');
+    
+    if (dropdown && overlay) {
+        const isVisible = dropdown.classList.contains('show');
+        
+        if (isVisible) {
+            closeProfileDropdown();
+        } else {
+            openProfileDropdown();
+        }
+    }
+}
+
+function openProfileDropdown() {
+    const dropdown = document.getElementById('profileDropdown');
+    const overlay = document.getElementById('profileDropdownOverlay');
+    
+    if (dropdown && overlay) {
+        dropdown.classList.add('show');
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+function closeProfileDropdown() {
+    const dropdown = document.getElementById('profileDropdown');
+    const overlay = document.getElementById('profileDropdownOverlay');
+    
+    if (dropdown && overlay) {
+        dropdown.classList.remove('show');
+        overlay.classList.remove('show');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+}
+
+// Close dropdown when clicking outside or pressing escape
+document.addEventListener('click', (event) => {
+    const dropdown = document.getElementById('profileDropdown');
+    const profile = document.querySelector('.header__profile');
+    
+    if (dropdown && profile && !profile.contains(event.target)) {
+        closeProfileDropdown();
+    }
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        closeProfileDropdown();
+    }
+});
+
+// Handle logout functionality
+function handleLogout() {
+    // Close the dropdown first
+    closeProfileDropdown();
+    
+    // Redirect to index.html after a brief delay for smooth UX
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 200);
+}
+
+// Add click handler for logout when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Find all logout buttons and add click handlers
+    const logoutButtons = document.querySelectorAll('.dropdown-menu-item.logout');
+    logoutButtons.forEach(button => {
+        button.addEventListener('click', handleLogout);
+    });
+});
+

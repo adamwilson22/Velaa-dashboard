@@ -24,32 +24,32 @@
                 <ul class="sidebar__nav-list">
                     <li class="sidebar__nav-item">
                         <a href="dashboard.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard.svg" alt="Dashboard" class="nav-icon"></span>
-                            Dashboard
+                            <span class="nav-text">Dashboard</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard 1.png" alt="Dashboard" class="nav-icon"></span>
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicles.html" class="sidebar__nav-link sidebar__nav-link--active">
-                            <span class="sidebar__nav-icon"><img src="images/icons/vehicles.svg" alt="Vehicles" class="nav-icon"></span>
-                            Vehicles
+                            <span class="nav-text">Vehicles</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/car (1).png" alt="Vehicles" class="nav-icon"></span>
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicle-billing.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">💰</span>
-                            Billing and finance
+                            <span class="nav-text">Billing and finance</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/bag 1.png" alt="Billing" class="nav-icon"></span>
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="clients.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon"><img src="images/icons/clients.svg" alt="Clients" class="nav-icon"></span>
-                            Clients
+                            <span class="nav-text">Clients</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/customer 1.png" alt="Clients" class="nav-icon"></span>
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="#" class="sidebar__nav-link">
+                            <span class="nav-text">Reports</span>
                             <span class="sidebar__nav-icon">📋</span>
-                            Reports
                         </a>
                     </li>
                 </ul>
@@ -70,15 +70,63 @@
                 </div>
                 <div class="header__right">
                     <button class="header__notifications">
-                        <img src="images/icons/Bell.png" alt="Notifications" class="notification-icon">
+                        <div class="notification-icon-container">
+                            <img src="images/icons/Bell.png" alt="Notifications" class="notification-icon">
+                            <span class="notification-dot"></span>
+                        </div>
                         <span class="notification-text">Notifications</span>
-                        <span class="notification-dot"></span>
                     </button>
-                    <div class="header__profile">
+                    <div class="header__profile" onclick="toggleProfileDropdown()">
                         <div class="header__profile-avatar">
                             <img src="images/avatar.png" alt="Owner" class="avatar-img">
                         </div>
                         <span class="header__profile-name">Owner's name</span>
+                        
+                        <!-- Profile Dropdown Menu -->
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-section">
+                                <h3 class="dropdown-section-title">My Account</h3>
+                                <div class="dropdown-menu-item">
+                                    <span>Profile Picture</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>Password and security</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>Personal Details</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                            </div>
+                            
+                            <div class="dropdown-section">
+                                <h3 class="dropdown-section-title">Support</h3>
+                                <div class="dropdown-menu-item">
+                                    <span>Help</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>Privacy center</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>Account status</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>About us</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                            </div>
+                            
+                            <div class="dropdown-section">
+                                <h3 class="dropdown-section-title">Login</h3>
+                                <div class="dropdown-menu-item logout">
+                                    <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -115,112 +163,112 @@
                                 <div class="table-cell">Audi</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-available">Available</div>
+                                <div class="table-cell">Available</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">JTDBR32E720056478</div>
                                 <div class="table-cell">Toyota</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-available">Available</div>
+                                <div class="table-cell">Available</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">WCT79827962718MLK</div>
                                 <div class="table-cell">Benz</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-sold">Sold</div>
+                                <div class="table-cell">Sold</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">TCT79027962718MXV</div>
                                 <div class="table-cell">Toyota</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-sold">Sold</div>
+                                <div class="table-cell">Sold</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">GYWBR32E779056478</div>
                                 <div class="table-cell">Nissan</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-available">Available</div>
+                                <div class="table-cell">Available</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">JTDBR32E720056478</div>
                                 <div class="table-cell">Nissan</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-sold">Sold</div>
+                                <div class="table-cell">Sold</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">GYWBR32E779056478</div>
                                 <div class="table-cell">Audi</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-available">Available</div>
+                                <div class="table-cell">Available</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">JTDBR32E720056478</div>
                                 <div class="table-cell">Toyota</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-available">Available</div>
+                                <div class="table-cell">Available</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">WCT79827962718MLK</div>
                                 <div class="table-cell">Benz</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-sold">Sold</div>
+                                <div class="table-cell">Sold</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">TCT79027962718MXV</div>
                                 <div class="table-cell">Toyota</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-sold">Sold</div>
+                                <div class="table-cell">Sold</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">GYWBR32E779056478</div>
                                 <div class="table-cell">Nissan</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-available">Available</div>
+                                <div class="table-cell">Available</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">JTDBR32E720056478</div>
                                 <div class="table-cell">Nissan</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-sold">Sold</div>
+                                <div class="table-cell">Sold</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">WCT79827962718MLK</div>
                                 <div class="table-cell">Benz</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-sold">Sold</div>
+                                <div class="table-cell">Sold</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">TCT79027962718MXV</div>
                                 <div class="table-cell">Toyota</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-sold">Sold</div>
+                                <div class="table-cell">Sold</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">GYWBR32E779056478</div>
                                 <div class="table-cell">Nissan</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-available">Available</div>
+                                <div class="table-cell">Available</div>
                             </div>
                             <div class="table-row">
                                 <div class="table-cell">JTDBR32E720056478</div>
                                 <div class="table-cell">Nissan</div>
                                 <div class="table-cell">18 Oct 2025</div>
                                 <div class="table-cell">18 Sep 2025</div>
-                                <div class="table-cell status-sold">Sold</div>
+                                <div class="table-cell">Sold</div>
                             </div>
                                 </div>
                             </div>
@@ -239,6 +287,9 @@
             </main>
         </div>
     </div>
+
+    <!-- Profile Dropdown Overlay -->
+    <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
     <script src="js/scripts.js"></script>
 </body>
