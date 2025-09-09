@@ -1,3 +1,63 @@
+/* ========== CSS VARIABLES ========== */
+:root {
+    /* Layout Variables */
+    --sidebar-width: 240px;
+    --header-height: 80px;
+    
+    /* Professional Container Width System */
+    --container-xs: 480px;      /* Small forms, modals */
+    --container-sm: 640px;      /* Search bars, small tables */
+    --container-md: 768px;      /* Forms, medium tables */
+    --container-lg: 1024px;     /* Large tables, main content */
+    --container-xl: 1280px;     /* Dashboard containers */
+    --container-2xl: 1536px;    /* Full dashboard layouts */
+    --container-full: 100%;     /* Full width containers */
+    
+    /* Minimum Width Constraints */
+    --min-width-mobile: 320px;  /* Absolute minimum for mobile */
+    --min-width-tablet: 480px;  /* Minimum for tablet */
+    --min-width-desktop: 768px; /* Minimum for desktop */
+    
+    /* Table Container Widths */
+    --table-sm: 600px;          /* Small tables */
+    --table-md: 800px;          /* Medium tables */
+    --table-lg: 1000px;         /* Large tables */
+    --table-xl: 1200px;         /* Extra large tables */
+    
+    /* Form Widths */
+    --form-sm: 400px;           /* Login, small forms */
+    --form-md: 600px;           /* Medium forms */
+    --form-lg: 800px;           /* Large forms */
+    --form-xl: 1000px;          /* Extra large forms */
+    
+    /* Search Bar Widths */
+    --search-sm: 300px;         /* Small search bars */
+    --search-md: 400px;         /* Medium search bars */
+    --search-lg: 500px;         /* Large search bars */
+    
+    /* Colors */
+    --color-primary: #3b82f6;
+    --color-white: #ffffff;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Border radius */
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 1rem;
+    
+    /* Typography */
+    --font-size-base: 1rem;
+    
+    /* Transitions */
+    --transition-normal: 0.2s ease;
+}
+
 /* ========== BUTTONS ========== */
 
 .btn {
@@ -1242,7 +1302,7 @@
 }
 
 .clients-search-container .search-bar {
-    max-width: 300px;
+    max-width: var(--search-sm);
 }
 
 .clients-data-section {
@@ -1508,7 +1568,7 @@
     background-color: #2a2a2a;
     border-radius: 16px;
     padding: 32px;
-    max-width: 900px;
+    max-width: var(--form-xl);
     margin: 0 auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     width: calc(100% - 64px);
@@ -1639,7 +1699,7 @@
 }
 
 .billing-search-container .search-bar {
-    max-width: 300px;
+    max-width: var(--search-sm);
 }
 
 /* Billing Table Container */
@@ -1867,8 +1927,14 @@
 
 /* Ultra Wide and Zoomed Out (1600px+) */
 @media (min-width: 1600px) {
+    .dashboard-layout {
+        max-width: var(--container-2xl);
+        min-width: var(--min-width-desktop);
+        padding: 0 40px;
+    }
+    
     .dashboard-container {
-        max-width: 1400px;
+        max-width: var(--container-xl);
         margin: 30px auto;
     }
     
@@ -1886,8 +1952,14 @@
 
 /* Extra Large Desktop (1400px - 1599px) */
 @media (min-width: 1400px) and (max-width: 1599px) {
+    .dashboard-layout {
+        max-width: var(--container-xl);
+        min-width: var(--min-width-desktop);
+        padding: 0 30px;
+    }
+    
     .dashboard-container {
-        max-width: 1200px;
+        max-width: var(--container-lg);
         margin: 25px auto;
     }
     
@@ -1905,8 +1977,14 @@
 
 /* Large Desktop (1200px - 1399px) */
 @media (min-width: 1200px) and (max-width: 1399px) {
+    .dashboard-layout {
+        max-width: var(--container-lg);
+        min-width: var(--min-width-desktop);
+        padding: 0 20px;
+    }
+    
     .dashboard-container {
-        max-width: 1100px;
+        max-width: var(--container-lg);
         margin: 20px auto;
     }
     
@@ -1924,8 +2002,14 @@
 
 /* Desktop (992px - 1199px) */
 @media (min-width: 992px) and (max-width: 1199px) {
+    .dashboard-layout {
+        max-width: var(--container-md);
+        min-width: var(--min-width-desktop);
+        padding: 0 15px;
+    }
+    
     .dashboard-container {
-        max-width: 950px;
+        max-width: var(--container-md);
         margin: 20px auto;
     }
     
@@ -1953,6 +2037,11 @@
 
 /* Tablet (768px - 991px) */
 @media (min-width: 768px) and (max-width: 991px) {
+    .dashboard-layout {
+        padding: 0 10px;
+        min-width: var(--min-width-tablet);
+    }
+    
     .dashboard-container {
         padding: 1.5rem;
         margin: 15px auto;
@@ -2009,6 +2098,10 @@
 
 /* Mobile Large (481px - 767px) */
 @media (max-width: 767px) {
+    .dashboard-layout {
+        padding: 0 5px;
+    }
+    
     .dashboard-layout__main {
         margin-left: 0;
     }
@@ -2105,6 +2198,10 @@
 
 /* Mobile Small (320px - 480px) */
 @media (max-width: 480px) {
+    .dashboard-layout {
+        padding: 0 2px;
+    }
+    
     .dashboard-container {
         padding: 0.75rem;
         margin: 5px auto;
@@ -2264,7 +2361,7 @@
 
 .search-bar {
     flex: 1;
-    max-width: 450px;
+    max-width: var(--search-md);
 }
 
 .search-input {
@@ -2304,7 +2401,7 @@
 /* Vehicle Data Table */
 .vehicle-table-container {
     position: relative;
-    width: 806px;
+    width: var(--table-md);
     height: 870px;
     background: linear-gradient(180deg, #D9D9D9 0%, #737373 100%);
     border-radius: 10px;
@@ -2312,7 +2409,7 @@
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     flex: 1;
-    max-width: 806px;
+    max-width: var(--table-md);
 }
 
 .vehicle-table-scroll {
@@ -2612,7 +2709,7 @@
     border-radius: 16px;
     padding: 32px;
     margin: 0 auto;
-    max-width: 800px;
+    max-width: var(--form-lg);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     width: calc(100% - 64px);
     box-sizing: border-box;
@@ -3631,7 +3728,10 @@
     min-height: 100vh;
     background-color: #ffffff;
     margin: 0 auto;
-    max-width: 100%;
+    max-width: var(--container-2xl);
+    min-width: var(--min-width-mobile);
+    width: 100%;
+    overflow-x: auto;
 }
 
 .dashboard-layout__sidebar {
