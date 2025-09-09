@@ -24,13 +24,13 @@
                 <ul class="sidebar__nav-list">
                     <li class="sidebar__nav-item">
                         <a href="dashboard.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">📊</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard.svg" alt="Dashboard" class="nav-icon"></span>
                             Dashboard
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicles.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">🚗</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/vehicles.svg" alt="Vehicles" class="nav-icon"></span>
                             Vehicles
                         </a>
                     </li>
@@ -42,7 +42,7 @@
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="clients.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon">👥</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/clients.svg" alt="Clients" class="nav-icon"></span>
                             Clients
                         </a>
                     </li>
@@ -60,10 +60,14 @@
         <div class="dashboard-layout__main">
             <!-- Header -->
             <header class="header">
-                <div class="header__left">
-                    <h1 class="header__title">Vehicle Billing</h1>
+                <button class="mobile-menu-toggle" id="menuToggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <div class="header__center">
+                    <input class="header__search" type="text" placeholder="Search by vehicle or invoice" />
                 </div>
-
                 <div class="header__right">
                     <button class="header__notifications">
                         <span class="notification-icon">🔔</span>
@@ -81,319 +85,60 @@
 
             <!-- Content -->
             <main class="dashboard-layout__content">
-                <div class="container">
+                <div class="dashboard-container billing-container">
                     <!-- Page Header -->
-                    <div style="margin-bottom: var(--spacing-2xl); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-lg);">
-                        <div>
-                            <h1 style="font-size: var(--font-size-3xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-sm);">
-                                Vehicle Billing
-                            </h1>
-                            <p style="color: var(--color-secondary); font-size: var(--font-size-lg);">
-                                Track maintenance costs, fuel expenses, and other vehicle-related billing.
-                            </p>
+                    <div class="dashboard-header">
+                        <h2 class="dashboard-title">Vehicle Billing & Finance</h2>
+                        <p class="dashboard-subtitle">Track maintenance costs, fuel expenses, and financial records.</p>
+                    </div>
+
+                    <!-- Billing Management Card -->
+                    <div class="activity-card">
+                        <h3 class="activity-title">Recent Transactions</h3>
+                        <div class="activity-subtitle">Billing entries</div>
+                        
+                        <div class="activity-table">
+                            <div class="activity-header">
+                                <span>Vehicle ID</span>
+                                <span>Service Type</span>
+                                <span>Amount</span>
+                            </div>
+                            <div class="activity-row">
+                                <span>GYWBR32E779056478</span>
+                                <span>Maintenance</span>
+                                <span>$450.00</span>
+                            </div>
+                            <div class="activity-row">
+                                <span>JTDBR32E720056478</span>
+                                <span>Fuel</span>
+                                <span>$125.50</span>
+                            </div>
+                            <div class="activity-row">
+                                <span>WCT79827962718MLK</span>
+                                <span>Insurance</span>
+                                <span>$850.00</span>
+                            </div>
+                            <div class="activity-row">
+                                <span>TCT79027962718MXV</span>
+                                <span>Repair</span>
+                                <span>$1,200.00</span>
+                            </div>
+                            <div class="activity-row">
+                                <span>GYWBR32E779056478</span>
+                                <span>Inspection</span>
+                                <span>$95.00</span>
+                            </div>
                         </div>
-                        <div style="display: flex; gap: var(--spacing-sm);">
-                            <button class="btn btn--outline">
-                                📊 Export Report
+
+                        <div class="activity-actions">
+                            <button class="activity-btn activity-btn--add">
+                                <span class="btn-icon">⊕</span>
+                                Add new expense
                             </button>
-                            <button class="btn btn--primary">
-                                ➕ Add Expense
+                            <button class="activity-btn activity-btn--remove">
+                                <span class="btn-icon">⊖</span>
+                                Export report
                             </button>
-                        </div>
-                    </div>
-
-                    <!-- Billing Summary Cards -->
-                    <div class="grid grid--4" style="margin-bottom: var(--spacing-2xl);">
-                        <div class="card">
-                            <div class="card__body">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
-                                    <div>
-                                        <h3 style="font-size: var(--font-size-2xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-xs);">
-                                            $24,580
-                                        </h3>
-                                        <p style="color: var(--color-secondary); margin: 0;">Total Monthly Cost</p>
-                                    </div>
-                                    <div style="width: 50px; height: 50px; background-color: #ffebee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl);">
-                                        💰
-                                    </div>
-                                </div>
-                                <div style="margin-top: var(--spacing-md);">
-                                    <span class="badge badge--error">+8% from last month</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card__body">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
-                                    <div>
-                                        <h3 style="font-size: var(--font-size-2xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-xs);">
-                                            $12,450
-                                        </h3>
-                                        <p style="color: var(--color-secondary); margin: 0;">Fuel Expenses</p>
-                                    </div>
-                                    <div style="width: 50px; height: 50px; background-color: #fff3e0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl);">
-                                        ⛽
-                                    </div>
-                                </div>
-                                <div style="margin-top: var(--spacing-md);">
-                                    <span class="badge badge--warning">+5% from last month</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card__body">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
-                                    <div>
-                                        <h3 style="font-size: var(--font-size-2xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-xs);">
-                                            $8,650
-                                        </h3>
-                                        <p style="color: var(--color-secondary); margin: 0;">Maintenance</p>
-                                    </div>
-                                    <div style="width: 50px; height: 50px; background-color: #e8f5e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl);">
-                                        🔧
-                                    </div>
-                                </div>
-                                <div style="margin-top: var(--spacing-md);">
-                                    <span class="badge badge--success">-12% from last month</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card__body">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
-                                    <div>
-                                        <h3 style="font-size: var(--font-size-2xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-xs);">
-                                            $3,480
-                                        </h3>
-                                        <p style="color: var(--color-secondary); margin: 0;">Insurance</p>
-                                    </div>
-                                    <div style="width: 50px; height: 50px; background-color: #e3f2fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xl);">
-                                        🛡️
-                                    </div>
-                                </div>
-                                <div style="margin-top: var(--spacing-md);">
-                                    <span class="badge badge--info">No change</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Filters -->
-                    <div class="card" style="margin-bottom: var(--spacing-xl);">
-                        <div class="card__body">
-                            <div style="display: flex; gap: var(--spacing-lg); align-items: center; flex-wrap: wrap;">
-                                <div style="flex: 1; min-width: 200px;">
-                                    <input
-                                        type="text"
-                                        placeholder="Search invoices..."
-                                        class="form__input"
-                                        style="margin: 0;"
-                                        id="searchInput"
-                                    >
-                                </div>
-                                <div style="min-width: 150px;">
-                                    <select class="form__select" style="margin: 0;" id="vehicleFilter">
-                                        <option value="">All Vehicles</option>
-                                        <option value="vh-001">VH-001 (Ford F-150)</option>
-                                        <option value="vh-002">VH-002 (Chevy Silverado)</option>
-                                        <option value="vh-003">VH-003 (Mercedes Sprinter)</option>
-                                    </select>
-                                </div>
-                                <div style="min-width: 150px;">
-                                    <select class="form__select" style="margin: 0;" id="categoryFilter">
-                                        <option value="">All Categories</option>
-                                        <option value="fuel">Fuel</option>
-                                        <option value="maintenance">Maintenance</option>
-                                        <option value="insurance">Insurance</option>
-                                        <option value="parts">Parts</option>
-                                    </select>
-                                </div>
-                                <div style="min-width: 150px;">
-                                    <input
-                                        type="month"
-                                        class="form__input"
-                                        style="margin: 0;"
-                                        id="monthFilter"
-                                        value="2024-01"
-                                    >
-                                </div>
-                                <button class="btn btn--secondary" id="filterBtn">
-                                    🔍 Filter
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Billing Table -->
-                    <div class="card">
-                        <div class="card__header">
-                            <h3 class="card__title">Billing History (January 2024)</h3>
-                        </div>
-                        <div class="card__body" style="padding: 0;">
-                            <div class="table" style="margin: 0;">
-                                <table style="width: 100%;">
-                                    <thead class="table__header">
-                                        <tr>
-                                            <th class="table__cell table__cell--header">Invoice ID</th>
-                                            <th class="table__cell table__cell--header">Vehicle</th>
-                                            <th class="table__cell table__cell--header">Category</th>
-                                            <th class="table__cell table__cell--header">Description</th>
-                                            <th class="table__cell table__cell--header">Amount</th>
-                                            <th class="table__cell table__cell--header">Date</th>
-                                            <th class="table__cell table__cell--header">Status</th>
-                                            <th class="table__cell table__cell--header table__cell--actions">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="table__row">
-                                            <td class="table__cell">INV-2024-001</td>
-                                            <td class="table__cell">VH-001 (Ford F-150)</td>
-                                            <td class="table__cell">Fuel</td>
-                                            <td class="table__cell">Regular gasoline - Downtown</td>
-                                            <td class="table__cell">$85.50</td>
-                                            <td class="table__cell">2024-01-15</td>
-                                            <td class="table__cell"><span class="badge badge--success">Paid</span></td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Receipt">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Download">📥</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row table__row--striped">
-                                            <td class="table__cell">INV-2024-002</td>
-                                            <td class="table__cell">VH-003 (Mercedes Sprinter)</td>
-                                            <td class="table__cell">Maintenance</td>
-                                            <td class="table__cell">Oil change and tire rotation</td>
-                                            <td class="table__cell">$245.00</td>
-                                            <td class="table__cell">2024-01-12</td>
-                                            <td class="table__cell"><span class="badge badge--success">Paid</span></td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Receipt">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Download">📥</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row">
-                                            <td class="table__cell">INV-2024-003</td>
-                                            <td class="table__cell">VH-002 (Chevy Silverado)</td>
-                                            <td class="table__cell">Parts</td>
-                                            <td class="table__cell">Brake pads replacement</td>
-                                            <td class="table__cell">$180.75</td>
-                                            <td class="table__cell">2024-01-10</td>
-                                            <td class="table__cell"><span class="badge badge--warning">Pending</span></td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Receipt">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Download">📥</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row table__row--striped">
-                                            <td class="table__cell">INV-2024-004</td>
-                                            <td class="table__cell">VH-001 (Ford F-150)</td>
-                                            <td class="table__cell">Fuel</td>
-                                            <td class="table__cell">Diesel fuel - Highway</td>
-                                            <td class="table__cell">$92.30</td>
-                                            <td class="table__cell">2024-01-08</td>
-                                            <td class="table__cell"><span class="badge badge--success">Paid</span></td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Receipt">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Download">📥</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row">
-                                            <td class="table__cell">INV-2024-005</td>
-                                            <td class="table__cell">VH-004 (Ford Transit)</td>
-                                            <td class="table__cell">Insurance</td>
-                                            <td class="table__cell">Monthly insurance premium</td>
-                                            <td class="table__cell">$185.00</td>
-                                            <td class="table__cell">2024-01-01</td>
-                                            <td class="table__cell"><span class="badge badge--success">Paid</span></td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Receipt">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Download">📥</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row table__row--striped">
-                                            <td class="table__cell">INV-2024-006</td>
-                                            <td class="table__cell">VH-002 (Chevy Silverado)</td>
-                                            <td class="table__cell">Maintenance</td>
-                                            <td class="table__cell">Engine diagnostic and repair</td>
-                                            <td class="table__cell">$425.50</td>
-                                            <td class="table__cell">2024-01-05</td>
-                                            <td class="table__cell"><span class="badge badge--error">Overdue</span></td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Receipt">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Download">📥</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="table__row">
-                                            <td class="table__cell">INV-2024-007</td>
-                                            <td class="table__cell">VH-003 (Mercedes Sprinter)</td>
-                                            <td class="table__cell">Fuel</td>
-                                            <td class="table__cell">Diesel fuel - City route</td>
-                                            <td class="table__cell">$78.90</td>
-                                            <td class="table__cell">2024-01-03</td>
-                                            <td class="table__cell"><span class="badge badge--success">Paid</span></td>
-                                            <td class="table__cell table__cell--actions">
-                                                <div class="table__actions">
-                                                    <button class="btn btn--sm" title="View Receipt">👁️</button>
-                                                    <button class="btn btn--sm btn--secondary" title="Download">📥</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="pagination">
-                        <a href="#" class="pagination__item">‹ Previous</a>
-                        <a href="#" class="pagination__item pagination__item--active">1</a>
-                        <a href="#" class="pagination__item">2</a>
-                        <a href="#" class="pagination__item">3</a>
-                        <span class="pagination__item" style="background: none; border: none; cursor: default;">...</span>
-                        <a href="#" class="pagination__item">12</a>
-                        <a href="#" class="pagination__item">Next ›</a>
-                    </div>
-
-                    <!-- Summary Footer -->
-                    <div class="card" style="margin-top: var(--spacing-xl);">
-                        <div class="card__header">
-                            <h3 class="card__title">Monthly Summary</h3>
-                        </div>
-                        <div class="card__body">
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg);">
-                                <div style="text-align: center; padding: var(--spacing-lg); background-color: var(--color-gray-light); border-radius: var(--border-radius-md);">
-                                    <h4 style="font-size: var(--font-size-xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-sm);">15</h4>
-                                    <p style="color: var(--color-secondary); margin: 0; font-size: var(--font-size-sm);">Total Invoices</p>
-                                </div>
-                                <div style="text-align: center; padding: var(--spacing-lg); background-color: var(--color-gray-light); border-radius: var(--border-radius-md);">
-                                    <h4 style="font-size: var(--font-size-xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-sm);">$24,580</h4>
-                                    <p style="color: var(--color-secondary); margin: 0; font-size: var(--font-size-sm);">Total Amount</p>
-                                </div>
-                                <div style="text-align: center; padding: var(--spacing-lg); background-color: var(--color-gray-light); border-radius: var(--border-radius-md);">
-                                    <h4 style="font-size: var(--font-size-xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-sm);">$1,639</h4>
-                                    <p style="color: var(--color-secondary); margin: 0; font-size: var(--font-size-sm);">Average per Invoice</p>
-                                </div>
-                                <div style="text-align: center; padding: var(--spacing-lg); background-color: var(--color-gray-light); border-radius: var(--border-radius-md);">
-                                    <h4 style="font-size: var(--font-size-xl); font-weight: 600; color: var(--color-primary); margin-bottom: var(--spacing-sm);">$205</h4>
-                                    <p style="color: var(--color-secondary); margin: 0; font-size: var(--font-size-sm);">Average per Vehicle</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -402,43 +147,5 @@
     </div>
 
     <script src="js/scripts.js"></script>
-    <script>
-        // Search and filter functionality
-        const searchInput = document.getElementById('searchInput');
-        const vehicleFilter = document.getElementById('vehicleFilter');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const monthFilter = document.getElementById('monthFilter');
-        const filterBtn = document.getElementById('filterBtn');
-        const tableRows = document.querySelectorAll('.table__row');
-
-        function filterTable() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const vehicleValue = vehicleFilter.value.toLowerCase();
-            const categoryValue = categoryFilter.value.toLowerCase();
-
-            tableRows.forEach(row => {
-                const invoiceId = row.cells[0].textContent.toLowerCase();
-                const vehicle = row.cells[1].textContent.toLowerCase();
-                const category = row.cells[2].textContent.toLowerCase();
-                const description = row.cells[3].textContent.toLowerCase();
-
-                const matchesSearch = invoiceId.includes(searchTerm) || description.includes(searchTerm);
-                const matchesVehicle = !vehicleValue || vehicle.includes(vehicleValue);
-                const matchesCategory = !categoryValue || category.includes(categoryValue);
-
-                if (matchesSearch && matchesVehicle && matchesCategory) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        if (searchInput) searchInput.addEventListener('input', filterTable);
-        if (vehicleFilter) vehicleFilter.addEventListener('change', filterTable);
-        if (categoryFilter) categoryFilter.addEventListener('change', filterTable);
-        if (filterBtn) filterBtn.addEventListener('click', filterTable);
-    </script>
 </body>
 </html>
-

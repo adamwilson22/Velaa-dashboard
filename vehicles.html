@@ -60,10 +60,14 @@
         <div class="dashboard-layout__main">
             <!-- Header -->
             <header class="header">
-                <div class="header__left">
-                    <h1 class="header__title">Vehicles management</h1>
+                <button class="mobile-menu-toggle" id="menuToggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <div class="header__center">
+                    <input class="header__search" type="text" placeholder="Search by chassis number" />
                 </div>
-
                 <div class="header__right">
                     <button class="header__notifications">
                         <span class="notification-icon">🔔</span>
@@ -81,93 +85,154 @@
 
             <!-- Content -->
             <main class="dashboard-layout__content">
-                <div class="vehicles-container">
-                    <!-- Controls Section -->
-                    <div class="vehicles-controls">
-                        <button class="btn btn--primary add-vehicle-btn" onclick="window.location.href='vehicle-add.html'">
-                            <span class="btn-icon">➕</span>
+                <div class="dashboard-container vehicles-container">
+                    <!-- Vehicle Management Controls -->
+                    <div class="vehicle-controls">
+                        <button class="add-vehicle-btn" onclick="window.location.href='vehicle-add.html'">
+                            <span class="btn-icon">⊕</span>
                             Add new vehicle
                         </button>
-                        <div class="search-container">
+                        <div class="search-bar">
                             <input type="text" class="search-input" placeholder="Search by chassis number">
-                        </div>
-                        <div class="total-vehicles-card">
-                            <div class="total-vehicles-content">
-                                <span class="total-vehicles-label">Total vehicles</span>
-                                <span class="total-vehicles-number">78</span>
-                            </div>
-                            <span class="total-vehicles-icon">↗</span>
                         </div>
                     </div>
 
-                    <!-- Vehicles Table -->
-                    <div class="vehicles-table-container">
-                        <div class="vehicles-table">
-                            <div class="table-header">
-                                <div class="table-header-cell">Chassis number</div>
-                                <div class="table-header-cell">Make</div>
-                                <div class="table-header-cell">Arrival date</div>
-                                <div class="table-header-cell">Expiry date</div>
-                                <div class="table-header-cell">Status</div>
+                    <!-- Vehicle Data Section -->
+                    <div class="vehicle-data-section">
+                        <!-- Vehicle Data Table -->
+                        <div class="vehicle-table-container">
+                            <div class="vehicle-table-scroll">
+                                <div class="vehicle-table">
+                                <div class="table-header">
+                                    <div class="table-cell">Chassis number</div>
+                                    <div class="table-cell">Make</div>
+                                    <div class="table-cell">Arrival date</div>
+                                    <div class="table-cell">Expiry date</div>
+                                    <div class="table-cell">Status</div>
+                                </div>
+                            <div class="table-row">
+                                <div class="table-cell">GYWBR32E779056478</div>
+                                <div class="table-cell">Audi</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-available">Available</div>
                             </div>
-                            <div class="table-body">
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Audi</div>
-                                    <div class="table-cell">18 Oct 2025</div>
-                                    <div class="table-cell">18 Sep 2025</div>
-                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">JTDBR32E720056478</div>
-                                    <div class="table-cell">Toyota</div>
-                                    <div class="table-cell">18 Oct 2025</div>
-                                    <div class="table-cell">18 Sep 2025</div>
-                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">WCT79827962718MLK</div>
-                                    <div class="table-cell">Benz</div>
-                                    <div class="table-cell">18 Oct 2025</div>
-                                    <div class="table-cell">18 Sep 2025</div>
-                                    <div class="table-cell"><span class="status-badge status-sold">Sold</span></div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">TCT79027962718MXV</div>
-                                    <div class="table-cell">Toyota</div>
-                                    <div class="table-cell">18 Oct 2025</div>
-                                    <div class="table-cell">18 Sep 2025</div>
-                                    <div class="table-cell"><span class="status-badge status-sold">Sold</span></div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Nissan</div>
-                                    <div class="table-cell">18 Oct 2025</div>
-                                    <div class="table-cell">18 Sep 2025</div>
-                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">JTDBR32E720056478</div>
-                                    <div class="table-cell">Nissan</div>
-                                    <div class="table-cell">18 Oct 2025</div>
-                                    <div class="table-cell">18 Sep 2025</div>
-                                    <div class="table-cell"><span class="status-badge status-sold">Sold</span></div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Audi</div>
-                                    <div class="table-cell">18 Oct 2025</div>
-                                    <div class="table-cell">18 Sep 2025</div>
-                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">JTDBR32E720056478</div>
-                                    <div class="table-cell">Toyota</div>
-                                    <div class="table-cell">18 Oct 2025</div>
-                                    <div class="table-cell">18 Sep 2025</div>
-                                    <div class="table-cell"><span class="status-badge status-available">Available</span></div>
+                            <div class="table-row">
+                                <div class="table-cell">JTDBR32E720056478</div>
+                                <div class="table-cell">Toyota</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-available">Available</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">WCT79827962718MLK</div>
+                                <div class="table-cell">Benz</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-sold">Sold</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">TCT79027962718MXV</div>
+                                <div class="table-cell">Toyota</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-sold">Sold</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">GYWBR32E779056478</div>
+                                <div class="table-cell">Nissan</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-available">Available</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">JTDBR32E720056478</div>
+                                <div class="table-cell">Nissan</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-sold">Sold</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">GYWBR32E779056478</div>
+                                <div class="table-cell">Audi</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-available">Available</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">JTDBR32E720056478</div>
+                                <div class="table-cell">Toyota</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-available">Available</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">WCT79827962718MLK</div>
+                                <div class="table-cell">Benz</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-sold">Sold</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">TCT79027962718MXV</div>
+                                <div class="table-cell">Toyota</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-sold">Sold</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">GYWBR32E779056478</div>
+                                <div class="table-cell">Nissan</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-available">Available</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">JTDBR32E720056478</div>
+                                <div class="table-cell">Nissan</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-sold">Sold</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">WCT79827962718MLK</div>
+                                <div class="table-cell">Benz</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-sold">Sold</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">TCT79027962718MXV</div>
+                                <div class="table-cell">Toyota</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-sold">Sold</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">GYWBR32E779056478</div>
+                                <div class="table-cell">Nissan</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-available">Available</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell">JTDBR32E720056478</div>
+                                <div class="table-cell">Nissan</div>
+                                <div class="table-cell">18 Oct 2025</div>
+                                <div class="table-cell">18 Sep 2025</div>
+                                <div class="table-cell status-sold">Sold</div>
+                            </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Total Vehicles KPI -->
+                        <div class="total-vehicles-kpi">
+                            <div class="kpi-content">
+                                <div class="kpi-label">Total vehicles</div>
+                                <div class="kpi-number">78</div>
+                            </div>
+                            <div class="kpi-icon">↗</div>
                         </div>
                     </div>
                 </div>

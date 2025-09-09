@@ -12,6 +12,7 @@ class FleetManager {
         this.setupTooltips();
         this.setupThemeToggle();
         this.setupKeyboardNavigation();
+        this.setupChart();
     }
 
     // Mobile menu functionality
@@ -253,6 +254,199 @@ class FleetManager {
                 setTimeout(() => inThrottle = false, limit);
             }
         };
+    }
+
+    // Chart functionality
+    setupChart() {
+        const chartContainer = document.querySelector('.chart-container');
+        if (!chartContainer) return;
+
+        this.chartData = {
+            Toyota: { value: 85, color: '#4CAF50' },
+            Nissan: { value: 45, color: '#2196F3' },
+            BMW: { value: 35, color: '#FF9800' },
+            Benz: { value: 70, color: '#9C27B0' },
+            Audi: { value: 65, color: '#F44336' }
+        };
+
+        this.animateChart();
+        this.setupChartInteractivity();
+    }
+
+    animateChart() {
+        const bars = document.querySelectorAll('.bar-fill');
+        bars.forEach((bar, index) => {
+            bar.style.height = '0%';
+            bar.style.transition = 'all 0.8s ease-in-out';
+            
+            setTimeout(() => {
+                const brandClass = bar.classList[1];
+                const brandName = brandClass.charAt(0).toUpperCase() + brandClass.slice(1);
+                const targetHeight = this.chartData[brandName]?.value || 0;
+                bar.style.height = `${targetHeight}%`;
+                bar.style.backgroundColor = this.chartData[brandName]?.color || '#999999';
+            }, index * 200);
+        });
+    }
+
+    setupChartInteractivity() {
+        const barContainers = document.querySelectorAll('.bar-container');
+        
+        barContainers.forEach((container, index) => {
+            const bar = container.querySelector('.bar-fill');
+            const label = container.querySelector('.bar-label');
+            const brandName = label.textContent;
+            
+            // Hover effects
+            container.addEventListener('mouseenter', () => {
+                bar.style.transform = 'scaleY(1.05)';
+                bar.style.filter = 'brightness(1.1)';
+                this.showChartTooltip(container, brandName, this.chartData[brandName]?.value);
+            });
+
+            container.addEventListener('mouseleave', () => {
+                bar.style.transform = 'scaleY(1)';
+                bar.style.filter = 'brightness(1)';
+                this.hideChartTooltip();
+            });
+
+            // Click to update data
+            container.addEventListener('click', () => {
+                this.updateChartData(brandName);
+            });
+        });
+
+        // Add refresh button
+        this.addChartRefreshButton();
+    }
+
+    showChartTooltip(element, brand, value) {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'chart-tooltip';
+        tooltip.innerHTML = `
+            <strong>${brand}</strong><br>
+            Vehicles: ${value}<br>
+            <small>Click to simulate data change</small>
+        `;
+        tooltip.style.cssText = `
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 10000;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        `;
+
+        document.body.appendChild(tooltip);
+
+        const rect = element.getBoundingClientRect();
+        tooltip.style.left = `${rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2)}px`;
+        tooltip.style.top = `${rect.top - tooltip.offsetHeight - 10}px`;
+    }
+
+    hideChartTooltip() {
+        const tooltip = document.querySelector('.chart-tooltip');
+        if (tooltip) {
+            tooltip.remove();
+        }
+    }
+
+    updateChartData(brandName) {
+        // Simulate data update with random values
+        const newValue = Math.floor(Math.random() * 90) + 10;
+        this.chartData[brandName].value = newValue;
+        
+        const barFill = document.querySelector(`.bar-fill.${brandName.toLowerCase()}`);
+        if (barFill) {
+            barFill.style.transition = 'all 0.6s ease-in-out';
+            barFill.style.height = `${newValue}%`;
+        }
+
+        // Update tooltip if visible
+        this.hideChartTooltip();
+        
+        // Show update notification
+        this.showUpdateNotification(brandName, newValue);
+    }
+
+    showUpdateNotification(brand, value) {
+        const notification = document.createElement('div');
+        notification.className = 'chart-notification';
+        notification.textContent = `${brand} updated to ${value} vehicles`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 10001;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    addChartRefreshButton() {
+        const chartCard = document.querySelector('.chart-card');
+        if (!chartCard) return;
+
+        const refreshButton = document.createElement('button');
+        refreshButton.className = 'chart-refresh-btn';
+        refreshButton.innerHTML = '↻ Refresh Data';
+        refreshButton.style.cssText = `
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        `;
+
+        refreshButton.addEventListener('mouseenter', () => {
+            refreshButton.style.background = 'rgba(255, 255, 255, 0.3)';
+        });
+
+        refreshButton.addEventListener('mouseleave', () => {
+            refreshButton.style.background = 'rgba(255, 255, 255, 0.2)';
+        });
+
+        refreshButton.addEventListener('click', () => {
+            this.refreshAllChartData();
+        });
+
+        chartCard.style.position = 'relative';
+        chartCard.appendChild(refreshButton);
+    }
+
+    refreshAllChartData() {
+        Object.keys(this.chartData).forEach(brand => {
+            this.updateChartData(brand);
+        });
     }
 }
 

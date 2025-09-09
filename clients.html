@@ -60,10 +60,14 @@
         <div class="dashboard-layout__main">
             <!-- Header -->
             <header class="header">
-                <div class="header__left">
-                    <h1 class="header__title">Clients</h1>
+                <button class="mobile-menu-toggle" id="menuToggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <div class="header__center">
+                    <input class="header__search" type="text" placeholder="Search client by name" />
                 </div>
-
                 <div class="header__right">
                     <button class="header__notifications">
                         <span class="notification-icon">🔔</span>
@@ -81,79 +85,66 @@
 
             <!-- Content -->
             <main class="dashboard-layout__content">
-                <div class="clients-container">
-                    <!-- Controls Section -->
-                    <div class="clients-controls">
-                        <div class="search-container">
-                            <input type="text" class="search-input" placeholder="Search client by name">
-                        </div>
-                        <div class="add-client-card">
-                            <div class="add-client-content">
-                                <span class="add-client-label">Add new client</span>
-                            </div>
-                            <span class="add-client-icon" onclick="window.location.href='client-add.html'">↗</span>
-                        </div>
+                <div class="dashboard-container clients-container">
+                    <!-- Page Header -->
+                    <div class="dashboard-header">
+                        <h2 class="dashboard-title">Client Management</h2>
+                        <p class="dashboard-subtitle">Manage your clients and track their information.</p>
                     </div>
 
-                    <!-- Clients Table -->
-                    <div class="clients-table-container">
-                        <div class="clients-table">
-                            <div class="table-header">
-                                <div class="table-header-cell">Client name</div>
-                                <div class="table-header-cell">Phone number</div>
-                                <div class="table-header-cell">Outstanding balance</div>
-                                <div class="table-header-cell">Client type</div>
+                    <!-- Clients Management Card -->
+                    <div class="activity-card">
+                        <h3 class="activity-title">Client Directory</h3>
+                        <div class="activity-subtitle">Client entries</div>
+                        
+                        <div class="activity-table">
+                            <div class="activity-header">
+                                <span>Client name</span>
+                                <span>Phone number</span>
+                                <span>Outstanding balance</span>
+                                <span>Client type</span>
                             </div>
-                            <div class="table-body">
-                                <div class="table-row">
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">0799 988 807</div>
-                                    <div class="table-cell">120,000.0 TZS</div>
-                                    <div class="table-cell">Individual</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">0799 988 807</div>
-                                    <div class="table-cell">120,000.0 TZS</div>
-                                    <div class="table-cell">Individual</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">0799 988 807</div>
-                                    <div class="table-cell">120,000.0 TZS</div>
-                                    <div class="table-cell">Individual</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">0799 988 807</div>
-                                    <div class="table-cell">120,000.0 TZS</div>
-                                    <div class="table-cell">Individual</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">0799 988 807</div>
-                                    <div class="table-cell">120,000.0 TZS</div>
-                                    <div class="table-cell">Individual</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">0799 988 807</div>
-                                    <div class="table-cell">120,000.0 TZS</div>
-                                    <div class="table-cell">Individual</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">0799 988 807</div>
-                                    <div class="table-cell">120,000.0 TZS</div>
-                                    <div class="table-cell">Individual</div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">0799 988 807</div>
-                                    <div class="table-cell">120,000.0 TZS</div>
-                                    <div class="table-cell">Individual</div>
-                                </div>
+                            <div class="activity-row">
+                                <span>Ryan Dynamite</span>
+                                <span>0799 988 807</span>
+                                <span>120,000.0 TZS</span>
+                                <span>Individual</span>
                             </div>
+                            <div class="activity-row">
+                                <span>Sarah Johnson</span>
+                                <span>0755 123 456</span>
+                                <span>85,000.0 TZS</span>
+                                <span>Corporate</span>
+                            </div>
+                            <div class="activity-row">
+                                <span>Mike Chen</span>
+                                <span>0744 789 012</span>
+                                <span>250,000.0 TZS</span>
+                                <span>Individual</span>
+                            </div>
+                            <div class="activity-row">
+                                <span>Emily Davis</span>
+                                <span>0713 456 789</span>
+                                <span>95,500.0 TZS</span>
+                                <span>Corporate</span>
+                            </div>
+                            <div class="activity-row">
+                                <span>Alex Rodriguez</span>
+                                <span>0787 321 654</span>
+                                <span>180,000.0 TZS</span>
+                                <span>Individual</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-actions">
+                            <button class="activity-btn activity-btn--add" onclick="window.location.href='client-add.html'">
+                                <span class="btn-icon">⊕</span>
+                                Add new client
+                            </button>
+                            <button class="activity-btn activity-btn--remove">
+                                <span class="btn-icon">⊖</span>
+                                Remove client
+                            </button>
                         </div>
                     </div>
                 </div>

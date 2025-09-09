@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
+
 <body class="page page--dashboard">
     <div class="dashboard-layout">
         <!-- Sidebar -->
@@ -24,13 +26,15 @@
                 <ul class="sidebar__nav-list">
                     <li class="sidebar__nav-item">
                         <a href="dashboard.html" class="sidebar__nav-link sidebar__nav-link--active">
-                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard.svg" alt="Dashboard" class="nav-icon"></span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard.svg" alt="Dashboard"
+                                    class="nav-icon"></span>
                             Dashboard
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicles.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon"><img src="images/icons/vehicles.svg" alt="Vehicles" class="nav-icon"></span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/vehicles.svg" alt="Vehicles"
+                                    class="nav-icon"></span>
                             Vehicles
                         </a>
                     </li>
@@ -42,7 +46,8 @@
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="clients.html" class="sidebar__nav-link">
-                            <span class="sidebar__nav-icon"><img src="images/icons/clients.svg" alt="Clients" class="nav-icon"></span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/clients.svg" alt="Clients"
+                                    class="nav-icon"></span>
                             Clients
                         </a>
                     </li>
@@ -60,7 +65,12 @@
         <div class="dashboard-layout__main">
             <!-- Header -->
             <header class="header">
-                <div class="header__left">
+                <button class="mobile-menu-toggle" id="menuToggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <div class="header__center">
                     <input class="header__search" type="text" placeholder="Search by chassis number" />
                 </div>
                 <div class="header__right">
@@ -81,11 +91,7 @@
             <!-- Content -->
             <main class="dashboard-layout__content">
                 <div class="dashboard-container">
-                    <!-- Page Header -->
-                    <div class="dashboard-header">
-                        <h2 class="dashboard-title">Dashboard Overview</h2>
-                        <p class="dashboard-subtitle">Welcome back! Here's what's happening with your fleet today.</p>
-                    </div>
+
 
                     <!-- Metrics Cards -->
                     <div class="dashboard-stats">
@@ -116,39 +122,90 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- Page Header -->
+                    <div class="dashboard-header">
+                        <h2 class="dashboard-title">Stock Overview</h2>
+                    </div>
                     <!-- Charts Section -->
                     <div class="dashboard-charts">
                         <div class="chart-card">
-                            <h3 class="chart-title">Fleet Performance</h3>
-                            <div class="chart-placeholder">
-                                📊 Chart Visualization Area
+                            <h3 class="chart-title">Stock Overview</h3>
+                            <div class="chart-container">
+                                <div class="chart-year-labels">
+                                    <span class="year-label">2026</span>
+                                    <span class="year-label">2025</span>
+                                </div>
+                                <div class="chart-bars">
+                                    <div class="bar-container">
+                                        <div class="bar" data-height="85">
+                                            <div class="bar-fill toyota"></div>
+                                        </div>
+                                        <span class="bar-label">Toyota</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar" data-height="45">
+                                            <div class="bar-fill nissan"></div>
+                                        </div>
+                                        <span class="bar-label">Nissan</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar" data-height="35">
+                                            <div class="bar-fill bmw"></div>
+                                        </div>
+                                        <span class="bar-label">BMW</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar" data-height="70">
+                                            <div class="bar-fill benz"></div>
+                                        </div>
+                                        <span class="bar-label">Benz</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar" data-height="65">
+                                            <div class="bar-fill audi"></div>
+                                        </div>
+                                        <span class="bar-label">Audi</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="activity-card">
                             <h3 class="activity-title">Recent Activity</h3>
+                            <div class="activity-subtitle">Vehicle entries</div>
+
                             <div class="activity-table">
                                 <div class="activity-header">
-                                    <span>Vehicle</span>
-                                    <span>Status</span>
-                                    <span>Time</span>
+                                    <span>Make</span>
+                                    <span>Chassis number</span>
+                                    <span>Year</span>
                                 </div>
                                 <div class="activity-row">
-                                    <span>Truck-001</span>
-                                    <span class="status-delivered">Delivered</span>
-                                    <span>2 hours ago</span>
+                                    <span>Toyota</span>
+                                    <span>JTD8B33E7700066478</span>
+                                    <span>2017</span>
                                 </div>
                                 <div class="activity-row">
-                                    <span>Van-015</span>
-                                    <span class="status-transit">In Transit</span>
-                                    <span>4 hours ago</span>
+                                    <span>Nissan</span>
+                                    <span>CFYWKBR24770068548</span>
+                                    <span>2017</span>
                                 </div>
                                 <div class="activity-row">
-                                    <span>Car-008</span>
-                                    <span class="status-delivered">Delivered</span>
-                                    <span>6 hours ago</span>
+                                    <span>BMW</span>
+                                    <span>UOTT8Y9DYT8NJJKA</span>
+                                    <span>2015</span>
                                 </div>
+                            </div>
+
+                            <div class="activity-actions">
+                                <button class="activity-btn activity-btn--add">
+                                    <span class="btn-icon">⊕</span>
+                                    Add new vehicle
+                                </button>
+                                <button class="activity-btn activity-btn--remove">
+                                    <span class="btn-icon">⊖</span>
+                                    Remove vehicle
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -159,4 +216,5 @@
 
     <script src="js/scripts.js"></script>
 </body>
+
 </html>
