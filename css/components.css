@@ -271,6 +271,18 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 32px;
+    gap: 1rem;
+}
+
+.page--login .form__checkbox {
+    flex: 1;
+    max-width: 150px;
+}
+
+.page--login .form__link {
+    flex: 1;
+    text-align: right;
+    max-width: 150px;
 }
 
 .page--auth .form__checkbox {
@@ -588,14 +600,14 @@
     top: 70px;
     right: 0;
     width: 696px;
-    max-height: 600px;
+    height: 650;
     background: #DADADA;
     border-radius: 20px 0px 0px 20px;
     z-index: 1000;
     display: none;
-    padding: 40px;
+    padding: 30px;
     box-sizing: border-box;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .profile-dropdown.show {
@@ -618,16 +630,20 @@
 }
 
 .dropdown-section {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+}
+
+.dropdown-section:last-child {
+    margin-bottom: 0;
 }
 
 .dropdown-section-title {
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 20px;
     color: #333333;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
     border-bottom: 1px solid rgba(51, 51, 51, 0.2);
 }
 
@@ -635,12 +651,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 0;
+    padding: 12px 0;
     border-bottom: 1px solid rgba(51, 51, 51, 0.1);
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     color: #333333;
 }
 
@@ -3521,15 +3537,47 @@
     overflow-x: hidden;
 }
 
-/* Specific styling for reset-success page - higher specificity to override general rule */
+/* Specific styling for reset-success page - base responsive rule */
 .page--auth.page--reset-success .auth-layout__form {
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 10rem 10rem 5rem 15rem;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
     background: #ffffff;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+/* Success page content positioning - override for base responsive */
+.page--auth.page--reset-success .auth-layout__content {
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Override for larger computer screens */
+@media (min-width: 1442px) {
+    .page--auth.page--reset-success .auth-layout__form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20rem 3rem;
+        background: #ffffff;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    .page--auth.page--reset-success .auth-layout__content {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20rem 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 .page--login .auth-layout__title {
@@ -3555,6 +3603,17 @@
     max-width: 400px;
     margin: 0px 0px 0px 32px;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* Specific content styling for success page only */
+.page--auth.page--reset-success:not(.page--login) .auth-layout__content {
+    width: 100%;
+    max-width: 400px;
+    margin: 0px 0px 0px 32px;
+    padding: 20rem 3rem;
     display: flex;
     flex-direction: column;
     min-height: 100%;
@@ -3831,22 +3890,71 @@
     text-align: left;
 }
 
-/* Success Page Styling */
+/* Success Page Styling - Base responsive */
 .success-icon {
     display: flex;
     justify-content: center;
-    margin-bottom: 32px;
+    margin-bottom: 2rem;
+    max-width: 320px;
+    width: 100%;
 }
 
 .success-icon img {
-    max-width: 80px;
-    height: auto;
+    max-width: 64px;
+    height: 64px;
     object-fit: contain;
 }
 
 .success-title {
     text-align: center !important;
-    margin-bottom: 40px !important;
+    margin-bottom: 3rem !important;
+    font-size: 1.75rem !important;
+    max-width: 320px !important;
+    width: 100% !important;
+    line-height: 1.2 !important;
+}
+
+.page--reset-success .btn--primary {
+    height: 48px;
+    font-size: 14px;
+    border-radius: 12px;
+    max-width: 320px;
+    width: 100%;
+    margin-top: 0px;
+}
+
+/* Large computer screen overrides */
+@media (min-width: 1442px) {
+    .success-icon {
+        justify-content: center;
+        margin-bottom: 2.5rem;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .success-icon img {
+        max-width: 80px;
+        height: 80px;
+        object-fit: contain;
+    }
+
+    .success-title {
+        text-align: center !important;
+        margin-bottom: 3.5rem !important;
+        font-size: 2.25rem !important;
+        max-width: 400px !important;
+        width: 100% !important;
+        line-height: 1.2 !important;
+    }
+    
+    .page--reset-success .btn--primary {
+        height: 56px;
+        font-size: 16px;
+        border-radius: 12px;
+        max-width: 400px;
+        width: 100%;
+        margin-top: 0px;
+    }
 }
 
 .page--auth .form__input:focus {
@@ -4548,20 +4656,27 @@
     
     .profile-dropdown {
         width: 100%;
-        max-height: 80vh;
-        top: 10vh;
+        height: 700px;
+        top: 6vh;
         right: 0;
         border-radius: 20px 20px 0 0;
         padding: 20px;
+        overflow: hidden;
+    }
+    
+    .dropdown-section {
+        margin-bottom: 20px;
     }
     
     .dropdown-section-title {
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 10px;
+        padding-bottom: 6px;
     }
     
     .dropdown-menu-item {
         font-size: 16px;
-        padding: 14px 0;
+        padding: 10px 0;
     }
 }
 
@@ -4680,6 +4795,305 @@
         width: 100%;
         max-width: 200px;
         margin: 0 auto;
+    }
+}
+
+/* Laptop-specific adjustments for auth forms - Optimized for 13" to 15" screens */
+@media (max-width: 1441px) and (min-width: 1025px) {
+    .page--auth:not(.page--login) .auth-layout__form {
+        padding: 2.5rem 1.5rem !important;
+    }
+    
+    .page--auth:not(.page--login) .auth-layout__content {
+        max-width: 320px !important;
+        margin: 0px 0px 0px 32px !important;
+    }
+    
+    .page--auth .auth-layout__title {
+        font-size: 1.75rem !important;
+        margin-bottom: 1.5rem !important;
+        line-height: 1.2 !important;
+        max-width: 320px !important;
+        text-align: left !important;
+    }
+    
+    .page--auth .form__input {
+        height: 48px !important;
+        padding: 8px 16px 18px 40px !important;
+        font-size: 14px !important;
+        border-radius: 12px !important;
+        max-width: 320px !important;
+        width: 100% !important;
+    }
+    
+    .page--auth .form__input-wrapper {
+        max-width: 320px !important;
+        width: 100% !important;
+    }
+    
+    .page--auth .form__input-icon {
+        left: 14px !important;
+        top: 16px !important;
+        width: 16px !important;
+        height: 16px !important;
+    }
+    
+    .page--auth .form__input-icon--warehouse,
+    .page--auth .form__input-icon--user {
+        background-size: 14px 14px !important;
+    }
+    
+    .page--auth .form__input-icon--phone {
+        background-size: 16px 16px !important;
+    }
+    
+    .page--auth .form__group {
+        margin-bottom: 18px !important;
+    }
+    
+    .page--auth .form__group:last-of-type {
+        margin-bottom: 24px !important;
+    }
+    
+    .page--auth .btn--primary {
+        height: 48px !important;
+        font-size: 14px !important;
+        border-radius: 12px !important;
+        max-width: 320px !important;
+        width: 100% !important;
+    }
+    
+    .page--auth .form__label {
+        font-size: 13px !important;
+        margin-bottom: 6px !important;
+        font-weight: 500 !important;
+    }
+    
+    .page--auth .form__button-wrapper {
+        margin-top: 0px !important;
+        max-width: 320px !important;
+        width: 100% !important;
+    }
+    
+    .page--auth .form__fields {
+        margin-bottom: 0px !important;
+    }
+    
+    /* Footer positioning for laptop */
+    .page--auth .auth-layout__footer {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 40px !important;
+        font-size: 11px !important;
+    }
+    
+    /* OTP page specific adjustments for laptop */
+    .page--auth .auth-layout__subtitle {
+        font-size: 14px !important;
+        margin-bottom: 2rem !important;
+        max-width: 320px !important;
+        color: #666666 !important;
+        line-height: 1.4 !important;
+    }
+    
+    .page--auth .otp-inputs {
+        display: flex !important;
+        gap: 12px !important;
+        justify-content: flex-start !important;
+        margin-bottom: 1.5rem !important;
+        align-items: center !important;
+        max-width: 320px !important;
+    }
+    
+    .page--auth .form__input--otp {
+        width: 56px !important;
+        height: 56px !important;
+        text-align: center !important;
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        border: 2px solid #e1e5e9 !important;
+        border-radius: 12px !important;
+        padding: 0 !important;
+        flex: 0 0 56px !important;
+    }
+    
+    .page--auth .form__input--otp:focus {
+        border-color: #22c55e !important;
+        outline: none !important;
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1) !important;
+    }
+    
+    .page--auth .form__input--otp:not(:placeholder-shown),
+    .page--auth .form__input--otp.has-value {
+        border-color: #22c55e !important;
+        background-color: #ffffff !important;
+    }
+    
+    .page--auth .form__link {
+        font-size: 13px !important;
+        color: #666666 !important;
+        text-decoration: underline !important;
+    }
+    
+    .page--auth .form__link:hover {
+        color: #333333 !important;
+    }
+    
+    /* Login page adjustments for laptop screens */
+    .page--login .auth-layout__form {
+        padding: 2rem !important;
+    }
+    
+    .page--login .auth-layout__content {
+        max-width: 320px !important;
+        margin: 0 auto !important;
+    }
+    
+    .page--login .auth-layout__title {
+        font-size: 1.75rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .page--login .form__input {
+        height: 48px !important;
+        padding: 8px 16px 8px 40px !important;
+        font-size: 14px !important;
+        max-width: 320px !important;
+        width: 100% !important;
+    }
+    
+    .page--login .form__group {
+        margin-bottom: 1.25rem !important;
+    }
+    
+    .page--login .form__group--options {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin: 1.25rem 0 !important;
+        max-width: 320px !important;
+        width: 100% !important;
+        gap: 0.25rem !important;
+    }
+    
+    .page--login .form__checkbox {
+        flex: 0 0 auto !important;
+        max-width: 120px !important;
+    }
+    
+    .page--login .form__link {
+        flex: 0 0 auto !important;
+        font-size: 12px !important;
+        white-space: nowrap !important;
+        text-align: right !important;
+        max-width: 140px !important;
+    }
+    
+    .page--login .btn--primary {
+        height: 48px !important;
+        font-size: 14px !important;
+        margin-top: 1.5rem !important;
+        max-width: 320px !important;
+        width: 100% !important;
+    }
+    
+    .page--login .form__group--register {
+        margin-top: 1.5rem !important;
+        font-size: 13px !important;
+    }
+
+    /* Success page adjustments for laptop screens */
+    .page--auth.page--reset-success .auth-layout__form {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 2.5rem 1.5rem !important;
+        background: #ffffff !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+    
+    .page--auth.page--reset-success .auth-layout__content {
+        max-width: 320px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    
+    .page--auth .success-icon {
+        justify-content: center !important;
+        margin-bottom: 2rem !important;
+        max-width: 320px !important;
+        width: 100% !important;
+    }
+    
+    .page--auth .success-icon img {
+        max-width: 64px !important;
+        height: 64px !important;
+        object-fit: contain !important;
+    }
+    
+    .page--auth .success-title {
+        text-align: center !important;
+        margin-bottom: 3rem !important;
+        font-size: 1.75rem !important;
+        max-width: 320px !important;
+        width: 100% !important;
+        line-height: 1.2 !important;
+    }
+    
+    .page--reset-success .btn--primary {
+        height: 48px !important;
+        font-size: 14px !important;
+        border-radius: 12px !important;
+        max-width: 320px !important;
+        width: 100% !important;
+        margin-top: 0px !important;
+    }
+}
+
+/* Specific fix for exactly 1440px screens - Force laptop styles */
+@media (max-width: 1440px) and (min-width: 1440px) {
+    .page--login .form__group--options {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin: 1.25rem 0 !important;
+        max-width: 350px !important;
+        width: 100% !important;
+        gap: 1rem !important;
+    }
+    
+    .page--login .form__checkbox {
+        flex: 1 !important;
+        max-width: 150px !important;
+    }
+    
+    .page--login .form__link {
+        flex: 1 !important;
+        font-size: 13px !important;
+        white-space: nowrap !important;
+        text-align: right !important;
+        max-width: 150px !important;
+    }
+    
+    .page--login .auth-layout__content {
+        max-width: 350px !important;
+        margin: 0 auto !important;
+    }
+    
+    .page--login .form__input {
+        height: 48px !important;
+        padding: 8px 16px 8px 45px !important;
+        font-size: 14px !important;
+    }
+    
+    .page--login .auth-layout__title {
+        font-size: 1.875rem !important;
+        margin-bottom: 1.5rem !important;
     }
 }
 

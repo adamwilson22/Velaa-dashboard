@@ -248,3 +248,4 @@ This project demonstrates modern web development practices and can serve as a fo
 This project is open-source and available for educational and commercial use. Feel free to modify and distribute according to your needs.
 
 
+
