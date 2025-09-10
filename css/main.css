@@ -190,6 +190,8 @@ button {
 
 .page--auth {
     background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-gray-darker) 100%);
+    height: 100vh;
+    overflow: hidden;
 }
 
 .page--dashboard {

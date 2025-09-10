@@ -35,11 +35,11 @@
         margin: 20px 20px 20px 0;
     }
 
-    .page--login .auth-layout__title {
+    .page--auth .auth-layout__title {
         font-size: 2rem;
     }
 
-    .page--login .auth-layout__footer {
+    .page--auth .auth-layout__footer {
         bottom: 15px;
         left: 20px;
         right: auto;
@@ -84,6 +84,8 @@
 
     .auth-layout {
         flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
     }
 
     /* Login page mobile layout */
@@ -91,12 +93,38 @@
         display: flex;
         flex-direction: column;
         grid-template-columns: none;
+        height: 100vh;
+        overflow: hidden;
     }
 
     .page--login .auth-layout__form {
         order: 1;
         padding: 1.5rem;
         min-height: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 1;
+    }
+
+    /* Non-login auth forms on mobile should be top-left aligned */
+    .page--auth:not(.page--login) .auth-layout__form {
+        order: 1;
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
+        min-height: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 1;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    /* Responsive adjustments for form spacing on mobile */
+    .page--auth:not(.page--login) .form {
+        min-height: 300px;
+    }
+
+    .page--auth:not(.page--login) .form__group:last-of-type {
+        margin-bottom: 2rem;
     }
 
     .page--login .auth-layout__branding {
@@ -107,12 +135,12 @@
         min-height: 300px;
     }
 
-    .page--login .auth-layout__title {
+    .page--auth .auth-layout__title {
         font-size: 1.875rem;
         margin-bottom: 1.5rem;
     }
 
-    .page--login .auth-layout__footer {
+    .page--auth .auth-layout__footer {
         position: fixed;
         bottom: 15px;
         right: auto;
@@ -125,6 +153,14 @@
 
     .auth-layout__content {
         max-width: 100%;
+    }
+
+    /* Responsive button styling for non-login auth pages */
+    .page--auth:not(.page--login) .btn--primary {
+        width: 100%;
+        max-width: 350px;
+        height: 56px;
+        font-size: 16px;
     }
 
     .grid--2,
@@ -205,46 +241,46 @@
         padding: 1rem;
     }
 
-    .page--login .auth-layout__title {
+    .page--auth .auth-layout__title {
         font-size: 1.5rem;
         margin-bottom: 1rem;
     }
 
-    .page--login .form__input {
+    .page--auth .form__input {
         height: 48px;
         font-size: 16px;
         padding: 0 16px 0 45px;
     }
 
-    .page--login .form__input-icon {
+    .page--auth .form__input-icon {
         left: 16px;
         width: 16px;
         height: 16px;
     }
 
-    .page--login .form__input-icon--phone {
+    .page--auth .form__input-icon--phone {
         background-image: url('../images/icons/phone.png');
         background-size: 16px 16px;
         filter: brightness(0) saturate(100%);
     }
 
-    .page--login .form__input-icon--lock {
+    .page--auth .form__input-icon--lock {
         background-image: url('../images/icons/lock.png');
         background-size: 16px 16px;
         filter: brightness(0) saturate(100%);
     }
 
-    .page--login .form__input-icon--eye {
+    .page--auth .form__input-icon--eye {
         background-image: url('../images/icons/eye.png');
         background-size: 16px 16px;
         filter: brightness(0) saturate(100%);
     }
 
-    .page--login .form__input-icon--right {
+    .page--auth .form__input-icon--right {
         right: 16px;
     }
 
-    .page--login .btn--primary {
+    .page--auth .btn--primary {
         height: 48px;
     }
 

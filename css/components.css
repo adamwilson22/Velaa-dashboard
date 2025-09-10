@@ -143,12 +143,12 @@
     transform: translateY(-1px);
 }
 
-.page--login .form__group--register {
+.page--auth .form__group--register {
     text-align: center;
     margin-bottom: 0;
 }
 
-.page--login .form__group--register p {
+.page--auth .form__group--register p {
     color: #999999;
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 14px;
@@ -156,7 +156,7 @@
     margin: 0;
 }
 
-.page--login .form__link--primary {
+.page--auth .form__link--primary {
     color: #333333;
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 14px;
@@ -164,7 +164,7 @@
     text-decoration: underline;
 }
 
-.page--login .form__link--primary:hover {
+.page--auth .form__link--primary:hover {
     color: #2a2a2a;
 }
 
@@ -189,7 +189,7 @@
     max-width: 400px;
 }
 
-.page--login .form__group {
+.page--auth .form__group {
     margin-bottom: 24px;
 }
 
@@ -266,27 +266,27 @@
     border-color: var(--color-primary);
 }
 
-.page--login .form__group--options {
+.page--auth .form__group--options {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 32px;
 }
 
-.page--login .form__checkbox {
+.page--auth .form__checkbox {
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
 }
 
-.page--login .form__checkbox-input {
+.page--auth .form__checkbox-input {
     width: 18px;
     height: 18px;
     accent-color: #333333;
 }
 
-.page--login .form__checkbox label {
+.page--auth .form__checkbox label {
     color: #333333;
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 14px;
@@ -294,7 +294,7 @@
     cursor: pointer;
 }
 
-.page--login .form__link {
+.page--auth .form__link {
     color: #333333;
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 14px;
@@ -302,7 +302,7 @@
     text-decoration: none;
 }
 
-.page--login .form__link:hover {
+.page--auth .form__link:hover {
     text-decoration: underline;
 }
 
@@ -3456,23 +3456,27 @@
 .auth-layout {
     display: flex;
     min-height: 100vh;
+    height: 100vh;
     background-color: #f8f9fa;
+    overflow: hidden;
 }
 
-/* Default split layout (kept for other auth screens) */
+/* Default split layout (50/50 for auth screens) */
 .auth-layout__form {
-    flex: 0 0 40%;
+    flex: 0 0 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 60px 40px;
     background-color: var(--color-white);
     position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .auth-layout__branding {
-    flex: 1;
-    background: #1a1a1a;
+    flex: 0 0 50%;
+    background: #212121;
     position: relative;
     overflow: hidden;
 }
@@ -3480,7 +3484,7 @@
 .auth-layout__image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
 }
 
@@ -3489,8 +3493,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: 100vh;
+    height: 100vh;
     gap: 0;
     background: #ffffff;
+    overflow: hidden;
 }
 
 .page--login .auth-layout__form {
@@ -3500,6 +3506,30 @@
     padding: 2rem;
     background: #ffffff;
     order: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Auth forms for non-login pages (signup, otp, etc.) should be top-left aligned */
+.page--auth:not(.page--login) .auth-layout__form {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 5rem 2rem 5rem 2rem;
+    background: #ffffff;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Specific styling for reset-success page - higher specificity to override general rule */
+.page--auth.page--reset-success .auth-layout__form {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 10rem 10rem 5rem 15rem;
+    background: #ffffff;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .page--login .auth-layout__title {
@@ -3519,10 +3549,41 @@
     padding: 40px 0;
 }
 
+/* Content styling for non-login auth pages */
+.page--auth:not(.page--login) .auth-layout__content {
+    width: 100%;
+    max-width: 400px;
+    margin: 0px 0px 0px 32px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* Ensure form content has proper spacing and button is pushed to bottom */
+.page--auth:not(.page--login) .form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+    min-height: 400px;
+}
+
+/* Group form fields together at the top */
+.page--auth:not(.page--login) .form__fields {
+    flex: 0 0 auto;
+}
+
+/* Push button to bottom */
+.page--auth:not(.page--login) .form__button-wrapper {
+    flex: 0 0 auto;
+    margin-top: auto;
+}
+
 
 .page--login .auth-layout__branding {
     position: relative;
-    background: #1a1a1a;
+    background: #212121;
     border-radius: 16px;
     margin: 40px 40px 40px 0;
     overflow: hidden;
@@ -3532,12 +3593,12 @@
 .page--login .auth-layout__image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
 }
 
-/* Form styling */
-.page--login .form__label {
+/* Form styling for all auth pages */
+.page--auth .form__label {
     color: #111111;
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 500;
@@ -3550,11 +3611,11 @@
     transition: all 0.2s ease;
 }
 
-.page--login .form__label:hover {
+.page--auth .form__label:hover {
     color: #333333;
 }
 
-.page--login .form__input {
+.page--auth .form__input {
     border: 2px solid #333333;
     border-radius: 16px;
     height: 56px;
@@ -3570,13 +3631,13 @@
     vertical-align: top;
 }
 
-.page--login .form__input:focus {
+.page--auth .form__input:focus {
     outline: none;
     border-color: #22c55e;
     box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
 }
 
-.page--login .form__input::placeholder {
+.page--auth .form__input::placeholder {
     color: #999999;
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 16px;
@@ -3585,11 +3646,11 @@
     transition: opacity 0.2s ease;
 }
 
-.page--login .form__input:focus::placeholder {
+.page--auth .form__input:focus::placeholder {
     opacity: 0.7;
 }
 
-.page--login .form__input:not(:placeholder-shown)::placeholder {
+.page--auth .form__input:not(:placeholder-shown)::placeholder {
     opacity: 0;
 }
 
@@ -3611,36 +3672,36 @@
 /* Smooth transitions for all input interactions */
 .page--login .form__input,
 .page--login .form__label,
-.page--login .form__input-icon {
+.page--auth .form__input-icon {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Form validation states */
-.page--login .form__input:valid {
+.page--auth .form__input:valid {
     border-color: #22c55e;
 }
 
-.page--login .form__input:invalid:not(:placeholder-shown) {
+.page--auth .form__input:invalid:not(:placeholder-shown) {
     border-color: #ef4444;
 }
 
-.page--login .form__input:invalid:not(:placeholder-shown):focus {
+.page--auth .form__input:invalid:not(:placeholder-shown):focus {
     border-color: #ef4444;
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 /* Enhanced icon hover states */
-.page--login .form__input-icon--phone:hover,
-.page--login .form__input-icon--lock:hover {
-    filter: brightness(0) saturate(100%) opacity(0.7);
+.page--auth .form__input-icon--phone:hover,
+.page--auth .form__input-icon--lock:hover {
+    opacity: 0.7;
 }
 
-.page--login .form__input-wrapper {
+.page--auth .form__input-wrapper {
     position: relative;
     margin-bottom: 4px;
 }
 
-.page--login .form__input-icon {
+.page--auth .form__input-icon {
     position: absolute;
     left: 20px;
     top: 18px;
@@ -3651,113 +3712,120 @@
     justify-content: center;
 }
 
-.page--login .form__input-icon--right {
+.page--auth .form__input-icon--right {
     left: auto;
     right: 20px;
     top: 14px;
     cursor: pointer;
 }
 
-/* PNG Icons for Login */
-.page--login .form__input-icon--phone {
-    background-image: url('../images/icons/phone.png');
+/* SVG Icons for Login */
+.page--auth .form__input-icon--phone {
+    background-image: url('../images/icons/phone-auth.svg');
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-position: center;
-    filter: brightness(0) saturate(100%);
 }
 
-.page--login .form__input-icon--lock {
-    background-image: url('../images/icons/lock.png');
+.page--auth .form__input-icon--lock {
+    background-image: url('../images/icons/lock-auth.svg');
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-position: center;
-    filter: brightness(0) saturate(100%);
 }
 
-.page--login .form__input-icon--eye {
-    background-image: url('../images/icons/eye.png');
+.page--auth .form__input-icon--eye {
+    background-image: url('../images/icons/eye-auth.svg');
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-position: center;
-    filter: brightness(0) saturate(100%);
     cursor: pointer;
     transition: all 0.2s ease;
     border-radius: 4px;
     padding: 4px;
 }
 
-.page--login .form__input-icon--eye:hover {
+.page--auth .form__input-icon--eye:hover {
     background-color: rgba(0, 0, 0, 0.05);
-    filter: brightness(0) saturate(100%) opacity(0.8);
+    opacity: 0.8;
 }
 
-.page--login .form__input-icon--eye:active {
+.page--auth .form__input-icon--eye:active {
     transform: scale(0.95);
 }
 
-.page--login .form__input-icon--eye.hidden {
-    background-image: url('../images/icons/eye.png');
-    filter: brightness(0) saturate(100%);
-    transform: scaleX(-1);
+.page--auth .form__input-icon--eye.hidden {
+    background-image: url('../images/icons/eye-hidden-auth.svg');
     top: 14px;
 }
 
-.page--login .form__input-icon--eye.hidden:hover {
+.page--auth .form__input-icon--eye.hidden:hover {
     background-color: rgba(0, 0, 0, 0.05);
-    filter: brightness(0) saturate(100%) opacity(0.8);
-    transform: scaleX(-1);
+    opacity: 0.8;
     top: 14px;
 }
 
-.page--login .form__input-icon--eye.hidden:active {
-    transform: scaleX(-1) scale(0.95);
+.page--auth .form__input-icon--eye.hidden:active {
+    transform: scale(0.95);
     top: 14px;
 }
 
-.page--login .form__input-icon--warehouse {
-    background-image: url('../images/icons/warehouse.png');
+.page--auth .form__input-icon--warehouse {
+    background-image: url('../images/icons/warehouse-auth.svg');
     background-size: 18px 18px;
     background-repeat: no-repeat;
     background-position: center;
-    filter: brightness(0) saturate(100%);
 }
 
-.page--login .form__input-icon--user {
-    background-image: url('../images/icons/user.png');
+.page--auth .form__input-icon--user {
+    background-image: url('../images/icons/user-auth.svg');
     background-size: 18px 18px;
     background-repeat: no-repeat;
     background-position: center;
-    filter: brightness(0) saturate(100%);
 }
 
 /* OTP Inputs Layout */
-.page--login .otp-inputs {
+.page--auth .otp-inputs {
     display: flex;
     gap: 16px;
     justify-content: center;
     margin-bottom: 24px;
+    align-items: center;
 }
 
-.page--login .form__input--otp {
-    width: 60px;
-    height: 60px;
+.page--auth .form__input--otp {
+    width: 64px;
+    height: 64px;
     text-align: center;
     font-size: 24px;
     font-weight: 600;
-    border: 1px solid #e1e5e9;
-    border-radius: 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 16px;
     padding: 0;
+    background: #ffffff;
+    color: #333333;
+    transition: all 0.2s ease;
 }
 
-.page--login .form__input--otp:focus {
-    border-color: #374151;
+.page--auth .form__input--otp:focus {
+    border-color: #22c55e;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.1);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
 }
 
-.page--login .auth-layout__subtitle {
-    color: #6b7280;
+.page--auth .form__input--otp:not(:placeholder-shown),
+.page--auth .form__input--otp.has-value {
+    border-color: #22c55e;
+    background-color: #ffffff;
+}
+
+.page--auth .form__input--otp::placeholder {
+    color: #999999;
+    font-size: 20px;
+}
+
+.page--auth .auth-layout__subtitle {
+    color: #000000;
     font-size: 16px;
     margin-bottom: 40px;
     text-align: left;
@@ -3770,12 +3838,18 @@
     margin-bottom: 32px;
 }
 
+.success-icon img {
+    max-width: 80px;
+    height: auto;
+    object-fit: contain;
+}
+
 .success-title {
     text-align: center !important;
     margin-bottom: 40px !important;
 }
 
-.page--login .form__input:focus {
+.page--auth .form__input:focus {
     border-color: #374151;
     outline: none;
 }
@@ -3783,7 +3857,7 @@
 .page--login .btn--primary {
     width: 100%;
     height: 56px;
-    background: #4a5568;
+    background: #333333;
     border: none;
     border-radius: 12px;
     color: #ffffff;
@@ -3794,43 +3868,76 @@
     margin-bottom: 24px;
 }
 
+
 .page--login .btn--primary:hover {
     background: #2d3748;
 }
 
-.page--login .form__group {
+/* Button styles for non-login auth pages according to design specs */
+.page--auth:not(.page--login) .btn--primary {
+    width: 402px;
+    height: 102px;
+    background: #333333;
+    border: 2px solid #333333;
+    border-radius: 10px;
+    color: white;
+    font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    margin-bottom: 24px;
+}
+
+.page--auth:not(.page--login) .btn--primary:hover {
+    background: #2d3748;
+    border-color: #2d3748;
+}
+
+.page--auth .form__group {
     margin-bottom: 1.5rem;
 }
 
-.page--login .form__group--options {
+/* Add extra space between the last form field and button */
+.page--auth .form__group:last-of-type {
+    margin-bottom: 3rem;
+}
+
+/* Special spacing for auth pages where button should be at bottom */
+.page--auth:not(.page--login) .form__group:last-of-type {
+    margin-bottom: 4rem;
+}
+
+.page--auth .form__group--options {
     margin: 1.5rem 0;
 }
 
-.page--login .form__group--register {
+.page--auth .form__group--register {
     text-align: center;
     margin-top: 32px;
     margin-bottom: 0;
 }
 
-.page--login .form__group--register p {
+.page--auth .form__group--register p {
     color: #6b7280;
     font-size: 14px;
     margin: 0;
     line-height: 1.4;
 }
 
-.page--login .form__link--primary {
+.page--auth .form__link--primary {
     color: #374151;
     font-weight: 600;
     text-decoration: none;
     margin-left: 4px;
 }
 
-.page--login .form__link--primary:hover {
+.page--auth .form__link--primary:hover {
     text-decoration: underline;
 }
 
-.page--login .auth-layout__footer {
+.page--auth .auth-layout__footer {
     position: fixed;
     bottom: 20px;
     left: 40px;
@@ -3838,7 +3945,7 @@
     z-index: 10;
 }
 
-.page--login .auth-layout__footer p {
+.page--auth .auth-layout__footer p {
     color: #9ca3af;
     font-size: 12px;
     margin: 0;

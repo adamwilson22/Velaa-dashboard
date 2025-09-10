@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body class="page page--auth page--login">
+<body class="page page--auth page--otp">
     <div class="auth-layout">
         <!-- OTP Form Section -->
         <div class="auth-layout__form">
@@ -17,22 +17,26 @@
                 <p class="auth-layout__subtitle">Enter Otp code sent on your phone number</p>
 
                 <form class="form" action="create-password.html" method="post">
-                    <div class="form__group">
-                        <div class="otp-inputs">
-                            <input type="text" maxlength="1" class="form__input form__input--otp" required>
-                            <input type="text" maxlength="1" class="form__input form__input--otp" required>
-                            <input type="text" maxlength="1" class="form__input form__input--otp" required>
-                            <input type="text" maxlength="1" class="form__input form__input--otp" required>
+                    <div class="form__fields">
+                        <div class="form__group">
+                            <div class="otp-inputs">
+                                <input type="text" maxlength="1" class="form__input form__input--otp" required>
+                                <input type="text" maxlength="1" class="form__input form__input--otp" required>
+                                <input type="text" maxlength="1" class="form__input form__input--otp" required>
+                                <input type="text" maxlength="1" class="form__input form__input--otp" required>
+                            </div>
+                        </div>
+
+                        <div class="form__group" style="text-align: left; margin-bottom: 2rem;">
+                            <a href="#" class="form__link" id="resendLink">Resend codes</a>
                         </div>
                     </div>
 
-                    <div class="form__group" style="text-align: left; margin-bottom: 2rem;">
-                        <a href="#" class="form__link" onclick="resendCode()">Resend codes</a>
+                    <div class="form__button-wrapper">
+                        <button type="submit" class="btn btn--primary btn--full">
+                            Verify
+                        </button>
                     </div>
-
-                    <button type="submit" class="btn btn--primary btn--full">
-                        Verify
-                    </button>
                 </form>
 
                 <div class="auth-layout__footer">
@@ -51,52 +55,65 @@
     <script>
         // OTP input focus management
         const otpInputs = document.querySelectorAll('.form__input--otp');
-        const resendBtn = document.getElementById('resendBtn');
-        const countdownEl = document.getElementById('countdown');
+        const resendLink = document.getElementById('resendLink');
         let countdown = 30;
 
         otpInputs.forEach((input, index) => {
             input.addEventListener('input', (e) => {
-                if (e.target.value.length === 1 && index < otpInputs.length - 1) {
-                    otpInputs[index + 1].focus();
+                // Add visual feedback for filled inputs
+                if (e.target.value.length === 1) {
+                    e.target.classList.add('has-value');
+                    if (index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                } else {
+                    e.target.classList.remove('has-value');
                 }
             });
 
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Backspace' && !e.target.value && index > 0) {
                     otpInputs[index - 1].focus();
+                    otpInputs[index - 1].classList.remove('has-value');
+                }
+            });
+
+            // Add focus and blur event listeners for better UX
+            input.addEventListener('focus', (e) => {
+                e.target.style.borderColor = '#22c55e';
+                e.target.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.1)';
+            });
+
+            input.addEventListener('blur', (e) => {
+                if (!e.target.value) {
+                    e.target.style.borderColor = '#e1e5e9';
+                    e.target.style.boxShadow = 'none';
                 }
             });
         });
 
-        // Countdown timer for resend
-        const countdownInterval = setInterval(() => {
-            countdown--;
-            countdownEl.textContent = countdown;
-
-            if (countdown <= 0) {
-                clearInterval(countdownInterval);
-                resendBtn.disabled = false;
-                resendBtn.textContent = 'Resend Code';
-                countdownEl.parentElement.style.display = 'none';
-            }
-        }, 1000);
-
-        // Resend button click
-        resendBtn.addEventListener('click', () => {
-            countdown = 30;
-            resendBtn.disabled = true;
-            resendBtn.textContent = 'Sending...';
-            countdownEl.textContent = countdown;
-            countdownEl.parentElement.style.display = 'block';
+        // Resend codes functionality
+        function resendCode() {
+            // Disable the link temporarily
+            resendLink.style.pointerEvents = 'none';
+            resendLink.style.opacity = '0.5';
+            resendLink.textContent = 'Sending...';
 
             // Simulate API call
             setTimeout(() => {
-                resendBtn.textContent = 'Code Sent!';
+                resendLink.textContent = 'Code sent!';
                 setTimeout(() => {
-                    resendBtn.disabled = true;
+                    resendLink.textContent = 'Resend codes';
+                    resendLink.style.pointerEvents = 'auto';
+                    resendLink.style.opacity = '1';
                 }, 2000);
             }, 1000);
+        }
+
+        // Add click event to resend link
+        resendLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            resendCode();
         });
     </script>
 </body>
