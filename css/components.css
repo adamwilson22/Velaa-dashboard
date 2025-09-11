@@ -24,30 +24,10 @@
 .phone-icon {
     width: 14px;
     height: 14px;
-    background-color: #666;
-    border-radius: 2px;
-    position: relative;
-}
-
-.phone-icon::before {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 3px;
-    right: 3px;
-    bottom: 2px;
-    border: 1px solid white;
-    border-radius: 2px;
-}
-
-.phone-icon::after {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    right: 4px;
-    height: 1px;
-    background-color: white;
+    background-image: url('../images/icons/phone-auth.svg');
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .textfield-input {
@@ -74,83 +54,30 @@
 .warehouse-icon {
     width: 14px;
     height: 14px;
-    background-color: #666;
-    border-radius: 2px;
-    position: relative;
-}
-
-.warehouse-icon::before {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    border: 1px solid white;
-    border-radius: 1px;
+    background-image: url('../images/icons/warehouse-auth.svg');
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /* User icon */
 .user-icon {
     width: 14px;
     height: 14px;
-    background-color: #666;
-    border-radius: 50%;
-    position: relative;
-}
-
-.user-icon::before {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 4px;
-    right: 4px;
-    height: 4px;
-    background-color: white;
-    border-radius: 50%;
-}
-
-.user-icon::after {
-    content: '';
-    position: absolute;
-    bottom: 2px;
-    left: 2px;
-    right: 2px;
-    height: 5px;
-    background-color: white;
-    border-radius: 0 0 50% 50%;
+    background-image: url('../images/icons/user-auth.svg');
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /* Lock icon for password field */
 .lock-icon {
     width: 14px;
     height: 14px;
-    background-color: #666;
-    border-radius: 2px;
-    position: relative;
-}
-
-.lock-icon::before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 3px;
-    right: 3px;
-    height: 6px;
-    border: 1px solid white;
-    border-radius: 1px;
-}
-
-.lock-icon::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 5px;
-    right: 5px;
-    height: 3px;
-    border: 1px solid #666;
-    border-bottom: none;
-    border-radius: 2px 2px 0 0;
+    background-image: url('../images/icons/lock-auth.svg');
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /* Password visibility toggle in new textfield */
@@ -161,7 +88,7 @@
     width: 20px;
     height: 20px;
     cursor: pointer;
-    background-image: url('../images/icons/eye-auth.svg');
+    background-image: url('../images/icons/eye.png');
     background-size: 20px 20px;
     background-repeat: no-repeat;
     background-position: center;
@@ -174,7 +101,8 @@
 }
 
 .textfield-container .password-toggle.hidden {
-    background-image: url('../images/icons/eye-hidden-auth.svg');
+    background-image: url('../images/icons/eye.png');
+    opacity: 0.4;
 }
 
 /* Alternative form classes for management pages */
