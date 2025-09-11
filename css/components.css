@@ -1,3 +1,215 @@
+/* ========== NEW TEXTFIELD STYLES ========== */
+.textfield-container {
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    max-width: 451px;
+    height: 69px;
+    background-color: white;
+    border: 2px solid #333333;
+    border-radius: 10px;
+    padding: 12px 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.textfield-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.phone-icon {
+    width: 14px;
+    height: 14px;
+    background-color: #666;
+    border-radius: 2px;
+    position: relative;
+}
+
+.phone-icon::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    right: 3px;
+    bottom: 2px;
+    border: 1px solid white;
+    border-radius: 2px;
+}
+
+.phone-icon::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    height: 1px;
+    background-color: white;
+}
+
+.textfield-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    padding: 0;
+    padding-left: 20px;
+    background: transparent;
+}
+
+.textfield-input::placeholder {
+    color: #999;
+}
+
+.textfield-container:focus-within {
+    border-color: #007aff;
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+}
+
+/* Warehouse icon */
+.warehouse-icon {
+    width: 14px;
+    height: 14px;
+    background-color: #666;
+    border-radius: 2px;
+    position: relative;
+}
+
+.warehouse-icon::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 1px solid white;
+    border-radius: 1px;
+}
+
+/* User icon */
+.user-icon {
+    width: 14px;
+    height: 14px;
+    background-color: #666;
+    border-radius: 50%;
+    position: relative;
+}
+
+.user-icon::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    right: 4px;
+    height: 4px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.user-icon::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    height: 5px;
+    background-color: white;
+    border-radius: 0 0 50% 50%;
+}
+
+/* Lock icon for password field */
+.lock-icon {
+    width: 14px;
+    height: 14px;
+    background-color: #666;
+    border-radius: 2px;
+    position: relative;
+}
+
+.lock-icon::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 3px;
+    right: 3px;
+    height: 6px;
+    border: 1px solid white;
+    border-radius: 1px;
+}
+
+.lock-icon::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    right: 5px;
+    height: 3px;
+    border: 1px solid #666;
+    border-bottom: none;
+    border-radius: 2px 2px 0 0;
+}
+
+/* Password visibility toggle in new textfield */
+.textfield-container .password-toggle {
+    position: absolute;
+    right: 16px;
+    top: 35px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-image: url('../images/icons/eye-auth.svg');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.textfield-container .password-toggle:hover {
+    opacity: 1;
+}
+
+.textfield-container .password-toggle.hidden {
+    background-image: url('../images/icons/eye-hidden-auth.svg');
+}
+
+/* Alternative form classes for management pages */
+.form-input {
+    width: 100%;
+    border: 2px solid #333333 !important;
+    border-radius: 10px !important;
+    height: 69px !important;
+    padding: 12px 16px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    font-size: 14px !important;
+    color: #333 !important;
+    background-color: white !important;
+    outline: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.form-input:focus {
+    border-color: #007aff !important;
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2) !important;
+}
+
+.form-input::placeholder {
+    color: #999 !important;
+}
+
+/* Form label styling for management pages */
+.form-label {
+    font-size: 12px !important;
+    color: #666 !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+    font-weight: 500 !important;
+}
+
 /* ========== CSS VARIABLES ========== */
 :root {
     /* Layout Variables */
@@ -60,6 +272,7 @@
 
 /* ========== BUTTONS ========== */
 
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -121,9 +334,9 @@
 }
 
 .page--login .btn--primary {
-    background-color: #333333;
+    background: #333333;
     border: none;
-    border-radius: 16px;
+    border-radius: 10px;
     height: 56px;
     width: 100%;
     color: #ffffff;
@@ -139,7 +352,7 @@
 }
 
 .page--login .btn--primary:hover {
-    background-color: #2a2a2a;
+    background: #2a2a2a;
     transform: translateY(-1px);
 }
 
@@ -3967,7 +4180,7 @@
     height: 56px;
     background: #333333;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     color: #ffffff;
     font-size: 16px;
     font-weight: 600;
@@ -3983,10 +4196,11 @@
 
 /* Button styles for non-login auth pages according to design specs */
 .page--auth:not(.page--login) .btn--primary {
-    width: 402px;
+    width: 100%;
+    max-width: 402px;
     height: 102px;
     background: #333333;
-    border: 2px solid #333333;
+    border: 2px #333333 solid;
     border-radius: 10px;
     color: white;
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -3996,6 +4210,9 @@
     transition: all 0.2s ease;
     box-sizing: border-box;
     margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .page--auth:not(.page--login) .btn--primary:hover {

@@ -18,33 +18,23 @@
 
                 <form class="form" action="dashboard.html" method="post">
                     <div class="form__group">
-                        <label class="form__label" for="phone">Phone number</label>
-                        <div class="form__input-wrapper">
-                            <span class="form__input-icon form__input-icon--phone"></span>
-                            <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                class="form__input"
-                                placeholder="Enter your phone number"
-                                required
-                            >
+                        <div class="textfield-container">
+                            <div class="textfield-label">
+                                <div class="phone-icon"></div>
+                                Phone number
+                            </div>
+                            <input type="tel" id="phone" name="phone" class="textfield-input" required>
                         </div>
                     </div>
 
                     <div class="form__group">
-                        <label class="form__label" for="password">Password</label>
-                        <div class="form__input-wrapper">
-                            <span class="form__input-icon form__input-icon--lock"></span>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                class="form__input form__input--password"
-                                placeholder="Password"
-                                required
-                            >
-                            <span class="form__input-icon form__input-icon--right form__input-icon--eye" id="togglePassword" role="button" tabindex="0" aria-label="Toggle password visibility"></span>
+                        <div class="textfield-container">
+                            <div class="textfield-label">
+                                <div class="lock-icon"></div>
+                                Password
+                            </div>
+                            <input type="password" id="password" name="password" class="textfield-input" required>
+                            <span class="password-toggle" id="togglePassword" role="button" tabindex="0" aria-label="Toggle password visibility"></span>
                         </div>
                     </div>
 
@@ -115,25 +105,32 @@
 
         // Enhanced placeholder behavior
         document.addEventListener('DOMContentLoaded', function() {
-            const inputs = document.querySelectorAll('.page--login .form__input');
+            const inputs = document.querySelectorAll('.page--login .textfield-input');
             
             inputs.forEach(input => {
                 // Handle input events for placeholder behavior
                 input.addEventListener('input', function() {
+                    const container = this.closest('.textfield-container');
                     if (this.value.length > 0) {
                         this.classList.add('has-value');
+                        if (container) container.classList.add('has-value');
                     } else {
                         this.classList.remove('has-value');
+                        if (container) container.classList.remove('has-value');
                     }
                 });
                 
                 // Handle focus events
                 input.addEventListener('focus', function() {
+                    const container = this.closest('.textfield-container');
                     this.classList.add('focused');
+                    if (container) container.classList.add('focused');
                 });
                 
                 input.addEventListener('blur', function() {
+                    const container = this.closest('.textfield-container');
                     this.classList.remove('focused');
+                    if (container) container.classList.remove('focused');
                 });
             });
         });
