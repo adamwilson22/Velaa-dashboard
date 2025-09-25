@@ -13,6 +13,7 @@ class FleetManager {
         this.setupThemeToggle();
         this.setupKeyboardNavigation();
         this.setupChart();
+        this.setupScrollIndicators();
     }
 
     // Mobile menu functionality
@@ -448,25 +449,103 @@ class FleetManager {
             this.updateChartData(brand);
         });
     }
+
+    // Scroll indicators functionality
+    setupScrollIndicators() {
+        this.updateScrollIndicators();
+        
+        // Update on resize
+        window.addEventListener('resize', FleetManager.debounce(() => {
+            this.updateScrollIndicators();
+        }, 250));
+        
+        // Update on scroll
+        window.addEventListener('scroll', FleetManager.throttle(() => {
+            this.updateScrollIndicators();
+        }, 100));
+    }
+
+    updateScrollIndicators() {
+        // Check vehicle table scroll
+        const vehicleTableScroll = document.querySelector('.vehicle-table-scroll');
+        if (vehicleTableScroll) {
+            const isScrollable = vehicleTableScroll.scrollWidth > vehicleTableScroll.clientWidth;
+            vehicleTableScroll.setAttribute('data-scrollable', isScrollable);
+        }
+
+        // Check vehicle controls scroll
+        const vehicleControls = document.querySelector('.vehicle-controls');
+        if (vehicleControls) {
+            const isScrollable = vehicleControls.scrollWidth > vehicleControls.clientWidth;
+            vehicleControls.setAttribute('data-scrollable', isScrollable);
+        }
+
+        // Check clients table scroll
+        const clientsTableScroll = document.querySelector('.clients-table-scroll');
+        if (clientsTableScroll) {
+            const isScrollable = clientsTableScroll.scrollWidth > clientsTableScroll.clientWidth;
+            clientsTableScroll.setAttribute('data-scrollable', isScrollable);
+        }
+
+        // Check clients controls scroll
+        const clientsControls = document.querySelector('.clients-controls');
+        if (clientsControls) {
+            const isScrollable = clientsControls.scrollWidth > clientsControls.clientWidth;
+            clientsControls.setAttribute('data-scrollable', isScrollable);
+        }
+
+        // Check billing table scroll
+        const billingTableScroll = document.querySelector('.billing-table-scroll');
+        if (billingTableScroll) {
+            const isScrollable = billingTableScroll.scrollWidth > billingTableScroll.clientWidth;
+            billingTableScroll.setAttribute('data-scrollable', isScrollable);
+        }
+    }
 }
 
 // Mobile Menu Toggle Functionality
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
-    const overlay = document.querySelector('.sidebar-overlay');
+    let overlay = document.querySelector('.sidebar-overlay');
+    
+    console.log('🎯 toggleSidebar called!');
+    console.log('📱 Sidebar element found:', !!sidebar);
     
     if (sidebar) {
-        sidebar.classList.toggle('sidebar--open');
+        const isOpen = sidebar.classList.contains('sidebar--open');
+        console.log('🔍 Sidebar currently open:', isOpen);
         
-        // Create overlay if it doesn't exist
-        if (!overlay && sidebar.classList.contains('sidebar--open')) {
-            const newOverlay = document.createElement('div');
-            newOverlay.className = 'sidebar-overlay';
-            newOverlay.onclick = closeSidebar;
-            document.body.appendChild(newOverlay);
-        } else if (overlay && !sidebar.classList.contains('sidebar--open')) {
-            overlay.remove();
+        if (isOpen) {
+            // Close sidebar
+            console.log('🔒 Closing sidebar');
+            sidebar.classList.remove('sidebar--open');
+            if (overlay) {
+                overlay.classList.remove('show');
+                setTimeout(() => overlay.remove(), 300);
+            }
+        } else {
+            // Open sidebar
+            console.log('🔓 Opening sidebar');
+            sidebar.classList.add('sidebar--open');
+            
+            // Create overlay if it doesn't exist
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                overlay.onclick = closeSidebar;
+                document.body.appendChild(overlay);
+                console.log('✅ Overlay created');
+            }
+            
+            // Show overlay with animation
+            requestAnimationFrame(() => {
+                overlay.classList.add('show');
+                console.log('✨ Overlay shown with animation');
+            });
         }
+        
+    } else {
+        console.error('❌ Sidebar element not found!');
     }
 }
 
@@ -479,7 +558,12 @@ function closeSidebar() {
     }
     
     if (overlay) {
-        overlay.remove();
+        overlay.classList.remove('show');
+        setTimeout(() => {
+            if (overlay.parentNode) {
+                overlay.remove();
+            }
+        }, 300);
     }
 }
 
@@ -495,28 +579,102 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Handle window resize
+// Professional Window Resize Handler
 window.addEventListener('resize', () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.querySelector('.sidebar-overlay');
     
-    if (window.innerWidth > 767 && sidebar) {
-        sidebar.classList.remove('sidebar--open');
+    // Close mobile sidebar when resizing to desktop
+    if (window.innerWidth >= 992) {
+        if (sidebar && sidebar.classList.contains('sidebar--open')) {
+            sidebar.classList.remove('sidebar--open');
+        }
         if (overlay) {
-            overlay.remove();
+            overlay.classList.remove('show');
+            setTimeout(() => {
+                if (overlay.parentNode) {
+                    overlay.remove();
+                }
+            }, 300);
         }
     }
 });
+
+// Professional Responsive Handler
+function handleResponsiveChanges() {
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    
+    console.log('📱 Responsive handler triggered, window width:', window.innerWidth);
+    console.log('🔍 Menu toggle found:', !!menuToggle);
+    
+    if (window.innerWidth >= 992) {
+        // Desktop mode
+        if (sidebar) {
+            sidebar.classList.remove('sidebar--open');
+            sidebar.style.transform = '';
+        }
+        if (menuToggle) {
+            menuToggle.style.display = 'none';
+            console.log('🖥️ Desktop mode: hiding menu toggle');
+        }
+    } else {
+        // Mobile/Tablet mode
+        if (menuToggle) {
+            menuToggle.style.display = 'flex';
+            console.log('📱 Mobile mode: showing menu toggle');
+        }
+    }
+}
+
+// Run on load and resize
+window.addEventListener('load', handleResponsiveChanges);
+window.addEventListener('resize', handleResponsiveChanges);
 
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.fleetManager = new FleetManager();
     
-    // Setup mobile menu toggle
-    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    // Professional Mobile Menu Toggle Setup
+    const menuToggle = document.querySelector('.mobile-menu-toggle') || document.getElementById('menuToggle');
     if (menuToggle) {
-        menuToggle.addEventListener('click', toggleSidebar);
+        console.log('✅ Mobile menu toggle found, attaching event listeners');
+        
+        // Universal click handler - works for both mouse and touch
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🔄 Menu toggle activated (click/touch)');
+            toggleSidebar();
+        });
+        
+        // Additional touch handler for better mobile support
+        menuToggle.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('👆 Touch end detected - triggering menu');
+            toggleSidebar();
+        });
+        
+        // Pointer events for modern browsers
+        if ('PointerEvent' in window) {
+            menuToggle.addEventListener('pointerdown', function(e) {
+                e.preventDefault();
+                console.log('🎯 Pointer down detected');
+                toggleSidebar();
+            });
+        }
+        
+        // Ensure visibility on mobile
+        if (window.innerWidth < 992) {
+            menuToggle.style.display = 'flex';
+        }
+    } else {
+        console.error('❌ Mobile menu toggle not found in DOM');
     }
+    
+    // Run responsive handler immediately
+    handleResponsiveChanges();
 });
 
 // Export for module usage
@@ -547,7 +705,7 @@ function openProfileDropdown() {
     if (dropdown && overlay) {
         dropdown.classList.add('show');
         overlay.classList.add('show');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        // Don't prevent scrolling - let the dropdown scroll internally
     }
 }
 
@@ -558,7 +716,7 @@ function closeProfileDropdown() {
     if (dropdown && overlay) {
         dropdown.classList.remove('show');
         overlay.classList.remove('show');
-        document.body.style.overflow = ''; // Restore scrolling
+        // No need to restore scrolling since we didn't disable it
     }
 }
 

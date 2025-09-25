@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,16 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
+
 <body class="page page--dashboard">
     <div class="dashboard-layout">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
-                <h1 class="sidebar__brand">Velaa</h1>
+                <div class="sidebar__header-top">
+                    <h1 class="sidebar__brand">Velaa</h1>
+                    <button class="sidebar__close" onclick="closeSidebar()">×</button>
+                </div>
                 <div class="sidebar__greeting">
                     <p class="sidebar__greeting-text">Good Evening</p>
                     <p class="sidebar__greeting-name">Mr : Managers name</p>
@@ -25,25 +30,29 @@
                     <li class="sidebar__nav-item">
                         <a href="dashboard.html" class="sidebar__nav-link">
                             <span class="nav-text">Dashboard</span>
-                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard 1.png" alt="Dashboard" class="nav-icon"></span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard 1.png" alt="Dashboard"
+                                    class="nav-icon"></span>
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicles.html" class="sidebar__nav-link">
                             <span class="nav-text">Vehicles</span>
-                            <span class="sidebar__nav-icon"><img src="images/icons/car (1).png" alt="Vehicles" class="nav-icon"></span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/car (1).png" alt="Vehicles"
+                                    class="nav-icon"></span>
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicle-billing.html" class="sidebar__nav-link">
-                            <span class="nav-text">Billing and finance</span>
-                            <span class="sidebar__nav-icon"><img src="images/icons/bag 1.png" alt="Billing" class="nav-icon"></span>
+                            <span class="nav-text">Billing</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/bag 1.png" alt="Billing"
+                                    class="nav-icon"></span>
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="clients.html" class="sidebar__nav-link sidebar__nav-link--active">
                             <span class="nav-text">Clients</span>
-                            <span class="sidebar__nav-icon"><img src="images/icons/customer 1.png" alt="Clients" class="nav-icon"></span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/customer 1.png" alt="Clients"
+                                    class="nav-icon"></span>
                         </a>
                     </li>
                     <li class="sidebar__nav-item">
@@ -80,8 +89,8 @@
                         <div class="header__profile-avatar">
                             <img src="images/avatar.png" alt="Owner" class="avatar-img">
                         </div>
-                        <span class="header__profile-name">Owner's name</span>
-                        
+
+
                         <!-- Profile Dropdown Menu -->
                         <div class="profile-dropdown" id="profileDropdown">
                             <div class="dropdown-section">
@@ -99,7 +108,7 @@
                                     <span class="dropdown-arrow">›</span>
                                 </div>
                             </div>
-                            
+
                             <div class="dropdown-section">
                                 <h3 class="dropdown-section-title">Support</h3>
                                 <div class="dropdown-menu-item">
@@ -119,7 +128,7 @@
                                     <span class="dropdown-arrow">›</span>
                                 </div>
                             </div>
-                            
+
                             <div class="dropdown-section">
                                 <h3 class="dropdown-section-title">Login</h3>
                                 <div class="dropdown-menu-item logout">
@@ -134,84 +143,174 @@
             <!-- Content -->
             <main class="dashboard-layout__content">
                 <div class="dashboard-container clients-container">
-                    <!-- Search Bar -->
-                    <div class="clients-search-container">
-                        <div class="search-bar">
-                            <input type="text" class="search-input" placeholder="Search client by name">
-                        </div>
-                    </div>
+
 
                     <!-- Clients Data Section -->
                     <div class="clients-data-section">
+                        <!-- Search Bar and Add Button -->
+                        <div class="clients-search-container">
+                            <div class="search-bar">
+                                <input type="text" class="search-input" placeholder="Search client by name">
+                            </div>
+                            <div class="add-client-btn" onclick="window.location.href='client-add.html'">
+                                <div class="btn-content">
+                                    <div class="btn-label">Add New Client</div>
+                                </div>
+                                <div class="btn-icon">↗</div>
+                            </div>
+                        </div>
+
                         <!-- Clients Table -->
                         <div class="clients-table-container">
                             <div class="clients-table-scroll">
                                 <div class="clients-table">
-                                    <div class="table-header">
-                                        <div class="table-cell">Client name</div>
-                                        <div class="table-cell">Phone number</div>
-                                        <div class="table-cell">Outstanding balance</div>
-                                        <div class="table-cell">Client type</div>
+                                    <div class="clients-table-header">
+                                        <div class="clients-cell clients-cell--name">Client name</div>
+                                        <div class="clients-cell clients-cell--phone">Phone number</div>
+                                        <div class="clients-cell clients-cell--balance">Outstanding balance</div>
+                                        <div class="clients-cell clients-cell--type">Client type</div>
+                                        <div class="clients-cell clients-cell--actions">Actions</div>
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Ryan Dynamite</div>
-                                        <div class="table-cell">0799 988 807</div>
-                                        <div class="table-cell">120,000.0 TZS</div>
-                                        <div class="table-cell">Individual</div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Ryan Dynamite</div>
+                                        <div class="clients-cell clients-cell--phone">0799 988 807</div>
+                                        <div class="clients-cell clients-cell--balance">120,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Ryan Dynamite</div>
-                                        <div class="table-cell">0799 988 807</div>
-                                        <div class="table-cell">120,000.0 TZS</div>
-                                        <div class="table-cell">Individual</div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Sarah Johnson</div>
+                                        <div class="clients-cell clients-cell--phone">0755 123 456</div>
+                                        <div class="clients-cell clients-cell--balance">85,500.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Corporate</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Ryan Dynamite</div>
-                                        <div class="table-cell">0799 988 807</div>
-                                        <div class="table-cell">120,000.0 TZS</div>
-                                        <div class="table-cell">Individual</div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Ahmed Hassan</div>
+                                        <div class="clients-cell clients-cell--phone">0788 456 789</div>
+                                        <div class="clients-cell clients-cell--balance">200,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Ryan Dynamite</div>
-                                        <div class="table-cell">0799 988 807</div>
-                                        <div class="table-cell">120,000.0 TZS</div>
-                                        <div class="table-cell">Individual</div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Maria Garcia</div>
+                                        <div class="clients-cell clients-cell--phone">0766 789 012</div>
+                                        <div class="clients-cell clients-cell--balance">45,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Ryan Dynamite</div>
-                                        <div class="table-cell">0799 988 807</div>
-                                        <div class="table-cell">120,000.0 TZS</div>
-                                        <div class="table-cell">Individual</div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Tech Solutions Ltd</div>
+                                        <div class="clients-cell clients-cell--phone">022 123 4567</div>
+                                        <div class="clients-cell clients-cell--balance">500,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Corporate</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Ryan Dynamite</div>
-                                        <div class="table-cell">0799 988 807</div>
-                                        <div class="table-cell">120,000.0 TZS</div>
-                                        <div class="table-cell">Individual</div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">John Smith</div>
+                                        <div class="clients-cell clients-cell--phone">0744 321 654</div>
+                                        <div class="clients-cell clients-cell--balance">75,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Ryan Dynamite</div>
-                                        <div class="table-cell">0799 988 807</div>
-                                        <div class="table-cell">120,000.0 TZS</div>
-                                        <div class="table-cell">Individual</div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Fatima Ali</div>
+                                        <div class="clients-cell clients-cell--phone">0777 555 888</div>
+                                        <div class="clients-cell clients-cell--balance">150,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
                                     </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Ryan Dynamite</div>
-                                        <div class="table-cell">0799 988 807</div>
-                                        <div class="table-cell">120,000.0 TZS</div>
-                                        <div class="table-cell">Individual</div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Global Motors Inc</div>
+                                        <div class="clients-cell clients-cell--phone">022 987 6543</div>
+                                        <div class="clients-cell clients-cell--balance">1,200,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Corporate</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">David Wilson</div>
+                                        <div class="clients-cell clients-cell--phone">0733 111 222</div>
+                                        <div class="clients-cell clients-cell--balance">90,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Aisha Mohamed</div>
+                                        <div class="clients-cell clients-cell--phone">0799 333 444</div>
+                                        <div class="clients-cell clients-cell--balance">60,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Logistics Pro Co</div>
+                                        <div class="clients-cell clients-cell--phone">022 555 7777</div>
+                                        <div class="clients-cell clients-cell--balance">800,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Corporate</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Michael Brown</div>
+                                        <div class="clients-cell clients-cell--phone">0766 999 000</div>
+                                        <div class="clients-cell clients-cell--balance">110,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Zainab Ibrahim</div>
+                                        <div class="clients-cell clients-cell--phone">0744 777 999</div>
+                                        <div class="clients-cell clients-cell--balance">40,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Fleet Management Ltd</div>
+                                        <div class="clients-cell clients-cell--phone">022 444 8888</div>
+                                        <div class="clients-cell clients-cell--balance">2,500,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Corporate</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="clients-table-row">
+                                        <div class="clients-cell clients-cell--name">Robert Taylor</div>
+                                        <div class="clients-cell clients-cell--phone">0788 222 333</div>
+                                        <div class="clients-cell clients-cell--balance">180,000.0 TZS</div>
+                                        <div class="clients-cell clients-cell--type">Individual</div>
+                                        <div class="clients-cell clients-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Add New Client KPI -->
-                        <div class="add-client-kpi" onclick="window.location.href='client-add.html'">
-                            <div class="kpi-content">
-                                <div class="kpi-label">Add new client</div>
-                            </div>
-                            <div class="kpi-icon">↗</div>
-                        </div>
+                        
                     </div>
                 </div>
             </main>
@@ -223,4 +322,5 @@
 
     <script src="js/scripts.js"></script>
 </body>
+
 </html>

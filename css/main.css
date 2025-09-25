@@ -7,6 +7,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
+@font-face {
+  font-family: sfprofonts;
+  src: url('./fonts/SFPRODISPLAYREGULAR.woff');
+  font-weight: normal;
+}
+
 :root {
     /* Colors */
     --color-white: #FFFFFF;
@@ -22,7 +28,7 @@
     --color-background-dark: var(--color-dark);
 
     /* Typography */
-    --font-family-primary: 'Roboto', sans-serif;
+    --font-family-primary: sfprofonts;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
     --font-size-base: 1rem;
@@ -195,7 +201,32 @@ button {
 }
 
 .page--dashboard {
-    background-color: var(--color-gray-light);
+    background-color: #fff;
+    /* overflow: hidden; */
+    height: 100vh;
+}
+
+/* Enable scrolling only for mobile and tablet */
+@media (max-width: 999px) {
+    .page--dashboard {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+    }
+}
+
+/* Fixed layout for laptop and larger screens - No scrolling */
+@media (min-width: 1000px) {
+    .page--dashboard {
+        /* overflow: hidden !important; */
+        height: 100vh;
+    }
+    
+    body.page--dashboard,
+    html {
+        /* overflow: hidden !important; */
+        height: 100vh;
+    }
 }
 
 /* Responsive Utilities */

@@ -13,7 +13,10 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
-                <h1 class="sidebar__brand">Velaa</h1>
+                <div class="sidebar__header-top">
+                    <h1 class="sidebar__brand">Velaa</h1>
+                    <button class="sidebar__close" onclick="closeSidebar()">×</button>
+                </div>
                 <div class="sidebar__greeting">
                     <p class="sidebar__greeting-text">Good Evening</p>
                     <p class="sidebar__greeting-name">Mr : Managers name</p>
@@ -36,7 +39,7 @@
                     </li>
                     <li class="sidebar__nav-item">
                         <a href="vehicle-billing.html" class="sidebar__nav-link sidebar__nav-link--active">
-                            <span class="nav-text">Billing and finance</span>
+                            <span class="nav-text">Billing</span>
                             <span class="sidebar__nav-icon"><img src="images/icons/bag 1.png" alt="Billing" class="nav-icon"></span>
                         </a>
                     </li>
@@ -80,7 +83,7 @@
                         <div class="header__profile-avatar">
                             <img src="images/avatar.png" alt="Owner" class="avatar-img">
                         </div>
-                        <span class="header__profile-name">Owner's name</span>
+                        
                         
                         <!-- Profile Dropdown Menu -->
                         <div class="profile-dropdown" id="profileDropdown">
@@ -145,171 +148,171 @@
                     <div class="billing-table-container">
                         <div class="billing-table-scroll">
                             <div class="billing-table">
-                                <div class="table-header">
-                                    <div class="table-cell">Chassis number</div>
-                                    <div class="table-cell">Customer name</div>
-                                    <div class="table-cell">Arrival date</div>
-                                    <div class="table-cell">Monthly fee</div>
-                                    <div class="table-cell">Outstanding balance</div>
-                                    <div class="table-cell">Actions</div>
+                                <div class="billing-table-header">
+                                    <div class="billing-cell billing-cell--chassis">Chassis number</div>
+                                    <div class="billing-cell billing-cell--customer">Customer name</div>
+                                    <div class="billing-cell billing-cell--date">Arrival date</div>
+                                    <div class="billing-cell billing-cell--fee">Monthly fee</div>
+                                    <div class="billing-cell billing-cell--balance">Outstanding balance</div>
+                                    <div class="billing-cell billing-cell--actions">Actions</div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell">GYWBR32E779056478</div>
-                                    <div class="table-cell">Ryan Dynamite</div>
-                                    <div class="table-cell">18 Sept 2025</div>
-                                    <div class="table-cell">10,000 TZS</div>
-                                    <div class="table-cell">120,000 TZS</div>
-                                    <div class="table-cell">
+                                <div class="billing-table-row">
+                                    <div class="billing-cell billing-cell--chassis">GYWBR32E779056478</div>
+                                    <div class="billing-cell billing-cell--customer">Ryan Dynamite</div>
+                                    <div class="billing-cell billing-cell--date">18 Sept 2025</div>
+                                    <div class="billing-cell billing-cell--fee">10,000 TZS</div>
+                                    <div class="billing-cell billing-cell--balance">120,000 TZS</div>
+                                    <div class="billing-cell billing-cell--actions">
                                         <button class="action-btn">⋮</button>
                                     </div>
                                 </div>

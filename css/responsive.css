@@ -1,23 +1,54 @@
 /* ========== RESPONSIVE DESIGN ========== */
 
 /* Laptop Styles - Optimized for 13" to 15" laptop screens */
+@media (max-width: 1599px) {
+  
+}
+
+@media (max-width: 1399px) {
+  
+  
+
+}
+
+/* Specific fix for laptop screens around 1400px width */
+@media (max-width: 1440px) and (min-width: 1300px) {
+    .sidebar__nav {
+        padding: 24px 40px;
+    }
+
+    .sidebar__header-top {
+        padding: 0 40px;
+    }
+
+    .sidebar__header {
+        padding: 35px 0;
+    }
+
+    /* Ensure proper spacing for the greeting section */
+    .sidebar__greeting {
+        padding: 0 40px;
+    }
+}
+
 @media (max-width: 1441px) and (min-width: 1025px) {
+
     /* Auth layout adjustments for laptops */
     .page--auth .auth-layout__form {
         padding: 2.5rem 1.5rem;
     }
-    
+
     .page--auth:not(.page--login) .auth-layout__content {
         max-width: 320px;
         margin: 0px 0px 0px 32px;
     }
-    
+
     .page--auth .auth-layout__title {
         font-size: 1.75rem;
         margin-bottom: 1.5rem;
         line-height: 1.2;
     }
-    
+
     .page--auth .form__input {
         height: 48px;
         padding: 8px 16px 18px 40px;
@@ -26,20 +57,20 @@
         max-width: 320px;
         width: 100%;
     }
-    
+
     .page--auth .form__input-wrapper {
         max-width: 320px;
         width: 100%;
     }
-    
+
     .page--auth .form__group {
         margin-bottom: 18px;
     }
-    
+
     .page--auth .form__group:last-of-type {
         margin-bottom: 24px;
     }
-    
+
     .page--auth .btn--primary {
         height: 48px;
         font-size: 14px;
@@ -47,30 +78,30 @@
         max-width: 320px;
         width: 100%;
     }
-    
+
     .page--auth .form__label {
         font-size: 13px;
         margin-bottom: 6px;
         font-weight: 500;
     }
-    
+
     .page--auth .form__input-icon {
         width: 16px;
         height: 16px;
         left: 14px;
         top: 16px;
     }
-    
+
     .page--auth .form__button-wrapper {
         margin-top: 0px;
         max-width: 320px;
         width: 100%;
     }
-    
+
     .page--auth .form__fields {
         margin-bottom: 0px;
     }
-    
+
     /* OTP page specific adjustments for laptop */
     .page--auth .auth-layout__subtitle {
         font-size: 14px;
@@ -79,7 +110,7 @@
         color: #666666;
         line-height: 1.4;
     }
-    
+
     .page--auth .otp-inputs {
         display: flex;
         gap: 12px;
@@ -88,7 +119,7 @@
         align-items: center;
         max-width: 320px;
     }
-    
+
     .page--auth .form__input--otp {
         width: 56px;
         height: 56px;
@@ -100,38 +131,38 @@
         padding: 0;
         flex: 0 0 56px;
     }
-    
+
     .page--auth .form__link {
         font-size: 13px;
         color: #666666;
         text-decoration: underline;
     }
-    
+
     /* Login page adjustments for laptop screens */
     .page--login .auth-layout__form {
         padding: 2rem;
     }
-    
+
     .page--login .auth-layout__content {
         max-width: 350px;
         margin: 0 auto;
     }
-    
+
     .page--login .auth-layout__title {
         font-size: 1.875rem;
         margin-bottom: 1.5rem;
     }
-    
+
     .page--login .form__input {
         height: 48px;
         padding: 8px 16px 8px 45px;
         font-size: 14px;
     }
-    
+
     .page--login .form__group {
         margin-bottom: 1.25rem;
     }
-    
+
     .page--login .form__group--options {
         display: flex;
         flex-direction: row;
@@ -142,12 +173,12 @@
         width: 100%;
         gap: 1rem;
     }
-    
+
     .page--login .form__checkbox {
         flex: 1;
         max-width: 150px;
     }
-    
+
     .page--login .form__link {
         flex: 1;
         font-size: 13px;
@@ -155,13 +186,13 @@
         text-align: right;
         max-width: 150px;
     }
-    
+
     .page--login .btn--primary {
         height: 48px;
         font-size: 14px;
         margin-top: 1.5rem;
     }
-    
+
     .page--login .form__group--register {
         margin-top: 1.5rem;
         font-size: 13px;
@@ -176,21 +207,16 @@
         --sidebar-width: 200px;
     }
 
-    .sidebar {
-        width: var(--sidebar-width);
-    }
-
+ 
     .dashboard-layout__main {
         margin-left: var(--sidebar-width);
     }
 
-    .dashboard-layout__content {
-        padding: var(--spacing-lg);
-    }
 }
 
 /* Tablet Styles */
 @media (max-width: 1024px) {
+
     /* Login page tablet adjustments */
     .page--login .auth-layout {
         grid-template-columns: 1fr 1fr;
@@ -207,6 +233,96 @@
 
     .page--auth .auth-layout__title {
         font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .page--auth .textfield-label {
+        font-size: 16px;
+    }
+
+    .page--auth .textfield-input {
+        font-size: 16px;
+    }
+
+    .page--auth .auth-layout__subtitle {
+        font-size: 16px;
+    }
+
+    .page--auth .form__link {
+        font-size: 16px;
+    }
+
+    .page--auth .form__group--register p {
+        font-size: 16px;
+    }
+
+    .page--auth .form__checkbox label {
+        font-size: 16px;
+    }
+
+    .page--auth .auth-layout__footer p {
+        font-size: 14px;
+    }
+
+    /* Ensure all auth page variations have consistent font sizes on tablet */
+    .page--auth.page--create-password .textfield-label,
+    .page--auth.page--recover-password .textfield-label,
+    .page--auth.page--reset-password .textfield-label,
+    .page--auth.page--reset-success .textfield-label {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .textfield-input,
+    .page--auth.page--recover-password .textfield-input,
+    .page--auth.page--reset-password .textfield-input,
+    .page--auth.page--reset-success .textfield-input {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .auth-layout__subtitle,
+    .page--auth.page--recover-password .auth-layout__subtitle,
+    .page--auth.page--reset-password .auth-layout__subtitle,
+    .page--auth.page--reset-success .auth-layout__subtitle {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .form__link,
+    .page--auth.page--recover-password .form__link,
+    .page--auth.page--reset-password .form__link,
+    .page--auth.page--reset-success .form__link {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .form__group--register p,
+    .page--auth.page--recover-password .form__group--register p,
+    .page--auth.page--reset-password .form__group--register p,
+    .page--auth.page--reset-success .form__group--register p {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .form__checkbox label,
+    .page--auth.page--recover-password .form__checkbox label,
+    .page--auth.page--reset-password .form__checkbox label,
+    .page--auth.page--reset-success .form__checkbox label {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .auth-layout__footer p,
+    .page--auth.page--recover-password .auth-layout__footer p,
+    .page--auth.page--reset-password .auth-layout__footer p,
+    .page--auth.page--reset-success .auth-layout__footer p {
+        font-size: 14px;
+    }
+
+    /* Override inline styles in reset-success page for consistent font sizing on tablet */
+    .page--auth.page--reset-success h1 {
+        font-size: 2rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .page--auth.page--reset-success .btn--primary {
+        font-size: 16px !important;
+        font-weight: 600 !important;
     }
 
     .page--auth .auth-layout__footer {
@@ -223,19 +339,36 @@
     }
 
     .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: var(--sidebar-width);
         transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
     }
 
     .sidebar--open {
         transform: translateX(0);
     }
 
+    .dashboard-layout {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
     .dashboard-layout__main {
         margin-left: 0;
+        width: 100%;
+        flex: 1;
     }
 
     .dashboard-layout__content {
-        padding: var(--spacing-md);
+        /* padding: var(--spacing-sm); */
+        width: 100%;
+        overflow-y: auto;
     }
 
     .header__menu-btn {
@@ -263,8 +396,9 @@
         display: flex;
         flex-direction: column;
         grid-template-columns: none;
-        height: 100vh;
+               height: 100%;
         overflow: hidden;
+        min-height: unset;
     }
 
     .page--login .auth-layout__form {
@@ -287,31 +421,57 @@
         align-items: flex-start;
         justify-content: flex-start;
     }
-
-    /* Responsive adjustments for form spacing on mobile */
-    .page--auth:not(.page--login) .form {
-        min-height: 300px;
-    }
-
-    .page--auth:not(.page--login) .form__group:last-of-type {
-        margin-bottom: 2rem;
-    }
-
     .page--login .auth-layout__branding {
         order: 2;
         margin: 0;
         border-radius: 0;
         height: 50vh;
         min-height: 300px;
+        display: block !important;
     }
 
-    .page--auth .auth-layout__title {
-        font-size: 1.875rem;
+    .page--auth:not(.page--login) .auth-layout__branding {
+        order: 2;
+        margin: 0;
+        border-radius: 0;
+        height: 40vh;
+        min-height: 250px;
+        display: block !important;
+    }
+
+
+
+.page--auth:not(.page--login) .form {}
+
+.page--auth .auth-layout__subtitle {
+    text-align: center;
+}
+
+    /* Responsive adjustments for form spacing on mobile */
+    .page--auth:not(.page--login) .form {
+        min-height: unset;
+        margin: 0 auto;
+    }
+
+    .page--auth:not(.page--login) .form__group:last-of-type {
+        margin-bottom: 2rem;
+    }
+
+    .page--auth .form__group {
         margin-bottom: 1.5rem;
     }
 
+
+    .page--auth .auth-layout__title {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        line-height: 1.2;
+    }
+
     .page--auth .auth-layout__footer {
-        position: fixed;
+    margin-top: 20px;
+        position: relative;
         bottom: 15px;
         right: auto;
         left: 50%;
@@ -324,13 +484,17 @@
     .auth-layout__content {
         max-width: 100%;
     }
-
+.page--auth {
+    height: auto;
+}
     /* Responsive button styling for non-login auth pages */
     .page--auth:not(.page--login) .btn--primary {
         width: 100%;
-        max-width: 350px;
+        max-width: 100%;
         height: 56px;
         font-size: 16px;
+        font-weight: 600;
+        min-height: 44px; /* Better touch target */
     }
 
     .grid--2,
@@ -414,12 +578,108 @@
     .page--auth .auth-layout__title {
         font-size: 1.5rem;
         margin-bottom: 1rem;
+        line-height: 1.2;
     }
 
     .page--auth .form__input {
         height: 48px;
         font-size: 16px;
-        padding: 0 16px 0 45px;
+        padding: 0 10px;
+    }
+
+    .page--auth .textfield-label {
+        font-size: 16px;
+    }
+
+    .page--auth .textfield-input {
+        font-size: 16px;
+    }
+
+    .page--auth .textfield-container {
+        min-height: 48px; /* Better touch target */
+        padding: 12px 16px;
+    }
+
+    .page--auth .auth-layout__subtitle {
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    .page--auth .form__link {
+        font-size: 16px;
+    }
+
+    .page--auth .form__group--register p {
+        font-size: 16px;
+    }
+
+    .page--auth .form__checkbox label {
+        font-size: 16px;
+    }
+
+    .page--auth .auth-layout__footer p {
+        font-size: 14px;
+    }
+
+    /* Ensure all auth page variations have consistent font sizes */
+    .page--auth.page--create-password .textfield-label,
+    .page--auth.page--recover-password .textfield-label,
+    .page--auth.page--reset-password .textfield-label,
+    .page--auth.page--reset-success .textfield-label {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .textfield-input,
+    .page--auth.page--recover-password .textfield-input,
+    .page--auth.page--reset-password .textfield-input,
+    .page--auth.page--reset-success .textfield-input {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .auth-layout__subtitle,
+    .page--auth.page--recover-password .auth-layout__subtitle,
+    .page--auth.page--reset-password .auth-layout__subtitle,
+    .page--auth.page--reset-success .auth-layout__subtitle {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .form__link,
+    .page--auth.page--recover-password .form__link,
+    .page--auth.page--reset-password .form__link,
+    .page--auth.page--reset-success .form__link {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .form__group--register p,
+    .page--auth.page--recover-password .form__group--register p,
+    .page--auth.page--reset-password .form__group--register p,
+    .page--auth.page--reset-success .form__group--register p {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .form__checkbox label,
+    .page--auth.page--recover-password .form__checkbox label,
+    .page--auth.page--reset-password .form__checkbox label,
+    .page--auth.page--reset-success .form__checkbox label {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .auth-layout__footer p,
+    .page--auth.page--recover-password .auth-layout__footer p,
+    .page--auth.page--reset-password .auth-layout__footer p,
+    .page--auth.page--reset-success .auth-layout__footer p {
+        font-size: 14px;
+    }
+
+    /* Override inline styles in reset-success page for consistent font sizing on mobile */
+    .page--auth.page--reset-success h1 {
+        font-size: 1.75rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .page--auth.page--reset-success .btn--primary {
+        font-size: 16px !important;
+        font-weight: 600 !important;
     }
 
     .page--auth .form__input-icon {
@@ -466,12 +726,13 @@
     .form__input--otp {
         width: 50px;
         height: 50px;
-        font-size: var(--font-size-lg);
+        font-size: 18px;
+        font-weight: 600;
     }
 
-    .header {
+    /* .header {
         padding: 0 var(--spacing-md);
-    }
+    } */
 
     .header__left {
         gap: var(--spacing-sm);
@@ -482,7 +743,7 @@
     }
 
     .dashboard-layout__content {
-        padding: var(--spacing-sm);
+        padding: 80px 12px 16px;
     }
 
     .card__header,
@@ -547,13 +808,104 @@
     }
 
     .auth-layout__title {
-        font-size: var(--font-size-xl);
+        font-size: 1.25rem;
+        line-height: 1.2;
+    }
+
+    .page--auth .textfield-label {
+        font-size: 14px;
+    }
+
+    .page--auth .textfield-input {
+        font-size: 16px;
+    }
+
+    .page--auth .auth-layout__subtitle {
+        font-size: 14px;
+    }
+
+    .page--auth .form__link {
+        font-size: 14px;
+    }
+
+    .page--auth .form__group--register p {
+        font-size: 14px;
+    }
+
+    .page--auth .form__checkbox label {
+        font-size: 14px;
+    }
+
+    .page--auth .auth-layout__footer p {
+        font-size: 12px;
+    }
+
+    /* Ensure all auth page variations have consistent font sizes on extra small mobile */
+    .page--auth.page--create-password .textfield-label,
+    .page--auth.page--recover-password .textfield-label,
+    .page--auth.page--reset-password .textfield-label,
+    .page--auth.page--reset-success .textfield-label {
+        font-size: 14px;
+    }
+
+    .page--auth.page--create-password .textfield-input,
+    .page--auth.page--recover-password .textfield-input,
+    .page--auth.page--reset-password .textfield-input,
+    .page--auth.page--reset-success .textfield-input {
+        font-size: 16px;
+    }
+
+    .page--auth.page--create-password .auth-layout__subtitle,
+    .page--auth.page--recover-password .auth-layout__subtitle,
+    .page--auth.page--reset-password .auth-layout__subtitle,
+    .page--auth.page--reset-success .auth-layout__subtitle {
+        font-size: 14px;
+    }
+
+    .page--auth.page--create-password .form__link,
+    .page--auth.page--recover-password .form__link,
+    .page--auth.page--reset-password .form__link,
+    .page--auth.page--reset-success .form__link {
+        font-size: 14px;
+    }
+
+    .page--auth.page--create-password .form__group--register p,
+    .page--auth.page--recover-password .form__group--register p,
+    .page--auth.page--reset-password .form__group--register p,
+    .page--auth.page--reset-success .form__group--register p {
+        font-size: 14px;
+    }
+
+    .page--auth.page--create-password .form__checkbox label,
+    .page--auth.page--recover-password .form__checkbox label,
+    .page--auth.page--reset-password .form__checkbox label,
+    .page--auth.page--reset-success .form__checkbox label {
+        font-size: 14px;
+    }
+
+    .page--auth.page--create-password .auth-layout__footer p,
+    .page--auth.page--recover-password .auth-layout__footer p,
+    .page--auth.page--reset-password .auth-layout__footer p,
+    .page--auth.page--reset-success .auth-layout__footer p {
+        font-size: 12px;
+    }
+
+    /* Override inline styles in reset-success page for consistent font sizing */
+    .page--auth.page--reset-success h1 {
+        font-size: 1.5rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .page--auth.page--reset-success .btn--primary {
+        font-size: 16px !important;
+        font-weight: 600 !important;
     }
 
     .form__input--otp {
         width: 45px;
         height: 45px;
-        font-size: var(--font-size-base);
+        font-size: 16px;
+        font-weight: 600;
     }
 
     .header__logo {
@@ -585,6 +937,7 @@
 
 /* Print Styles */
 @media print {
+
     .sidebar,
     .header,
     .btn,
@@ -744,4 +1097,3 @@
 .skip-link:focus {
     top: 6px;
 }
-
