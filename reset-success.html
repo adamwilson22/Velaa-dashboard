@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/api-components.css">
 </head>
 <body class="page page--auth page--login">
     <div class="auth-layout">
@@ -15,12 +16,13 @@
             <div class="auth-layout__content">
                 <div style="text-align: center; margin-bottom: 32px;">
                     <img src="images/success.png" alt="Success" width="80" height="80" style="display: block; margin: 0 auto 24px auto;">
-                    <h1 style="margin: 0; color: black; font-size: 40px; font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; word-wrap: break-word; text-align: center;">Success</h1>
+                    <h1 style="margin: 0; color: black; font-size: 40px; font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; word-wrap: break-word; text-align: center;">Registration Successful!</h1>
+                    <p style="margin-top: 16px; color: #666; font-size: 16px; font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, sans-serif;">Your account has been created successfully. You can now login with your credentials.</p>
                 </div>
 
                 <form class="form">
-                    <button type="button" class="btn btn--primary btn--full" onclick="window.location.href='index.html'">
-                        Proceed to login
+                    <button type="button" class="btn btn--primary btn--full" id="proceedToLoginBtn">
+                        Proceed to Login
                     </button>
                 </form>
 
@@ -36,6 +38,21 @@
         </div>
     </div>
 
+    <script src="js/navigation.js"></script>
     <script src="js/scripts.js"></script>
+    <script>
+        // Success Page Handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const proceedToLoginBtn = document.getElementById('proceedToLoginBtn');
+            
+            proceedToLoginBtn.addEventListener('click', function() {
+                if (window.navigationManager && typeof window.navigationManager.navigateTo === 'function') {
+                    window.navigationManager.navigateTo('index.html', 'Redirecting to login...');
+                } else {
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

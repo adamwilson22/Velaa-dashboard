@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/api-components.css">
 </head>
 <body class="page page--auth page--signup page--login">
     <div class="auth-layout">
@@ -15,7 +16,7 @@
             <div class="auth-layout__content">
                 <h1 class="auth-layout__title">Create your account</h1>
 
-                <form class="form" action="otp.html" method="post">
+                <form class="form" id="signupForm">
                     <div class="form__fields">
                         <div class="form__group">
                             <div class="textfield-container">
@@ -23,7 +24,8 @@
                                     <div class="warehouse-icon"></div>
                                     Warehouse name
                                 </div>
-                                <input type="text" id="warehouse" name="warehouse" class="textfield-input">
+                                <input type="text" id="warehouse" name="warehouse" class="textfield-input" required
+                                       placeholder="Enter warehouse name">
                             </div>
                         </div>
 
@@ -33,7 +35,8 @@
                                     <div class="user-icon"></div>
                                     Owner / Manager's name
                                 </div>
-                                <input type="text" id="owner" name="owner" class="textfield-input">
+                                <input type="text" id="owner" name="owner" class="textfield-input" required
+                                       placeholder="Enter your full name">
                             </div>
                         </div>
 
@@ -43,13 +46,14 @@
                                     <div class="phone-icon"></div>
                                     Phone number
                                 </div>
-                                <input type="tel" id="phone" name="phone" class="textfield-input">
+                                <input type="tel" id="phone" name="phone" class="textfield-input" required
+                                       placeholder="e.g., +255 22 1234567 or 0221234567">
                             </div>
                         </div>
                     </div>
 
                     <div class="form__button-wrapper">
-                        <button type="submit" class="btn btn--primary btn--full">
+                        <button type="submit" class="btn btn--primary btn--full" id="continueBtn">
                             Continue
                         </button>
                     </div>
@@ -67,7 +71,169 @@
         </div>
     </div>
 
+    <script src="js/api.js"></script>
+    <script src="js/navigation.js"></script>
     <script src="js/scripts.js"></script>
+    <script>
+        // Signup Form Handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signupForm');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            // Form validation
+            function validateForm() {
+                const warehouse = document.getElementById('warehouse').value.trim();
+                const owner = document.getElementById('owner').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                
+                if (!warehouse) {
+                    NotificationManager.error('Please enter warehouse name');
+                    document.getElementById('warehouse').focus();
+                    return false;
+                }
+                
+                if (!owner) {
+                    NotificationManager.error('Please enter owner/manager name');
+                    document.getElementById('owner').focus();
+                    return false;
+                }
+                
+                if (!phone) {
+                    NotificationManager.error('Please enter phone number');
+                    document.getElementById('phone').focus();
+                    return false;
+                }
+                
+                // Tanzania phone validation
+                if (!window.velaaAPI.validateTanzaniaPhone(phone)) {
+                    NotificationManager.error('Please enter a valid Tanzania phone number (e.g., +255 22 1234567)');
+                    document.getElementById('phone').focus();
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Handle form submission
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (!validateForm()) {
+                    return;
+                }
+                
+                // Get form data with formatted phone number
+                const rawPhone = document.getElementById('phone').value.trim();
+                const formattedPhone = window.velaaAPI.formatTanzaniaPhone(rawPhone);
+                
+                const formData = {
+                    warehouseName: document.getElementById('warehouse').value.trim(),
+                    ownerManagerName: document.getElementById('owner').value.trim(),
+                    phone: formattedPhone
+                };
+                
+                try {
+                    // Show loading state
+                    loadingManager.show('signup', 'Creating your account...');
+                    continueBtn.classList.add('btn--loading');
+                    
+                    // Disable form inputs
+                    const inputs = signupForm.querySelectorAll('input, button');
+                    inputs.forEach(input => {
+                        input.disabled = true;
+                        input.classList.add('form__input--loading');
+                    });
+                    
+                    // Make API call
+                    console.log('Sending registration data:', formData);
+                    const response = await window.velaaAPI.registerUser(formData);
+                    console.log('API Response:', response);
+                    
+                    if (response.success) {
+                        // Store phone number for next step
+                        sessionStorage.setItem('registrationPhone', formData.phone);
+                        sessionStorage.setItem('registrationData', JSON.stringify(formData));
+                        
+                        // Show success message
+                        NotificationManager.success('Account created successfully! OTP sent to your phone.');
+                        
+                        // Navigate to OTP page after short delay
+                        setTimeout(() => {
+                            console.log('Attempting navigation to OTP page...');
+                            console.log('NavigationManager available:', !!window.navigationManager);
+                            
+                            if (window.navigationManager && typeof window.navigationManager.navigateTo === 'function') {
+                                console.log('Using NavigationManager for smooth transition');
+                                window.navigationManager.navigateTo('otp.html', 'Proceeding to verification...');
+                            } else {
+                                console.log('Using fallback navigation');
+                                window.location.href = 'otp.html';
+                            }
+                        }, 1500);
+                    } else {
+                        throw new Error(response.message || 'Registration failed');
+                    }
+                    
+                } catch (error) {
+                    console.error('Signup error:', error);
+                    
+                    // Show error message
+                    if (error instanceof APIError) {
+                        NotificationManager.error(error.getUserMessage());
+                    } else {
+                        NotificationManager.error('Registration failed. Please try again.');
+                    }
+                    
+                    // Re-enable form
+                    const inputs = signupForm.querySelectorAll('input, button');
+                    inputs.forEach(input => {
+                        input.disabled = false;
+                        input.classList.remove('form__input--loading');
+                    });
+                    
+                } finally {
+                    // Hide loading state
+                    loadingManager.hide('signup');
+                    continueBtn.classList.remove('btn--loading');
+                }
+            });
+            
+            // Tanzania phone number formatting and validation
+            const phoneInput = document.getElementById('phone');
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value;
+                
+                // Allow user to type freely but show formatting hint
+                if (value && !value.startsWith('+') && !value.startsWith('0')) {
+                    // If user starts typing digits directly, show hint
+                    phoneInput.setAttribute('title', 'Format: +255 XX XXXXXXX or 0XX XXXXXXX');
+                }
+                
+                // Real-time validation feedback
+                if (value.length > 8) {
+                    const isValid = window.velaaAPI.validateTanzaniaPhone(value);
+                    if (isValid) {
+                        phoneInput.style.borderColor = '#22c55e';
+                        phoneInput.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.1)';
+                    } else {
+                        phoneInput.style.borderColor = '#ef4444';
+                        phoneInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+                    }
+                } else {
+                    phoneInput.style.borderColor = '';
+                    phoneInput.style.boxShadow = '';
+                }
+            });
+            
+            // Format on blur
+            phoneInput.addEventListener('blur', function(e) {
+                if (e.target.value) {
+                    const formatted = window.velaaAPI.formatTanzaniaPhone(e.target.value);
+                    e.target.value = formatted;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 

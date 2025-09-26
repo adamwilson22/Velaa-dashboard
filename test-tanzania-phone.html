@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanzania Phone Number Test - Velaa</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/api-components.css">
+    <style>
+        .test-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .test-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 1rem;
+        }
+        .test-result {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-family: monospace;
+        }
+        .test-result.valid {
+            background: #d1fae5;
+            border: 1px solid #22c55e;
+            color: #065f46;
+        }
+        .test-result.invalid {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #991b1b;
+        }
+        .examples {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .examples h3 {
+            margin-top: 0;
+            color: #1C1C1C;
+        }
+        .examples ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        .examples li {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🇹🇿 Tanzania Phone Number Validator</h1>
+        <p>Test the Tanzania phone number formatting and validation system for the Velaa Vehicle Management API.</p>
+        
+        <div class="examples">
+            <h3>Valid Tanzania Phone Number Formats:</h3>
+            <ul>
+                <li><strong>+255 22 1234567</strong> - Landline (Dar es Salaam)</li>
+                <li><strong>+255221234567</strong> - International without spaces</li>
+                <li><strong>0221234567</strong> - Local format with leading zero</li>
+                <li><strong>221234567</strong> - Without country code or zero</li>
+                <li><strong>+255 6X XXXXXXX</strong> - Mobile networks (6, 7, 8)</li>
+                <li><strong>+255 7X XXXXXXX</strong> - Mobile networks</li>
+                <li><strong>+255 8X XXXXXXX</strong> - Mobile networks</li>
+                <li><strong>+255 24 XXXXXX</strong> - Landlines (other areas)</li>
+            </ul>
+        </div>
+
+        <div>
+            <label for="phoneTest">Enter a Tanzania phone number to test:</label>
+            <input type="tel" id="phoneTest" class="test-input" 
+                   placeholder="Try: +255 22 1234567 or 0221234567">
+        </div>
+
+        <div id="testResult" class="test-result" style="display: none;">
+            <div><strong>Original:</strong> <span id="original"></span></div>
+            <div><strong>Formatted:</strong> <span id="formatted"></span></div>
+            <div><strong>Valid:</strong> <span id="isValid"></span></div>
+        </div>
+
+        <div>
+            <h3>Pre-filled Test Cases:</h3>
+            <button class="btn btn--primary" onclick="testPhone('+255 22 1234567')">+255 22 1234567 (Landline)</button>
+            <button class="btn btn--primary" onclick="testPhone('0221234567')">0221234567</button>
+            <button class="btn btn--primary" onclick="testPhone('221234567')">221234567</button>
+            <button class="btn btn--primary" onclick="testPhone('+255781234567')">+255781234567 (Mobile)</button>
+            <button class="btn btn--primary" onclick="testPhone('0781234567')">0781234567 (Mobile)</button>
+        </div>
+
+        <div style="margin-top: 2rem;">
+            <button class="btn btn--primary btn--full" onclick="window.location.href='signup.html'">
+                Go to Registration Page
+            </button>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        function testPhone(phone) {
+            const input = document.getElementById('phoneTest');
+            input.value = phone;
+            validatePhone();
+        }
+
+        function validatePhone() {
+            const input = document.getElementById('phoneTest');
+            const phone = input.value;
+            
+            if (!phone) {
+                document.getElementById('testResult').style.display = 'none';
+                return;
+            }
+
+            const formatted = window.velaaAPI.formatTanzaniaPhone(phone);
+            const isValid = window.velaaAPI.validateTanzaniaPhone(phone);
+            
+            const result = document.getElementById('testResult');
+            const original = document.getElementById('original');
+            const formattedEl = document.getElementById('formatted');
+            const validEl = document.getElementById('isValid');
+            
+            original.textContent = phone;
+            formattedEl.textContent = formatted;
+            validEl.textContent = isValid ? '✓ Yes' : '✗ No';
+            
+            result.className = isValid ? 'test-result valid' : 'test-result invalid';
+            result.style.display = 'block';
+            
+            // Update input styling
+            if (isValid) {
+                input.style.borderColor = '#22c55e';
+                input.style.backgroundColor = '#f0fdf4';
+            } else {
+                input.style.borderColor = '#ef4444';
+                input.style.backgroundColor = '#fef2f2';
+            }
+        }
+
+        // Real-time validation
+        document.getElementById('phoneTest').addEventListener('input', validatePhone);
+        
+        // Test default number on load
+        document.addEventListener('DOMContentLoaded', function() {
+            testPhone('+255 22 1234567');
+        });
+    </script>
+</body>
+</html>

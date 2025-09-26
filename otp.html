@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/api-components.css">
 </head>
 <body class="page page--auth page--otp">
     <div class="auth-layout">
@@ -14,26 +15,29 @@
         <div class="auth-layout__form">
             <div class="auth-layout__content">
                 <h1 class="auth-layout__title">Verify phone number</h1>
-                <p class="auth-layout__subtitle">Enter Otp code sent on your phone number</p>
+                <p class="auth-layout__subtitle" id="otpSubtitle">Enter OTP code sent on your phone number</p>
+                <p class="auth-layout__subtitle" style="font-size: 14px; color: #666; margin-top: 8px;" id="demoHint">💡 Demo mode: Use <strong>1234</strong> as OTP</p>
 
-                <form class="form" action="create-password.html" method="post">
+                <form class="form" id="otpForm">
                     <div class="form__fields">
                         <div class="form__group">
-                            <div class="otp-inputs">
-                                <input type="text" maxlength="1" class="form__input form__input--otp">
-                                <input type="text" maxlength="1" class="form__input form__input--otp">
-                                <input type="text" maxlength="1" class="form__input form__input--otp">
-                                <input type="text" maxlength="1" class="form__input form__input--otp">
+                            <div class="otp-inputs" id="otpInputs">
+                                <input type="text" maxlength="1" class="form__input form__input--otp" id="otp1" required>
+                                <input type="text" maxlength="1" class="form__input form__input--otp" id="otp2" required>
+                                <input type="text" maxlength="1" class="form__input form__input--otp" id="otp3" required>
+                                <input type="text" maxlength="1" class="form__input form__input--otp" id="otp4" required>
                             </div>
                         </div>
 
                         <div class="form__group" style="text-align: left; margin-bottom: 2rem;">
                             <a href="#" class="form__link" id="resendLink">Resend codes</a>
+                            <span id="resendTimer" style="margin-left: 10px; color: #666; display: none;"></span>
                         </div>
+
                     </div>
 
                     <div class="form__button-wrapper">
-                        <button type="submit" class="btn btn--primary btn--full">
+                        <button type="submit" class="btn btn--primary btn--full" id="verifyBtn">
                             Verify
                         </button>
                     </div>
@@ -51,69 +55,316 @@
         </div>
     </div>
 
+    <script src="js/api.js"></script>
+    <script src="js/navigation.js"></script>
     <script src="js/scripts.js"></script>
     <script>
-        // OTP input focus management
-        const otpInputs = document.querySelectorAll('.form__input--otp');
-        const resendLink = document.getElementById('resendLink');
-        let countdown = 30;
-
-        otpInputs.forEach((input, index) => {
-            input.addEventListener('input', (e) => {
-                // Add visual feedback for filled inputs
-                if (e.target.value.length === 1) {
-                    e.target.classList.add('has-value');
-                    if (index < otpInputs.length - 1) {
-                        otpInputs[index + 1].focus();
-                    }
+        // OTP Page Handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const otpForm = document.getElementById('otpForm');
+            const verifyBtn = document.getElementById('verifyBtn');
+            const resendLink = document.getElementById('resendLink');
+            const resendTimer = document.getElementById('resendTimer');
+            const otpSubtitle = document.getElementById('otpSubtitle');
+            const otpInputs = document.querySelectorAll('.form__input--otp');
+            
+            let resendCountdown = 30;
+            let resendTimerInterval;
+            let registrationPhone = '';
+            
+            // Check if user came from signup
+            function initializePage() {
+                registrationPhone = sessionStorage.getItem('registrationPhone');
+                const registrationData = sessionStorage.getItem('registrationData');
+                
+                if (!registrationPhone || !registrationData) {
+                    NotificationManager.error('Session expired. Please start registration again.');
+                    setTimeout(() => {
+                        window.navigationManager.navigateTo('signup.html', 'Redirecting to signup...');
+                    }, 2000);
+                    return false;
+                }
+                
+                // Update subtitle with masked Tanzania phone number
+                let maskedPhone;
+                if (registrationPhone.startsWith('+255')) {
+                    // Tanzania format: +255 XX XXX XXXX -> +255 XX *** XXXX
+                    maskedPhone = registrationPhone.replace(/(\+255)(\d{2})(\d{3})(\d{4})/, '$1 $2 *** $4');
                 } else {
-                    e.target.classList.remove('has-value');
+                    // Generic format
+                    maskedPhone = registrationPhone.replace(/(\+\d{1,3})(\d{2,3})(\d{3,4})(\d{3,4})/, '$1 $2 *** $4');
                 }
-            });
-
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && !e.target.value && index > 0) {
-                    otpInputs[index - 1].focus();
-                    otpInputs[index - 1].classList.remove('has-value');
+                otpSubtitle.textContent = `Enter OTP code sent to ${maskedPhone}`;
+                
+                // Start resend timer
+                startResendTimer();
+                
+                return true;
+            }
+            
+            // OTP input management
+            function setupOTPInputs() {
+                otpInputs.forEach((input, index) => {
+                    // Input event handler
+                    input.addEventListener('input', (e) => {
+                        let value = e.target.value.replace(/\D/g, ''); // Only allow digits
+                        e.target.value = value;
+                        
+                        if (value.length === 1) {
+                            e.target.classList.add('has-value');
+                            // Auto-focus next input
+                            if (index < otpInputs.length - 1) {
+                                otpInputs[index + 1].focus();
+                            }
+                            
+                            // Auto-submit when all fields are filled
+                            checkAutoSubmit();
+                        } else {
+                            e.target.classList.remove('has-value');
+                        }
+                    });
+                    
+                    // Keydown event handler
+                    input.addEventListener('keydown', (e) => {
+                        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                            otpInputs[index - 1].focus();
+                            otpInputs[index - 1].value = '';
+                            otpInputs[index - 1].classList.remove('has-value');
+                        }
+                        
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            submitOTP();
+                        }
+                    });
+                    
+                    // Focus and blur events for better UX
+                    input.addEventListener('focus', (e) => {
+                        e.target.style.borderColor = '#000000';
+                        e.target.style.boxShadow = '0 0 0 3px rgba(0, 0, 0, 0.1)';
+                    });
+                    
+                    input.addEventListener('blur', (e) => {
+                        if (!e.target.value) {
+                            e.target.style.borderColor = '#e1e5e9';
+                            e.target.style.boxShadow = 'none';
+                        }
+                    });
+                    
+                    // Paste event handler
+                    input.addEventListener('paste', (e) => {
+                        e.preventDefault();
+                        const pastedData = e.clipboardData.getData('text').replace(/\D/g, '');
+                        
+                        if (pastedData.length === 4) {
+                            otpInputs.forEach((inp, idx) => {
+                                if (pastedData[idx]) {
+                                    inp.value = pastedData[idx];
+                                    inp.classList.add('has-value');
+                                }
+                            });
+                            
+                            // Focus last input and check for auto-submit
+                            otpInputs[3].focus();
+                            checkAutoSubmit();
+                        }
+                    });
+                });
+            }
+            
+            // Check if all OTP fields are filled for auto-submit
+            function checkAutoSubmit() {
+                const otpValues = Array.from(otpInputs).map(input => input.value);
+                if (otpValues.every(value => value.length === 1)) {
+                    setTimeout(() => submitOTP(), 500); // Small delay for better UX
                 }
-            });
-
-            // Add focus and blur event listeners for better UX
-            input.addEventListener('focus', (e) => {
-                e.target.style.borderColor = '#22c55e';
-                e.target.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.1)';
-            });
-
-            input.addEventListener('blur', (e) => {
-                if (!e.target.value) {
-                    e.target.style.borderColor = '#e1e5e9';
-                    e.target.style.boxShadow = 'none';
+            }
+            
+            // Get complete OTP
+            function getOTPValue() {
+                return Array.from(otpInputs).map(input => input.value).join('');
+            }
+            
+            // Validate OTP
+            function validateOTP() {
+                const otp = getOTPValue();
+                
+                if (otp.length !== 4) {
+                    NotificationManager.error('Please enter the complete 4-digit OTP');
+                    otpInputs[0].focus();
+                    return false;
                 }
+                
+                if (!/^\d{4}$/.test(otp)) {
+                    NotificationManager.error('OTP should contain only digits');
+                    otpInputs[0].focus();
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Submit OTP
+            async function submitOTP() {
+                if (!validateOTP()) {
+                    return;
+                }
+                
+                const otp = getOTPValue();
+                
+                try {
+                    // Show loading state
+                    loadingManager.show('otp', 'Verifying OTP...');
+                    verifyBtn.classList.add('btn--loading');
+                    
+                    // Disable form inputs
+                    const inputs = otpForm.querySelectorAll('input, button, a');
+                    inputs.forEach(input => {
+                        input.disabled = true;
+                        if (input.tagName === 'INPUT') {
+                            input.classList.add('form__input--loading');
+                        }
+                    });
+                    
+                    // Make API call
+                    const response = await window.velaaAPI.verifyOTP(registrationPhone, otp);
+                    
+                    if (response.success) {
+                        // Show success message
+                        NotificationManager.success('OTP verified successfully!');
+                        
+                        // Navigate to create password page
+                        setTimeout(() => {
+                            console.log('Attempting navigation to create password page...');
+                            console.log('NavigationManager available:', !!window.navigationManager);
+                            
+                            if (window.navigationManager && typeof window.navigationManager.navigateTo === 'function') {
+                                console.log('Using NavigationManager for smooth transition');
+                                window.navigationManager.navigateTo('create-password.html', 'Proceeding to password creation...');
+                            } else {
+                                console.log('Using fallback navigation');
+                                window.location.href = 'create-password.html';
+                            }
+                        }, 1500);
+                    } else {
+                        throw new Error(response.message || 'OTP verification failed');
+                    }
+                    
+                } catch (error) {
+                    console.error('OTP verification error:', error);
+                    
+                    // Show error message
+                    if (error instanceof APIError) {
+                        NotificationManager.error(error.getUserMessage());
+                    } else {
+                        NotificationManager.error('OTP verification failed. Please try again.');
+                    }
+                    
+                    // Clear OTP inputs
+                    otpInputs.forEach(input => {
+                        input.value = '';
+                        input.classList.remove('has-value');
+                    });
+                    otpInputs[0].focus();
+                    
+                    // Re-enable form
+                    const inputs = otpForm.querySelectorAll('input, button, a');
+                    inputs.forEach(input => {
+                        input.disabled = false;
+                        if (input.tagName === 'INPUT') {
+                            input.classList.remove('form__input--loading');
+                        }
+                    });
+                    
+                } finally {
+                    // Hide loading state
+                    loadingManager.hide('otp');
+                    verifyBtn.classList.remove('btn--loading');
+                }
+            }
+            
+            // Handle form submission
+            otpForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitOTP();
             });
-        });
-
-        // Resend codes functionality
-        function resendCode() {
-            // Disable the link temporarily
-            resendLink.style.pointerEvents = 'none';
-            resendLink.style.opacity = '0.5';
-            resendLink.textContent = 'Sending...';
-
-            // Simulate API call
-            setTimeout(() => {
-                resendLink.textContent = 'Code sent!';
-                setTimeout(() => {
+            
+            // Resend timer functionality
+            function startResendTimer() {
+                resendCountdown = 30;
+                resendLink.style.pointerEvents = 'none';
+                resendLink.style.opacity = '0.6';
+                resendTimer.style.display = 'inline';
+                
+                resendTimerInterval = setInterval(() => {
+                    resendTimer.textContent = `(${resendCountdown}s)`;
+                    resendCountdown--;
+                    
+                    if (resendCountdown < 0) {
+                        clearInterval(resendTimerInterval);
+                        resendLink.style.pointerEvents = 'auto';
+                        resendLink.style.opacity = '1';
+                        resendTimer.style.display = 'none';
+                    }
+                }, 1000);
+            }
+            
+            // Resend OTP functionality
+            async function resendOTP() {
+                try {
+                    // Show loading state
+                    loadingManager.show('resend', 'Resending OTP...');
+                    resendLink.textContent = 'Sending...';
+                    resendLink.style.pointerEvents = 'none';
+                    
+                    // Make API call
+                    const response = await window.velaaAPI.resendOTP(registrationPhone);
+                    
+                    if (response.success) {
+                        NotificationManager.success('OTP resent successfully!');
+                        
+                        // Clear current OTP inputs
+                        otpInputs.forEach(input => {
+                            input.value = '';
+                            input.classList.remove('has-value');
+                        });
+                        otpInputs[0].focus();
+                        
+                        // Restart timer
+                        resendLink.textContent = 'Resend codes';
+                        startResendTimer();
+                    } else {
+                        throw new Error(response.message || 'Failed to resend OTP');
+                    }
+                    
+                } catch (error) {
+                    console.error('Resend OTP error:', error);
+                    
+                    if (error instanceof APIError) {
+                        NotificationManager.error(error.getUserMessage());
+                    } else {
+                        NotificationManager.error('Failed to resend OTP. Please try again.');
+                    }
+                    
                     resendLink.textContent = 'Resend codes';
                     resendLink.style.pointerEvents = 'auto';
-                    resendLink.style.opacity = '1';
-                }, 2000);
-            }, 1000);
-        }
-
-        // Add click event to resend link
-        resendLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            resendCode();
+                    
+                } finally {
+                    loadingManager.hide('resend');
+                }
+            }
+            
+            // Resend link click handler
+            resendLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                resendOTP();
+            });
+            
+            // Initialize page
+            if (initializePage()) {
+                setupOTPInputs();
+                otpInputs[0].focus(); // Focus first input
+            }
         });
     </script>
 </body>

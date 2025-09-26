@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Connection Test - Velaa</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/api-components.css">
+    <style>
+        .test-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .status-box {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+        .status-success {
+            background: #d1fae5;
+            border: 1px solid #22c55e;
+            color: #065f46;
+        }
+        .status-error {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #991b1b;
+        }
+        .status-warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+        }
+        .endpoint-test {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #6b7280;
+        }
+        .test-result {
+            font-family: monospace;
+            font-size: 14px;
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔌 API Connection Test</h1>
+        <p>Test the backend API connection for the Velaa Vehicle Management System.</p>
+        
+        <div id="connectionStatus" class="status-box status-warning">
+            ⏳ Testing API connection...
+        </div>
+
+        <div class="endpoint-test">
+            <h3>Backend API Status</h3>
+            <p><strong>Expected URL:</strong> http://localhost:5001/api</p>
+            <div id="apiResult" class="test-result">Testing...</div>
+        </div>
+
+        <div class="endpoint-test">
+            <h3>Registration Endpoint Test</h3>
+            <p><strong>Endpoint:</strong> POST /auth/register</p>
+            <button class="btn btn--primary" onclick="testRegistrationEndpoint()">Test Registration API</button>
+            <div id="regResult" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div style="margin-top: 2rem;">
+            <h3>🚀 Quick Actions:</h3>
+            <button class="btn btn--primary" onclick="window.location.href='signup.html'">Go to Signup</button>
+            <button class="btn btn--secondary" onclick="testConnection()">Retry Connection Test</button>
+        </div>
+
+        <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <h4>📋 Instructions:</h4>
+            <ol>
+                <li><strong>If API is not running:</strong> Start your backend server on port 5001</li>
+                <li><strong>If CORS error:</strong> Check backend CORS configuration</li>
+                <li><strong>If connection works:</strong> Your registration should work properly</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        async function testConnection() {
+            const statusEl = document.getElementById('connectionStatus');
+            const resultEl = document.getElementById('apiResult');
+            
+            statusEl.className = 'status-box status-warning';
+            statusEl.textContent = '⏳ Testing API connection...';
+            resultEl.textContent = 'Testing connection...';
+
+            try {
+                // Test basic connectivity
+                const response = await fetch('http://localhost:5001/api/health', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    statusEl.className = 'status-box status-success';
+                    statusEl.textContent = '✅ API server is running and accessible!';
+                    resultEl.textContent = `✅ Connected successfully!\nStatus: ${response.status}\nURL: ${response.url}`;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('API Connection Error:', error);
+                
+                if (error.message.includes('fetch')) {
+                    statusEl.className = 'status-box status-error';
+                    statusEl.textContent = '❌ Backend API server is not running';
+                    resultEl.textContent = `❌ Connection Failed!\nError: Cannot connect to http://localhost:5001\n\nPlease start your backend server on port 5001`;
+                } else {
+                    statusEl.className = 'status-box status-error';
+                    statusEl.textContent = '❌ API server error';
+                    resultEl.textContent = `❌ API Error!\nError: ${error.message}`;
+                }
+            }
+        }
+
+        async function testRegistrationEndpoint() {
+            const resultEl = document.getElementById('regResult');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Testing registration endpoint...';
+
+            try {
+                const testData = {
+                    ownerManagerName: "Test User",
+                    warehouseName: "Test Warehouse",
+                    phone: "+255221234567"
+                };
+
+                const response = await window.velaaAPI.registerUser(testData);
+                resultEl.textContent = `✅ Registration endpoint works!\nResponse: ${JSON.stringify(response, null, 2)}`;
+                resultEl.className = 'test-result';
+            } catch (error) {
+                console.error('Registration test error:', error);
+                resultEl.textContent = `❌ Registration endpoint failed!\nError: ${error.message}\nDetails: ${error.status ? `HTTP ${error.status}` : 'Connection error'}`;
+            }
+        }
+
+        // Auto-test on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(testConnection, 500);
+        });
+    </script>
+</body>
+</html>

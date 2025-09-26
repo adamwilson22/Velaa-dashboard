@@ -1,0 +1,910 @@
+{
+  "info": {
+    "name": "Velaa Vehicle Management API - Updated",
+    "description": "Complete API collection for Velaa Vehicle Management System with New Simplified Registration Flow",
+    "version": "2.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5001/api",
+      "type": "string",
+      "description": "Base URL for the API (updated to port 5001)"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string",
+      "description": "Authentication JWT token"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string",
+      "description": "User ID for authenticated requests"
+    },
+    {
+      "key": "testPhone",
+      "value": "+255221234567",
+      "type": "string",
+      "description": "Test Tanzania phone number for registration"
+    },
+    {
+      "key": "testOTP",
+      "value": "1234",
+      "type": "string",
+      "description": "Development OTP (always 1234)"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "description": "All authentication related endpoints",
+      "item": [
+        {
+          "name": "📝 Registration Flow (New)",
+          "description": "New simplified 3-step registration process: Register → Verify OTP → Create Password",
+          "item": [
+            {
+              "name": "Step 1: Register User",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Test for successful registration",
+                      "pm.test('Status code is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "pm.test('Response has required fields', function () {",
+                      "    const response = pm.response.json();",
+                      "    pm.expect(response).to.have.property('success', true);",
+                      "    pm.expect(response.data).to.have.property('userId');",
+                      "    pm.expect(response.data).to.have.property('phone');",
+                      "    pm.expect(response.data).to.have.property('otpSent', true);",
+                      "    pm.expect(response.data).to.have.property('nextStep', 'verify-otp');",
+                      "    ",
+                      "    // Store userId for next requests",
+                      "    if (response.data.userId) {",
+                      "        pm.collectionVariables.set('userId', response.data.userId);",
+                      "    }",
+                      "});",
+                      "",
+                      "pm.test('Phone number matches', function () {",
+                      "    const response = pm.response.json();",
+                      "    pm.expect(response.data.phone).to.eql(pm.collectionVariables.get('testPhone'));",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ownerManagerName\": \"John Doe\",\n  \"warehouseName\": \"Main Warehouse\",\n  \"phone\": \"{{testPhone}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/register",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "register"]
+                },
+                "description": "Step 1: Register with basic info only (ownerManagerName, warehouseName, phone)"
+              }
+            },
+            {
+              "name": "Step 2: Verify OTP",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Test for successful OTP verification",
+                      "pm.test('Status code is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('OTP verified successfully', function () {",
+                      "    const response = pm.response.json();",
+                      "    pm.expect(response).to.have.property('success', true);",
+                      "    pm.expect(response.data).to.have.property('user');",
+                      "    pm.expect(response.data.user).to.have.property('status', 'otp-verified');",
+                      "    pm.expect(response.data.user).to.have.property('isOtpVerified', true);",
+                      "    pm.expect(response.data).to.have.property('nextStep', 'create-password');",
+                      "});",
+                      "",
+                      "pm.test('User has correct verification status', function () {",
+                      "    const response = pm.response.json();",
+                      "    const user = response.data.user;",
+                      "    pm.expect(user).to.have.property('isPhoneVerified', true);",
+                      "    pm.expect(user).to.have.property('isOtpVerified', true);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone\": \"{{testPhone}}\",\n  \"otp\": \"{{testOTP}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/verify-otp",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "verify-otp"]
+                },
+                "description": "Step 2: Verify OTP sent to phone number (uses dummy OTP: 1234)"
+              }
+            },
+            {
+              "name": "Step 3: Complete Registration",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Test for successful registration completion",
+                      "pm.test('Status code is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('Registration completed successfully', function () {",
+                      "    const response = pm.response.json();",
+                      "    pm.expect(response).to.have.property('success', true);",
+                      "    pm.expect(response.data).to.have.property('token');",
+                      "    pm.expect(response.data).to.have.property('user');",
+                      "    pm.expect(response.data.user).to.have.property('status', 'active');",
+                      "    pm.expect(response.data.user).to.have.property('isPhoneVerified', true);",
+                      "    pm.expect(response.data.user).to.have.property('isOtpVerified', true);",
+                      "    ",
+                      "    // Store auth token for authenticated requests",
+                      "    if (response.data.token) {",
+                      "        pm.collectionVariables.set('authToken', response.data.token);",
+                      "    }",
+                      "});",
+                      "",
+                      "pm.test('User has correct fields', function () {",
+                      "    const response = pm.response.json();",
+                      "    const user = response.data.user;",
+                      "    pm.expect(user).to.have.property('ownerManagerName', 'John Doe');",
+                      "    pm.expect(user).to.have.property('warehouseName', 'Main Warehouse');",
+                      "    pm.expect(user).to.have.property('phone', pm.collectionVariables.get('testPhone'));",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone\": \"{{testPhone}}\",\n  \"password\": \"SecurePass123!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/complete-registration",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "complete-registration"]
+                },
+                "description": "Step 3: Create password to complete registration (requires OTP to be verified first)"
+              }
+            }
+          ]
+        },
+        {
+          "name": "📝 Login & Authentication",
+          "item": [
+            {
+              "name": "Login User",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('Status code is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('Login successful', function () {",
+                      "    const response = pm.response.json();",
+                      "    pm.expect(response).to.have.property('success', true);",
+                      "    pm.expect(response.data).to.have.property('token');",
+                      "    pm.expect(response.data).to.have.property('user');",
+                      "    ",
+                      "    // Store auth token",
+                      "    if (response.data.token) {",
+                      "        pm.collectionVariables.set('authToken', response.data.token);",
+                      "    }",
+                      "    ",
+                      "    // Store user ID",
+                      "    if (response.data.user && response.data.user.id) {",
+                      "        pm.collectionVariables.set('userId', response.data.user.id);",
+                      "    }",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone\": \"{{testPhone}}\",\n  \"password\": \"SecurePass123!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "login"]
+                },
+                "description": "Login with phone and password"
+              }
+            },
+            {
+              "name": "Logout User",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/logout",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "logout"]
+                },
+                "description": "Logout current user"
+              }
+            }
+          ]
+        },
+        {
+          "name": "📝 Legacy & Other Auth",
+          "item": [
+            {
+              "name": "Verify OTP (Legacy)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone\": \"{{testPhone}}\",\n  \"otp\": \"{{testOTP}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/verify-otp",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "verify-otp"]
+                },
+                "description": "Legacy OTP verification endpoint"
+              }
+            },
+            {
+              "name": "Forgot Password",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone\": \"{{testPhone}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/forgot-password",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "forgot-password"]
+                },
+                "description": "Initiate password recovery"
+              }
+            },
+            {
+              "name": "Verify Recovery OTP",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone\": \"{{testPhone}}\",\n  \"otp\": \"{{testOTP}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/verify-recovery-otp",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "verify-recovery-otp"]
+                },
+                "description": "Verify recovery OTP"
+              }
+            },
+            {
+              "name": "Reset Password",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone\": \"{{testPhone}}\",\n  \"otp\": \"{{testOTP}}\",\n  \"newPassword\": \"NewSecurePass123!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/reset-password",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "reset-password"]
+                },
+                "description": "Reset password with OTP"
+              }
+            }
+          ]
+        },
+        {
+          "name": "👤 Profile Management",
+          "item": [
+            {
+              "name": "Get Profile",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/profile",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "profile"]
+                },
+                "description": "Get current user profile"
+              }
+            },
+            {
+              "name": "Update Profile",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ownerManagerName\": \"John Doe Updated\",\n  \"email\": \"john.updated@example.com\",\n  \"warehouseName\": \"Updated Warehouse\",\n  \"warehouseAddress\": {\n    \"street\": \"456 Updated Street\",\n    \"city\": \"Mumbai\",\n    \"state\": \"Maharashtra\",\n    \"zipCode\": \"400002\",\n    \"country\": \"India\"\n  },\n  \"warehouseCapacity\": 1000\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/profile",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "profile"]
+                },
+                "description": "Update user profile information"
+              }
+            },
+            {
+              "name": "Change Password",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currentPassword\": \"SecurePass123!\",\n  \"newPassword\": \"NewSecurePass123!\",\n  \"confirmPassword\": \"NewSecurePass123!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/change-password",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "change-password"]
+                },
+                "description": "Change user password"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "🚗 Vehicle Management",
+      "description": "All vehicle related endpoints",
+      "item": [
+        {
+          "name": "📋 Vehicle CRUD",
+          "item": [
+            {
+              "name": "Get All Vehicles",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles?page=1&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "Get all vehicles with pagination"
+              }
+            },
+            {
+              "name": "Create Vehicle",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if (pm.response.code === 201) {",
+                      "    const response = pm.response.json();",
+                      "    if (response.data && response.data.vehicle && response.data.vehicle._id) {",
+                      "        pm.collectionVariables.set('vehicleId', response.data.vehicle._id);",
+                      "    }",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"chassisNumber\": \"1HGBH41JXMN109186\",\n  \"engineNumber\": \"ENG123456789\",\n  \"registrationNumber\": \"MH01AB1234\",\n  \"brand\": \"Honda\",\n  \"model\": \"Civic\",\n  \"variant\": \"LXi\",\n  \"year\": 2023,\n  \"color\": \"White\",\n  \"fuelType\": \"Petrol\",\n  \"transmission\": \"Manual\",\n  \"mileage\": 15.5,\n  \"purchaseDate\": \"2023-01-15\",\n  \"purchasePrice\": 800000,\n  \"condition\": \"Excellent\",\n  \"status\": \"Available\",\n  \"location\": \"Main Warehouse\",\n  \"features\": [\"ABS\", \"Airbags\", \"Power Steering\"],\n  \"notes\": \"Brand new vehicle in excellent condition\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles"]
+                },
+                "description": "Create a new vehicle"
+              }
+            },
+            {
+              "name": "Get Vehicle by ID",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles/{{vehicleId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles", "{{vehicleId}}"]
+                },
+                "description": "Get vehicle by ID"
+              }
+            },
+            {
+              "name": "Update Vehicle",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"Sold\",\n  \"notes\": \"Vehicle sold to customer\",\n  \"condition\": \"Good\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles/{{vehicleId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles", "{{vehicleId}}"]
+                },
+                "description": "Update vehicle information"
+              }
+            },
+            {
+              "name": "Delete Vehicle",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles/{{vehicleId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles", "{{vehicleId}}"]
+                },
+                "description": "Delete vehicle"
+              }
+            }
+          ]
+        },
+        {
+          "name": "🔍 Search & Filter",
+          "item": [
+            {
+              "name": "Search Vehicles",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles/search?brand=Honda&status=Available&minPrice=500000&maxPrice=1000000",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles", "search"],
+                  "query": [
+                    {
+                      "key": "brand",
+                      "value": "Honda"
+                    },
+                    {
+                      "key": "status",
+                      "value": "Available"
+                    },
+                    {
+                      "key": "minPrice",
+                      "value": "500000"
+                    },
+                    {
+                      "key": "maxPrice",
+                      "value": "1000000"
+                    }
+                  ]
+                },
+                "description": "Search vehicles with filters"
+              }
+            },
+            {
+              "name": "Get Vehicle Statistics",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{authToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles/stats",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles", "stats"]
+                },
+                "description": "Get vehicle statistics"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "👥 Client Management",
+      "description": "All client related endpoints",
+      "item": [
+        {
+          "name": "Get All Clients",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clients?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["clients"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get all clients with pagination"
+          }
+        },
+        {
+          "name": "Create Client",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"jane.smith@example.com\",\n  \"phone\": \"+919876543211\",\n  \"address\": {\n    \"street\": \"789 Client Street\",\n    \"city\": \"Mumbai\",\n    \"state\": \"Maharashtra\",\n    \"zipCode\": \"400003\",\n    \"country\": \"India\"\n  },\n  \"type\": \"Individual\",\n  \"notes\": \"Premium client\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/clients",
+              "host": ["{{baseUrl}}"],
+              "path": ["clients"]
+            },
+            "description": "Create a new client"
+          }
+        }
+      ]
+    },
+    {
+      "name": "💰 Billing Management",
+      "description": "All billing related endpoints",
+      "item": [
+        {
+          "name": "Get All Billing Records",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/billing?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["billing"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get all billing records"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Dashboard",
+      "description": "Dashboard and analytics endpoints",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/dashboard/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["dashboard", "stats"]
+            },
+            "description": "Get dashboard statistics"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔧 System",
+      "description": "System and utility endpoints",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/../health",
+              "host": ["{{baseUrl}}"],
+              "path": ["..", "health"]
+            },
+            "description": "Check server health"
+          }
+        },
+        {
+          "name": "API Documentation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/docs",
+              "host": ["{{baseUrl}}"],
+              "path": ["docs"]
+            },
+            "description": "Get API documentation"
+          }
+        }
+      ]
+    }
+  ]
+}

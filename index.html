@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/api-components.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="page page--auth page--login">
@@ -16,14 +17,15 @@
             <div class="auth-layout__content">
                 <h1 class="auth-layout__title">Welcome Back</h1>
 
-                <form class="form" action="dashboard.html" method="post">
+                <form class="form" id="loginForm">
                     <div class="form__group">
                         <div class="textfield-container">
                             <div class="textfield-label">
                                 <div class="phone-icon"></div>
                                Enter your phone number
                             </div>
-                            <input type="tel" id="phone" name="phone" class="textfield-input">
+                            <input type="tel" id="phone" name="phone" class="textfield-input" required
+                                   placeholder="e.g., +255 22 1234567">
                         </div>
                     </div>
 
@@ -33,7 +35,8 @@
                                 <div class="lock-icon"></div>
                                 Password
                             </div>
-                            <input type="password" id="password" name="password" class="textfield-input">
+                            <input type="password" id="password" name="password" class="textfield-input" required
+                                   placeholder="Enter your password">
                             <span class="password-toggle" id="togglePassword" role="button" tabindex="0" aria-label="Toggle password visibility"></span>
                         </div>
                     </div>
@@ -48,10 +51,10 @@
                             >
                             <label for="remember">Remember me</label>
                         </div>
-                        <a href="recover-password.html" class="form__link">forgot password ?</a>
+                        <a href="forgot-password.html" class="form__link">forgot password ?</a>
                     </div>
 
-                    <button type="submit" class="btn btn--primary btn--full">
+                    <button type="submit" class="btn btn--primary btn--full" id="loginBtn">
                         Login
                     </button>
 
@@ -74,6 +77,8 @@
         </div>
     </div>
 
+    <script src="js/api.js"></script>
+    <script src="js/navigation.js"></script>
     <script src="js/scripts.js"></script>
     <script>
         // Enhanced Password toggle functionality with accessibility
@@ -132,6 +137,167 @@
                     this.classList.remove('focused');
                     if (container) container.classList.remove('focused');
                 });
+            });
+        });
+
+        // LOGIN API INTEGRATION
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const phoneInput = document.getElementById('phone');
+            const passwordInput = document.getElementById('password');
+            const rememberCheckbox = document.getElementById('remember');
+
+            // Auto-fill phone number if "Remember me" was checked
+            const rememberMe = localStorage.getItem('rememberMe');
+            const lastLoginPhone = localStorage.getItem('lastLoginPhone');
+            
+            if (rememberMe === 'true' && lastLoginPhone) {
+                phoneInput.value = lastLoginPhone;
+                rememberCheckbox.checked = true;
+            }
+
+            // Tanzania phone number formatting for login
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value;
+                
+                // Real-time validation feedback
+                if (value.length > 8) {
+                    const isValid = window.velaaAPI.validateTanzaniaPhone(value);
+                    if (isValid) {
+                        phoneInput.style.borderColor = '#22c55e';
+                        phoneInput.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.1)';
+                    } else {
+                        phoneInput.style.borderColor = '#ef4444';
+                        phoneInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+                    }
+                } else {
+                    phoneInput.style.borderColor = '';
+                    phoneInput.style.boxShadow = '';
+                }
+            });
+
+            // Format phone on blur
+            phoneInput.addEventListener('blur', function(e) {
+                if (e.target.value) {
+                    const formatted = window.velaaAPI.formatTanzaniaPhone(e.target.value);
+                    e.target.value = formatted;
+                }
+            });
+
+            // Form validation
+            function validateLoginForm() {
+                const phone = phoneInput.value.trim();
+                const password = passwordInput.value;
+
+                if (!phone) {
+                    NotificationManager.error('Please enter your phone number');
+                    phoneInput.focus();
+                    return false;
+                }
+
+                if (!window.velaaAPI.validateTanzaniaPhone(phone)) {
+                    NotificationManager.error('Please enter a valid Tanzania phone number');
+                    phoneInput.focus();
+                    return false;
+                }
+
+                if (!password) {
+                    NotificationManager.error('Please enter your password');
+                    passwordInput.focus();
+                    return false;
+                }
+
+                if (password.length < 6) {
+                    NotificationManager.error('Password must be at least 6 characters long');
+                    passwordInput.focus();
+                    return false;
+                }
+
+                return true;
+            }
+
+            // Handle login submission
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                if (!validateLoginForm()) {
+                    return;
+                }
+
+                const formattedPhone = window.velaaAPI.formatTanzaniaPhone(phoneInput.value.trim());
+                const password = passwordInput.value;
+
+                try {
+                    // Show loading state
+                    loadingManager.show('login', 'Signing you in...');
+                    loginBtn.classList.add('btn--loading');
+
+                    // Disable form inputs
+                    const inputs = loginForm.querySelectorAll('input, button');
+                    inputs.forEach(input => {
+                        input.disabled = true;
+                        if (input.tagName === 'INPUT') {
+                            input.classList.add('form__input--loading');
+                        }
+                    });
+
+                    // Make API call
+                    const response = await window.velaaAPI.login(formattedPhone, password);
+
+                    if (response.success) {
+                        // Store authentication data
+                        localStorage.setItem('authToken', response.data.token);
+                        localStorage.setItem('userData', JSON.stringify(response.data.user));
+
+                        // Handle "Remember me"
+                        if (rememberCheckbox.checked) {
+                            localStorage.setItem('rememberMe', 'true');
+                            localStorage.setItem('lastLoginPhone', formattedPhone);
+                        } else {
+                            localStorage.removeItem('rememberMe');
+                            localStorage.removeItem('lastLoginPhone');
+                        }
+
+                        // Show success message
+                        NotificationManager.success('Login successful! Redirecting to dashboard...');
+
+                        // Navigate to dashboard
+                        setTimeout(() => {
+                            if (window.navigationManager && typeof window.navigationManager.navigateTo === 'function') {
+                                window.navigationManager.navigateTo('dashboard.html', 'Loading dashboard...');
+                            } else {
+                                window.location.href = 'dashboard.html';
+                            }
+                        }, 1500);
+                    } else {
+                        throw new Error(response.message || 'Login failed');
+                    }
+
+                } catch (error) {
+                    console.error('Login error:', error);
+
+                    // Show error message
+                    if (error instanceof APIError) {
+                        NotificationManager.error(error.getUserMessage());
+                    } else {
+                        NotificationManager.error('Login failed. Please check your credentials and try again.');
+                    }
+
+                    // Re-enable form
+                    const inputs = loginForm.querySelectorAll('input, button');
+                    inputs.forEach(input => {
+                        input.disabled = false;
+                        if (input.tagName === 'INPUT') {
+                            input.classList.remove('form__input--loading');
+                        }
+                    });
+
+                } finally {
+                    // Hide loading state
+                    loadingManager.hide('login');
+                    loginBtn.classList.remove('btn--loading');
+                }
             });
         });
     </script>
