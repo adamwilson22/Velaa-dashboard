@@ -151,7 +151,7 @@
                         <!-- Search Bar and Add Button -->
                         <div class="vehicle-search-container">
                             <div class="search-bar">
-                                <input type="text" class="search-input" placeholder="Search by chassis number">
+                                <input id="vehicleSearchInput" type="text" class="search-input" placeholder="Search by chassis number">
                             </div>
                             <button class="add-vehicle-btn" onclick="window.location.href='vehicle-add.html'">
                                 <span class="btn-icon">
@@ -345,7 +345,62 @@
     <!-- Profile Dropdown Overlay -->
     <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
+    <script src="js/api.js"></script>
     <script src="js/scripts.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('vehicleSearchInput');
+        const table = document.querySelector('.vehicle-table');
+
+        async function renderVehicles(list) {
+            const header = table.querySelector('.vehicle-table-header');
+            table.innerHTML = '';
+            table.appendChild(header);
+            (list || []).forEach(v => {
+                const row = document.createElement('div');
+                row.className = 'vehicle-table-row';
+                row.innerHTML = `
+                    <div class="vehicle-cell vehicle-cell--chassis">${v.chassis || ''}</div>
+                    <div class="vehicle-cell vehicle-cell--make">${v.make || ''}</div>
+                    <div class="vehicle-cell vehicle-cell--arrival">${v.arrival_date ? (new Date(v.arrival_date)).toLocaleDateString() : ''}</div>
+                    <div class="vehicle-cell vehicle-cell--expiry">${v.bond_expiry ? (new Date(v.bond_expiry)).toLocaleDateString() : ''}</div>
+                    <div class="vehicle-cell vehicle-cell--status">${v.current_status || ''}</div>
+                    <div class="vehicle-cell vehicle-cell--actions"><button class="action-btn">⋮</button></div>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        async function initialLoad() {
+            try {
+                loadingManager.show('vehicles-load', 'Loading vehicles...');
+                const { data } = await window.velaaAPI.searchVehicles({ page: 1, limit: 20 });
+                await renderVehicles(data.items || []);
+            } catch (e) {
+                console.error(e);
+                NotificationManager.error('Failed to load vehicles');
+            } finally {
+                loadingManager.hide('vehicles-load');
+            }
+        }
+
+        const doSearch = FleetManager.debounce(async () => {
+            try {
+                const q = searchInput.value.trim();
+                const { data } = await window.velaaAPI.searchVehicles({ query: q, page: 1, limit: 20 });
+                await renderVehicles(data.items || []);
+            } catch (e) {
+                console.error(e);
+            }
+        }, 400);
+
+        if (searchInput) {
+            searchInput.addEventListener('input', doSearch);
+        }
+
+        initialLoad();
+    });
+    </script>
 </body>
 
 </html>

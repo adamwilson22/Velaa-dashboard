@@ -135,7 +135,7 @@
             <main class="dashboard-layout__content">
                 <div class="dashboard-container">
                     <div class="vehicle-form-container">
-                    <form class="vehicle-form" action="vehicles.html" method="post">
+                    <form class="vehicle-form" action="vehicles.html" method="post" novalidate>
                         <!-- Row 1 -->
                         <div class="form-row">
                             <div class="form-group">
@@ -159,32 +159,115 @@
                             </div>
                         </div>
 
-                        <!-- Row 2 -->
-                        <div class="form-row single-column">
+                        <!-- Identification -->
+                        <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">Enter chassis number</label>
-                                <input type="text" class="form-input" name="chassis" placeholder="Enter chassis number" required>
+                                <label class="form-label">Chassis Number (VIN)</label>
+                                <input type="text" class="form-input" name="chassisNumber" placeholder="17-char VIN (A-Z,0-9; no I,O,Q)" required maxlength="17" pattern="^[A-HJ-NPR-Z0-9]{17}$">
+                                <div class="form__error" data-error-for="chassisNumber"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Engine Number</label>
+                                <input type="text" class="form-input" name="engineNumber" placeholder="ENGINE12345" required pattern="^[A-Z0-9-]+$">
+                                <div class="form__error" data-error-for="engineNumber"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Registration Number (optional)</label>
+                                <input type="text" class="form-input" name="registrationNumber" placeholder="ABC123" pattern="^[A-Z0-9-]+$">
+                                <div class="form__error" data-error-for="registrationNumber"></div>
                             </div>
                         </div>
 
-                        <!-- Row 3 -->
+                        <!-- Specs -->
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">Make</label>
-                                <select class="form-input" name="make" required>
-                                    <option value="">Select make</option>
-                                    <option value="toyota">Toyota</option>
-                                    <option value="honda">Honda</option>
-                                    <option value="nissan">Nissan</option>
-                                </select>
+                                <label class="form-label">Brand</label>
+                                <input type="text" class="form-input" name="brand" maxlength="50" required>
+                                <div class="form__error" data-error-for="brand"></div>
                             </div>
                             <div class="form-group">
+                                <label class="form-label">Model</label>
+                                <input type="text" class="form-input" name="model" maxlength="50" required>
+                                <div class="form__error" data-error-for="model"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Variant (optional)</label>
+                                <input type="text" class="form-input" name="variant" maxlength="50">
+                                <div class="form__error" data-error-for="variant"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
                                 <label class="form-label">Year</label>
-                                <input type="text" class="form-input" name="year" placeholder="Enter year of manufacture" required>
+                                <input type="number" class="form-input" name="year" min="1900" max="2100" required>
+                                <div class="form__error" data-error-for="year"></div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Color</label>
-                                <input type="text" class="form-input" name="color" placeholder="Enter vehicle color" required>
+                                <input type="text" class="form-input" name="color" maxlength="30" required>
+                                <div class="form__error" data-error-for="color"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Fuel Type</label>
+                                <select class="form-input" name="fuelType" required>
+                                    <option value="">Select fuel</option>
+                                    <option>Petrol</option>
+                                    <option>Diesel</option>
+                                    <option>CNG</option>
+                                    <option>Electric</option>
+                                    <option>Hybrid</option>
+                                    <option>LPG</option>
+                                </select>
+                                <div class="form__error" data-error-for="fuelType"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Transmission</label>
+                                <select class="form-input" name="transmission" required>
+                                    <option value="">Select transmission</option>
+                                    <option>Manual</option>
+                                    <option>Automatic</option>
+                                    <option>CVT</option>
+                                    <option>AMT</option>
+                                </select>
+                                <div class="form__error" data-error-for="transmission"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Engine Capacity (cc)</label>
+                                <input type="number" class="form-input" name="engineCapacity" min="0" step="0.1">
+                                <div class="form__error" data-error-for="engineCapacity"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Mileage (km)</label>
+                                <input type="number" class="form-input" name="mileage" min="0" step="1">
+                                <div class="form__error" data-error-for="mileage"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Seating Capacity</label>
+                                <input type="number" class="form-input" name="seatingCapacity" min="1" max="50" step="1">
+                                <div class="form__error" data-error-for="seatingCapacity"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Owner (Client ID)</label>
+                                <input type="text" class="form-input" name="owner" placeholder="24-char ObjectId" required pattern="^[a-fA-F0-9]{24}$">
+                                <div class="form__error" data-error-for="owner"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Ownership Type</label>
+                                <select class="form-input" name="ownershipType">
+                                    <option value="">Select</option>
+                                    <option>Individual</option>
+                                    <option>Company</option>
+                                    <option>Partnership</option>
+                                    <option>Trust</option>
+                                </select>
+                                <div class="form__error" data-error-for="ownershipType"></div>
                             </div>
                         </div>
 
@@ -200,36 +283,110 @@
                             </div>
                         </div>
 
-                        <!-- Row 5 -->
+                        <!-- Condition & Pricing -->
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">Current status</label>
-                                <select class="form-input" name="current_status" required>
-                                    <option value="">Select status</option>
-                                    <option value="available">Available</option>
-                                    <option value="not_available">Not available</option>
-                                    <option value="sold">Sold</option>
+                                <label class="form-label">Condition</label>
+                                <select class="form-input" name="condition" required>
+                                    <option value="">Select</option>
+                                    <option>Excellent</option>
+                                    <option>Good</option>
+                                    <option>Fair</option>
+                                    <option>Poor</option>
+                                    <option>Damaged</option>
                                 </select>
+                                <div class="form__error" data-error-for="condition"></div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">System status</label>
-                                <select class="form-input" name="system_status" required>
-                                    <option value="">Active / Inactive</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
+                                <label class="form-label">Purchase Price</label>
+                                <input type="number" class="form-input" name="purchasePrice" min="0" step="0.01" required>
+                                <div class="form__error" data-error-for="purchasePrice"></div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Monthly fee</label>
-                                <input type="text" class="form-input" name="monthly_fee" placeholder="Enter monthly fee" required>
+                                <label class="form-label">Selling Price (optional)</label>
+                                <input type="number" class="form-input" name="sellingPrice" min="0" step="0.01">
+                                <div class="form__error" data-error-for="sellingPrice"></div>
                             </div>
                         </div>
 
-                        <!-- Keywords -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Market Value (optional)</label>
+                                <input type="number" class="form-input" name="marketValue" min="0" step="0.01">
+                                <div class="form__error" data-error-for="marketValue"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Purchase Date</label>
+                                <input type="date" class="form-input" name="purchaseDate" required>
+                                <div class="form__error" data-error-for="purchaseDate"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Sale Date (optional)</label>
+                                <input type="date" class="form-input" name="saleDate">
+                                <div class="form__error" data-error-for="saleDate"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Registration Date (optional)</label>
+                                <input type="date" class="form-input" name="registrationDate">
+                                <div class="form__error" data-error-for="registrationDate"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Insurance Expiry (optional)</label>
+                                <input type="date" class="form-input" name="insuranceExpiryDate">
+                                <div class="form__error" data-error-for="insuranceExpiryDate"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">PUC Expiry (optional)</label>
+                                <input type="date" class="form-input" name="pucExpiryDate">
+                                <div class="form__error" data-error-for="pucExpiryDate"></div>
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Warehouse</label>
+                                <input type="text" class="form-input" name="location_warehouse" required>
+                                <div class="form__error" data-error-for="location.warehouse"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Section</label>
+                                <input type="text" class="form-input" name="location_section">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Row</label>
+                                <input type="text" class="form-input" name="location_row">
+                            </div>
+                        </div>
+
+                        <div class="form-row single-column">
+                            <div class="form-group">
+                                <label class="form-label">Position</label>
+                                <input type="text" class="form-input" name="location_position">
+                            </div>
+                        </div>
+
+                        <!-- Features / Notes / Tags -->
                         <div class="form-row single-column">
                             <div class="form-group full-width">
-                                <label class="form-label">Keywords</label>
-                                <textarea class="form-textarea" name="keywords" placeholder="Keywords" rows="3"></textarea>
+                                <label class="form-label">Features (comma separated)</label>
+                                <textarea class="form-textarea" name="features" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row single-column">
+                            <div class="form-group full-width">
+                                <label class="form-label">Notes (max 1000 chars)</label>
+                                <textarea class="form-textarea" name="notes" maxlength="1000" rows="3"></textarea>
+                                <div class="form__error" data-error-for="notes"></div>
+                            </div>
+                        </div>
+                        <div class="form-row single-column">
+                            <div class="form-group full-width">
+                                <label class="form-label">Tags (comma separated, lowercased)</label>
+                                <textarea class="form-textarea" name="tags" rows="2"></textarea>
                             </div>
                         </div>
 
@@ -238,9 +395,12 @@
                             <div class="form-group full-width">
                                 <label class="form-label">Insert vehicle Pictures</label>
                                 <div class="image-upload-area">
+                                    <input id="vehiclePictures" type="file" accept="image/*" multiple style="display:none" />
                                     <div class="upload-placeholder">
-                                        <button type="button" class="upload-btn">Click to add images</button>
+                                        <button type="button" class="upload-btn" id="openImagePicker">Click to add images</button>
+                                        <small id="imageCountHint">0 / 5 selected</small>
                                     </div>
+                                    <div id="imagePreviewStrip" class="image-preview-strip"></div>
                                 </div>
                             </div>
                         </div>
@@ -259,6 +419,159 @@
     <!-- Profile Dropdown Overlay -->
     <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
+    <script src="js/api.js"></script>
     <script src="js/scripts.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('.vehicle-form');
+        const fileInput = document.getElementById('vehiclePictures');
+        const openPickerBtn = document.getElementById('openImagePicker');
+        const imageCountHint = document.getElementById('imageCountHint');
+        const previewStrip = document.getElementById('imagePreviewStrip');
+
+        if (openPickerBtn && fileInput) {
+            openPickerBtn.addEventListener('click', () => fileInput.click());
+        }
+
+        if (fileInput) {
+            fileInput.addEventListener('change', () => {
+                const files = Array.from(fileInput.files).slice(0, 5);
+                imageCountHint.textContent = `${files.length} / 5 selected`;
+                previewStrip.innerHTML = '';
+                files.forEach(file => {
+                    const img = document.createElement('img');
+                    img.className = 'image-thumb';
+                    img.alt = file.name;
+                    img.src = URL.createObjectURL(file);
+                    previewStrip.appendChild(img);
+                });
+                if (fileInput.files.length > 5) {
+                    NotificationManager.warning('Maximum 5 images allowed. Extra files ignored.');
+                }
+            });
+        }
+
+        function clearFieldErrors() {
+            form.querySelectorAll('.form__error').forEach(el => { el.textContent = ''; });
+        }
+
+        function setFieldError(fieldName, message) {
+            const errorEl = form.querySelector(`.form__error[data-error-for="${CSS.escape(fieldName)}"]`);
+            if (errorEl) errorEl.textContent = message;
+        }
+
+        function isValidObjectId(id) {
+            return /^[a-fA-F0-9]{24}$/.test(id);
+        }
+
+        function isValidVIN(vin) {
+            return /^[A-HJ-NPR-Z0-9]{17}$/.test(vin);
+        }
+
+        function validateFrontend(vehicle) {
+            const errors = [];
+            const currentYear = new Date().getFullYear() + 1;
+            if (!isValidVIN(vehicle.chassisNumber)) errors.push({ field: 'chassisNumber', message: 'Invalid VIN. Use 17 chars, no I/O/Q.' });
+            if (!vehicle.engineNumber || !/^[A-Z0-9-]+$/.test(vehicle.engineNumber)) errors.push({ field: 'engineNumber', message: 'Engine number must be uppercase alphanumeric.' });
+            if (vehicle.registrationNumber && !/^[A-Z0-9-]+$/.test(vehicle.registrationNumber)) errors.push({ field: 'registrationNumber', message: 'Invalid registration number format.' });
+            if (!vehicle.brand) errors.push({ field: 'brand', message: 'Brand is required.' });
+            if (!vehicle.model) errors.push({ field: 'model', message: 'Model is required.' });
+            if (!(vehicle.year >= 1900 && vehicle.year <= currentYear)) errors.push({ field: 'year', message: `Year must be 1900–${currentYear}.` });
+            if (!vehicle.color) errors.push({ field: 'color', message: 'Color is required.' });
+            if (!['Petrol','Diesel','CNG','Electric','Hybrid','LPG'].includes(vehicle.fuelType)) errors.push({ field: 'fuelType', message: 'Select a valid fuel type.' });
+            if (!['Manual','Automatic','CVT','AMT'].includes(vehicle.transmission)) errors.push({ field: 'transmission', message: 'Select a valid transmission.' });
+            if (vehicle.engineCapacity != null && Number(vehicle.engineCapacity) < 0) errors.push({ field: 'engineCapacity', message: 'Engine capacity cannot be negative.' });
+            if (vehicle.mileage != null && Number(vehicle.mileage) < 0) errors.push({ field: 'mileage', message: 'Mileage cannot be negative.' });
+            if (vehicle.seatingCapacity != null && !(vehicle.seatingCapacity >=1 && vehicle.seatingCapacity <=50)) errors.push({ field: 'seatingCapacity', message: 'Seating must be 1–50.' });
+            if (!isValidObjectId(vehicle.owner)) errors.push({ field: 'owner', message: 'Owner must be a valid ID.' });
+            if (vehicle.notes && vehicle.notes.length > 1000) errors.push({ field: 'notes', message: 'Notes must be ≤1000 chars.' });
+            if (!['Excellent','Good','Fair','Poor','Damaged'].includes(vehicle.condition)) errors.push({ field: 'condition', message: 'Select a valid condition.' });
+            if (!(vehicle.purchasePrice >= 0)) errors.push({ field: 'purchasePrice', message: 'Purchase price cannot be negative.' });
+            if (vehicle.sellingPrice != null && Number(vehicle.sellingPrice) < 0) errors.push({ field: 'sellingPrice', message: 'Selling price cannot be negative.' });
+            if (vehicle.marketValue != null && Number(vehicle.marketValue) < 0) errors.push({ field: 'marketValue', message: 'Market value cannot be negative.' });
+
+            const nowISO = new Date().toISOString().slice(0,10);
+            if (!vehicle.purchaseDate) errors.push({ field: 'purchaseDate', message: 'Purchase date is required.' });
+            if (vehicle.purchaseDate && vehicle.purchaseDate > nowISO) errors.push({ field: 'purchaseDate', message: 'Purchase date cannot be in the future.' });
+            if (vehicle.saleDate && vehicle.purchaseDate && vehicle.saleDate < vehicle.purchaseDate) errors.push({ field: 'saleDate', message: 'Sale date cannot be before purchase date.' });
+
+            return errors;
+        }
+
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    loadingManager.show('add-vehicle', 'Saving vehicle...');
+                    const formData = new FormData(form);
+
+                    const vehicle = {
+                        chassisNumber: (formData.get('chassisNumber') || '').toString().trim().toUpperCase(),
+                        engineNumber: (formData.get('engineNumber') || '').toString().trim().toUpperCase(),
+                        registrationNumber: (formData.get('registrationNumber') || '').toString().trim().toUpperCase() || undefined,
+                        brand: (formData.get('brand') || '').toString().trim(),
+                        model: (formData.get('model') || '').toString().trim(),
+                        variant: (formData.get('variant') || '').toString().trim() || undefined,
+                        year: parseInt(formData.get('year'), 10),
+                        color: (formData.get('color') || '').toString().trim(),
+                        fuelType: (formData.get('fuelType') || '').toString(),
+                        transmission: (formData.get('transmission') || '').toString(),
+                        engineCapacity: formData.get('engineCapacity') ? Number(formData.get('engineCapacity')) : undefined,
+                        mileage: formData.get('mileage') ? Number(formData.get('mileage')) : undefined,
+                        seatingCapacity: formData.get('seatingCapacity') ? Number(formData.get('seatingCapacity')) : undefined,
+                        owner: (formData.get('owner') || '').toString().trim(),
+                        ownershipType: (formData.get('ownershipType') || '').toString() || undefined,
+                        condition: (formData.get('condition') || '').toString(),
+                        purchasePrice: Number(formData.get('purchasePrice')),
+                        sellingPrice: formData.get('sellingPrice') ? Number(formData.get('sellingPrice')) : undefined,
+                        marketValue: formData.get('marketValue') ? Number(formData.get('marketValue')) : undefined,
+                        purchaseDate: (formData.get('purchaseDate') || '').toString(),
+                        saleDate: (formData.get('saleDate') || '').toString() || undefined,
+                        registrationDate: (formData.get('registrationDate') || '').toString() || undefined,
+                        insuranceExpiryDate: (formData.get('insuranceExpiryDate') || '').toString() || undefined,
+                        pucExpiryDate: (formData.get('pucExpiryDate') || '').toString() || undefined,
+                        location: {
+                            warehouse: (formData.get('location_warehouse') || '').toString().trim(),
+                            section: (formData.get('location_section') || '').toString().trim() || undefined,
+                            row: (formData.get('location_row') || '').toString().trim() || undefined,
+                            position: (formData.get('location_position') || '').toString().trim() || undefined,
+                        },
+                        features: (formData.get('features') || '').toString().split(',').map(s=>s.trim()).filter(Boolean),
+                        notes: (formData.get('notes') || '').toString(),
+                        tags: (formData.get('tags') || '').toString().split(',').map(s=>s.trim().toLowerCase()).filter(Boolean)
+                    };
+
+                    clearFieldErrors();
+                    const frontErrors = validateFrontend(vehicle);
+                    if (frontErrors.length) {
+                        frontErrors.forEach(e => setFieldError(e.field, e.message));
+                        NotificationManager.error('Please correct the highlighted errors.');
+                        return;
+                    }
+
+                    const files = fileInput ? fileInput.files : [];
+                    const resp = await window.velaaAPI.addVehicle(vehicle, files);
+                    NotificationManager.success('Vehicle added successfully');
+                    window.location.href = 'vehicles.html';
+                    return resp;
+                } catch (err) {
+                    console.error(err);
+                    let msg = err?.getUserMessage ? err.getUserMessage() : (err?.message || 'Failed to add vehicle');
+                    if (Array.isArray(err?.data?.errors)) {
+                        clearFieldErrors();
+                        err.data.errors.forEach(e => setFieldError(e.field || e.path || 'form', e.message || 'Invalid'));
+                        msg = 'Validation failed. Please review errors.';
+                    } else if (err?.data?.errors && typeof err.data.errors === 'object') {
+                        Object.entries(err.data.errors).forEach(([field, messages]) => setFieldError(field, Array.isArray(messages)?messages.join(', '):String(messages)));
+                        msg = 'Validation failed. Please review errors.';
+                    }
+                    NotificationManager.error(msg);
+                } finally {
+                    loadingManager.hide('add-vehicle');
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>

@@ -11,6 +11,7 @@ class VelaaAPI {
         this.registrationData = {}; // Store registration data across steps
         this.defaultCountryCode = '+255'; // Tanzania country code
         this.mockMode = false; // Set to true for testing without backend
+        this.token = this.getStoredToken();
     }
 
     /**
@@ -22,16 +23,24 @@ class VelaaAPI {
     async request(endpoint, options = {}) {
         const url = `${this.baseURL}${endpoint}`;
         
+        const isFormData = (typeof FormData !== 'undefined') && (options && options.body instanceof FormData);
+
         const defaultOptions = {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers
-            },
+            headers: isFormData
+                ? { ...(options.headers || {}) }
+                : { 'Content-Type': 'application/json', ...(options.headers || {}) },
             timeout: this.timeout
         };
 
+        // Attach Authorization header if token exists
+        const authHeaders = {};
+        if (this.token) {
+            authHeaders['Authorization'] = `Bearer ${this.token}`;
+        }
+
         const config = { ...defaultOptions, ...options };
+        config.headers = { ...(config.headers || {}), ...authHeaders };
 
         try {
             // Create abort controller for timeout
@@ -74,6 +83,149 @@ class VelaaAPI {
     }
 
     /**
+     * Token management helpers
+     */
+    getStoredToken() {
+        try {
+            return localStorage.getItem('authToken') || sessionStorage.getItem('authToken') || '';
+        } catch (_) {
+            return '';
+        }
+    }
+
+    setToken(token, persist = true) {
+        this.token = token || '';
+        try {
+            if (persist) {
+                localStorage.setItem('authToken', this.token);
+            } else {
+                sessionStorage.setItem('authToken', this.token);
+            }
+        } catch (_) {}
+    }
+
+    clearToken() {
+        this.token = '';
+        try {
+            localStorage.removeItem('authToken');
+            sessionStorage.removeItem('authToken');
+        } catch (_) {}
+    }
+
+    /**
+     * Add Vehicle (with up to 5 images)
+     * @param {Object} vehicle - Vehicle payload fields
+     * @param {FileList|File[]} pictures - Up to 5 image files
+     * @returns {Promise<Object>} API response
+     */
+    async addVehicle(vehicle, pictures = []) {
+        // Support mock mode minimal response
+        if (this.mockMode) {
+            await new Promise(r => setTimeout(r, 500));
+            return {
+                success: true,
+                data: {
+                    id: 'mock_vehicle_' + Date.now(),
+                    ...vehicle,
+                    pictures: Array.from(pictures).slice(0, 5).map((_, i) => `mock_image_${i}.jpg`)
+                }
+            };
+        }
+
+        const form = new FormData();
+        Object.keys(vehicle || {}).forEach(key => {
+            const value = vehicle[key];
+            if (value !== undefined && value !== null) {
+                form.append(key, String(value));
+            }
+        });
+
+        const files = Array.from(pictures || []).slice(0, 5);
+        files.forEach(file => {
+            form.append('pictures', file);
+            form.append('images', file); // compatibility alias
+        });
+
+        return this.request('/vehicles', {
+            method: 'POST',
+            body: form
+        });
+    }
+
+    /**
+     * Update Vehicle by ID (supports image additions up to 5 total on server)
+     * @param {string} vehicleId - Vehicle identifier
+     * @param {Object} updates - Updatable fields
+     * @param {FileList|File[]} newPictures - Optional new images (max 5 per request)
+     * @returns {Promise<Object>} API response
+     */
+    async updateVehicle(vehicleId, updates = {}, newPictures = []) {
+        if (this.mockMode) {
+            await new Promise(r => setTimeout(r, 500));
+            return {
+                success: true,
+                data: { id: vehicleId, ...updates }
+            };
+        }
+
+        const form = new FormData();
+        Object.keys(updates || {}).forEach(key => {
+            const value = updates[key];
+            if (value !== undefined && value !== null) {
+                form.append(key, String(value));
+            }
+        });
+        const files = Array.from(newPictures || []).slice(0, 5);
+        files.forEach(file => {
+            form.append('pictures', file);
+            form.append('images', file); // compatibility alias
+        });
+
+        return this.request(`/vehicles/${vehicleId}`, {
+            method: 'PUT',
+            body: form
+        });
+    }
+
+    /**
+     * Get Vehicle by ID
+     * @param {string} vehicleId
+     * @returns {Promise<Object>} Vehicle
+     */
+    async getVehicle(vehicleId) {
+        if (this.mockMode) {
+            await new Promise(r => setTimeout(r, 300));
+            return {
+                success: true,
+                data: { id: vehicleId }
+            };
+        }
+        return this.request(`/vehicles/${vehicleId}`, { method: 'GET' });
+    }
+
+    /**
+     * Search Vehicles
+     * @param {Object} params - { query, page, limit, filters }
+     * @returns {Promise<Object>} Paged list
+     */
+    async searchVehicles(params = {}) {
+        if (this.mockMode) {
+            await new Promise(r => setTimeout(r, 300));
+            return {
+                success: true,
+                data: { items: [], total: 0, page: params.page || 1, limit: params.limit || 10 }
+            };
+        }
+
+        const query = new URLSearchParams();
+        Object.entries(params || {}).forEach(([k, v]) => {
+            if (v !== undefined && v !== null && v !== '') query.append(k, String(v));
+        });
+        const qp = query.toString();
+        return this.request(`/vehicles/search${qp ? `?${qp}` : ''}`, { method: 'GET' });
+    }
+
+    /**
      * Step 1: Register User
      * @param {Object} userData - User registration data
      * @returns {Promise<Object>} Registration response
@@ -103,6 +255,8 @@ class VelaaAPI {
                     userId: mockResponse.data.userId
                 };
                 
+                // Persist token for demo mode as well
+                this.setToken(mockResponse.data.token);
                 return mockResponse;
             }
 
@@ -238,6 +392,9 @@ class VelaaAPI {
             // Clear registration data on success
             if (response.success) {
                 this.registrationData = {};
+                if (response.data?.token) {
+                    this.setToken(response.data.token);
+                }
             }
 
             return response;
@@ -270,7 +427,7 @@ class VelaaAPI {
                 
                 // Simple mock validation
                 if (password && password.length >= 6) {
-                    return {
+                    const mock = {
                         success: true,
                         data: {
                             token: 'mock_login_token_' + Date.now(),
@@ -283,6 +440,8 @@ class VelaaAPI {
                             }
                         }
                     };
+                    this.setToken(mock.data.token);
+                    return mock;
                 } else {
                     throw new APIError('Invalid password', 401);
                 }
@@ -296,6 +455,9 @@ class VelaaAPI {
                 })
             });
 
+            if (response?.data?.token) {
+                this.setToken(response.data.token);
+            }
             return response;
         } catch (error) {
             console.error('Login error:', error);
@@ -310,6 +472,17 @@ class VelaaAPI {
             
             throw error;
         }
+    }
+
+    /**
+     * Logout user: clear token and optionally notify backend (if endpoint exists)
+     */
+    async logout() {
+        this.clearToken();
+        try {
+            // If backend has an auth logout endpoint, call it but ignore failures
+            await this.request('/auth/logout', { method: 'POST' }).catch(() => {});
+        } catch (_) {}
     }
 
     /**
