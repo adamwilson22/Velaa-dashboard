@@ -1,3 +1,191 @@
+/* ========== CLIENT MANAGEMENT STYLES ========== */
+.filter-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.filter-select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+}
+
+.action-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    color: #666;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.action-btn:hover {
+    background: #f0f0f0;
+    color: #333;
+    transform: scale(1.1);
+}
+
+.action-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 9999;
+    min-width: 140px;
+    display: none;
+    overflow: visible;
+    margin-top: 4px;
+}
+
+.action-menu.show {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    animation: fadeInDown 0.2s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.action-menu button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.action-menu button:last-child {
+    border-bottom: none;
+}
+
+.action-menu button:hover {
+    background: #f8f9fa;
+    color: #000;
+}
+
+.action-menu button.danger {
+    color: #dc3545;
+}
+
+.action-menu button.danger:hover {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ========== RESPONSIVE ACTION MENU ========== */
+
+/* Mobile devices */
+@media (max-width: 768px) {
+    .action-menu {
+        min-width: 160px;
+        right: -10px;
+        margin-top: 8px;
+    }
+    
+    .action-menu button {
+        padding: 1rem 1.25rem;
+        font-size: 16px;
+    }
+    
+    .action-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .action-menu {
+        min-width: 180px;
+        right: -20px;
+        margin-top: 12px;
+    }
+    
+    .action-menu button {
+        padding: 1.25rem 1.5rem;
+        font-size: 18px;
+    }
+}
+
+/* Ensure action menu is not clipped by parent containers */
+.clients-table-container,
+.clients-table-scroll,
+.clients-table {
+    overflow: visible !important;
+}
+
+.clients-table-row {
+    position: relative;
+    overflow: visible;
+}
+
+.clients-cell--actions {
+    overflow: visible !important;
+    position: relative;
+}
+
+/* Clear search button styling */
+.clear-search-btn {
+    background: #dc3545 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 4px !important;
+    padding: 4px 8px !important;
+    cursor: pointer !important;
+    font-size: 12px !important;
+    margin-left: 8px !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.clear-search-btn:hover {
+    background: #c82333 !important;
+}
+
+.form__error {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+.form__error:not(:empty) {
+    display: block;
+}
+
 /* ========== NEW TEXTFIELD STYLES ========== */
 .textfield-container {
     box-sizing: border-box;
@@ -3766,8 +3954,6 @@ body {
         width: 100%;
         justify-content: center;
     }
-}
-    position: relative;
 }
 
 .vehicle-table .table-header {

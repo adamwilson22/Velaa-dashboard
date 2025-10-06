@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Vehicle - Velaa</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Image upload styling */
+        .image-upload-area {
+            border: 2px dashed #3a3a3a;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            background: #1a1a1a;
+            transition: all 0.3s ease;
+        }
+        
+        .image-upload-area:hover {
+            border-color: #667eea;
+            background: #252525;
+        }
+        
+        .upload-placeholder {
+            margin-bottom: 15px;
+        }
+        
+        .upload-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        #imageCountHint {
+            display: block;
+            margin-top: 10px;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        .image-preview-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .image-thumb {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #3a3a3a;
+            transition: all 0.3s ease;
+        }
+        
+        .image-thumb:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="page page--dashboard">
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__header">
+                <div class="sidebar__logo">
+                    <img src="images/logos/logo.svg" alt="Velaa Logo" class="logo-img">
+                </div>
+            </div>
+            <nav class="sidebar__nav">
+                <ul class="sidebar__nav-list">
+                    <li class="sidebar__nav-item">
+                        <a href="dashboard.html" class="sidebar__nav-link">
+                            <span class="nav-text">Dashboard</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard.svg" alt="Dashboard"
+                                    class="nav-icon"></span>
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="vehicles.html" class="sidebar__nav-link sidebar__nav-link--active">
+                            <span class="nav-text">Vehicles</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/vehicles.svg" alt="Vehicles"
+                                    class="nav-icon"></span>
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="clients.html" class="sidebar__nav-link">
+                            <span class="nav-text">Clients</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/customer 1.png" alt="Clients"
+                                    class="nav-icon"></span>
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="#" class="sidebar__nav-link">
+                            <span class="nav-text">Reports</span>
+                            <span class="sidebar__nav-icon">📋</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="dashboard-layout__main">
+            <!-- Header -->
+            <header class="header">
+                <button class="mobile-menu-toggle" id="menuToggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <div class="header__center">
+                    <h1 class="header__title">Edit Vehicle</h1>
+                </div>
+                <div class="header__right">
+                    <button class="header__notifications">
+                        <div class="notification-icon-container">
+                            <img src="images/icons/Bell.png" alt="Notifications" class="notification-icon">
+                            <span class="notification-dot"></span>
+                        </div>
+                        <span class="notification-text">Notifications</span>
+                    </button>
+                    <div class="header__profile" onclick="toggleProfileDropdown()">
+                        <div class="header__profile-avatar">
+                            <img src="images/avatar.png" alt="Owner" class="avatar-img">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="dashboard-layout__content">
+                <div class="dashboard-container">
+                    <div class="vehicle-form-container">
+                        <form class="vehicle-form" id="vehicleForm" novalidate>
+                            <!-- Row 1: Customer, Price, Marketplace -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Select customer *</label>
+                                    <select class="form-input" id="owner" name="owner" required>
+                                        <option value="">Loading clients...</option>
+                                    </select>
+                                    <div class="form__error" data-error-for="owner"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Asking Price / Starting from</label>
+                                    <input type="number" class="form-input" id="marketValue" name="marketValue" placeholder="Enter price" min="0" step="0.01">
+                                    <div class="form__error" data-error-for="marketValue"></div>
+                                </div>
+                                <div class="form-group marketplace-toggle">
+                                    <label class="form-label">Show in market place :</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="showInMarketplace" name="showInMarketplace" class="toggle-input">
+                                        <label for="showInMarketplace" class="toggle-label"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Row 2: Chassis, Make, Year -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Enter chassis number *</label>
+                                    <input type="text" class="form-input" id="chassisNumber" name="chassisNumber" placeholder="17-char VIN (A-Z,0-9; no I,O,Q)" required minlength="8" maxlength="17" pattern="[A-HJ-NPR-Z0-9]+">
+                                    <div class="form__error" data-error-for="chassisNumber"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Make *</label>
+                                    <input type="text" class="form-input" id="brand" name="brand" placeholder="e.g. Toyota, Audi, Nissan" required maxlength="50">
+                                    <div class="form__error" data-error-for="brand"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Year *</label>
+                                    <input type="number" class="form-input" id="year" name="year" placeholder="e.g. 2023" required min="1900" max="2100">
+                                    <div class="form__error" data-error-for="year"></div>
+                                </div>
+                            </div>
+
+                            <!-- Row 3: Color, Mileage, Monthly Fee -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Color *</label>
+                                    <input type="text" class="form-input" id="color" name="color" placeholder="e.g. Black, White, Silver" required maxlength="30">
+                                    <div class="form__error" data-error-for="color"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Mileage (km)</label>
+                                    <input type="number" class="form-input" id="mileage" name="mileage" placeholder="e.g. 50000" min="0" step="1">
+                                    <div class="form__error" data-error-for="mileage"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Monthly fee</label>
+                                    <input type="number" class="form-input" id="monthlyFee" name="monthlyFee" placeholder="Enter monthly fee" min="0" step="0.01">
+                                    <div class="form__error" data-error-for="monthlyFee"></div>
+                                </div>
+                            </div>
+
+                            <!-- Row 4: Dates -->
+                            <div class="form-row two-columns">
+                                <div class="form-group">
+                                    <label class="form-label">Arrival date</label>
+                                    <input type="date" class="form-input" id="purchaseDate" name="purchaseDate">
+                                    <div class="form__error" data-error-for="purchaseDate"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Bond expiry date</label>
+                                    <input type="date" class="form-input" id="bondExpiryDate" name="bondExpiryDate">
+                                    <div class="form__error" data-error-for="bondExpiryDate"></div>
+                                </div>
+                            </div>
+
+                            <!-- Row 5: Status -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Current status *</label>
+                                    <select class="form-input" id="status" name="status" required>
+                                        <option value="">Select status</option>
+                                        <option value="Available">Available</option>
+                                        <option value="Reserved">Not available</option>
+                                        <option value="Sold">Sold</option>
+                                    </select>
+                                    <div class="form__error" data-error-for="status"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">System status *</label>
+                                    <select class="form-input" id="isActive" name="isActive" required>
+                                        <option value="true">Active</option>
+                                        <option value="false">Inactive</option>
+                                    </select>
+                                    <div class="form__error" data-error-for="isActive"></div>
+                                </div>
+                            </div>
+
+                            <!-- Row 6: Keywords -->
+                            <div class="form-row single-column">
+                                <div class="form-group full-width">
+                                    <label class="form-label">Keywords (comma-separated)</label>
+                                    <input type="text" class="form-input" id="tags" name="tags" placeholder="e.g. SUV, automatic, luxury">
+                                </div>
+                            </div>
+
+                            <!-- Row 7: Vehicle Pictures -->
+                            <div class="form-row single-column">
+                                <div class="form-group full-width">
+                                    <label class="form-label">Insert vehicle pictures (Max 5 images)</label>
+                                    <div class="image-upload-area">
+                                        <input id="vehiclePictures" type="file" accept="image/*" multiple style="display:none" />
+                                        <div class="upload-placeholder">
+                                            <button type="button" class="upload-btn" id="openImagePicker">Click to add images</button>
+                                            <small id="imageCountHint">0 / 5 selected</small>
+                                        </div>
+                                        <div id="imagePreviewStrip" class="image-preview-strip"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="form-actions" style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+                                <button type="button" class="btn-secondary" onclick="window.location.href='vehicles.html'" style="padding: 12px 24px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="submit-btn" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                                    Update Vehicle
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Profile Dropdown Overlay -->
+    <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        console.log('DOM loaded, initializing vehicle edit form');
+        
+        // Wait a bit for scripts to fully load
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        console.log('velaaAPI available:', !!window.velaaAPI);
+        console.log('loadingManager available:', !!window.loadingManager);
+        console.log('NotificationManager available:', !!window.NotificationManager);
+        
+        // If API is not available, try to initialize it
+        if (!window.velaaAPI) {
+            console.log('API not found, trying to initialize...');
+            try {
+                window.velaaAPI = new VelaaAPI();
+                console.log('API initialized manually');
+            } catch (e) {
+                console.error('Failed to initialize API:', e);
+                alert('Failed to initialize API. Please refresh the page.');
+                return;
+            }
+        }
+        
+        // If loading manager is not available, create a simple one
+        if (!window.loadingManager) {
+            window.loadingManager = {
+                show: (id, message) => console.log('Loading:', message),
+                hide: (id) => console.log('Loading complete')
+            };
+        }
+        
+        // If notification manager is not available, create a simple one
+        if (!window.NotificationManager) {
+            window.NotificationManager = {
+                success: (msg) => alert('Success: ' + msg),
+                error: (msg) => alert('Error: ' + msg),
+                warning: (msg) => alert('Warning: ' + msg)
+            };
+        }
+        
+        const form = document.querySelector('.vehicle-form');
+        const submitBtn = document.querySelector('.submit-btn');
+        
+        // Form elements
+        const ownerSelect = document.getElementById('owner');
+        const marketValueInput = document.getElementById('marketValue');
+        const showInMarketplaceInput = document.getElementById('showInMarketplace');
+        const chassisNumberInput = document.getElementById('chassisNumber');
+        const brandInput = document.getElementById('brand');
+        const yearInput = document.getElementById('year');
+        const colorInput = document.getElementById('color');
+        const mileageInput = document.getElementById('mileage');
+        const monthlyFeeInput = document.getElementById('monthlyFee');
+        const purchaseDateInput = document.getElementById('purchaseDate');
+        const bondExpiryDateInput = document.getElementById('bondExpiryDate');
+        const statusSelect = document.getElementById('status');
+        const isActiveSelect = document.getElementById('isActive');
+        const tagsInput = document.getElementById('tags');
+        
+        console.log('Form elements found:', { 
+            form: !!form, 
+            ownerSelect: !!ownerSelect, 
+            chassisNumberInput: !!chassisNumberInput,
+            submitBtn: !!submitBtn 
+        });
+        
+        // Get vehicle ID from URL first - with detailed debugging
+        console.log('=== URL DEBUGGING ===');
+        console.log('Full URL:', window.location.href);
+        console.log('Pathname:', window.location.pathname);
+        console.log('Search string:', window.location.search);
+        console.log('Hash:', window.location.hash);
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        let vehicleId = urlParams.get('id');
+        
+        // Fallback: if ID missing from query, try to get from sessionStorage
+        if (!vehicleId) {
+            try {
+                const fallbackId = sessionStorage.getItem('editVehicleId');
+                if (fallbackId) {
+                    console.log('Recovered vehicle ID from sessionStorage:', fallbackId);
+                    vehicleId = fallbackId;
+                    // Also fix the URL so refresh/back keeps working
+                    const fixedUrl = `${window.location.pathname}?id=${encodeURIComponent(vehicleId)}`;
+                    window.history.replaceState({}, '', fixedUrl);
+                }
+            } catch (e) {
+                console.warn('Unable to read editVehicleId from sessionStorage:', e);
+            }
+        }
+        
+        console.log('URLSearchParams object:', urlParams);
+        console.log('All URL parameters:');
+        for (const [key, value] of urlParams) {
+            console.log(`  ${key} = ${value}`);
+        }
+        console.log('Vehicle ID from URL:', vehicleId);
+        console.log('=== END URL DEBUGGING ===');
+        
+        if (!vehicleId) {
+            console.error('No vehicle ID provided in URL - stopping execution');
+            console.log('Current URL when no ID found:', window.location.href);
+            
+            // Prevent any further execution that might cause form to appear then disappear
+            const showErrorMessage = () => {
+                NotificationManager.error('No vehicle ID provided. Please access this page from the vehicles list.');
+                
+                // Show error message instead of redirecting immediately
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = 'padding: 20px; text-align: center; color: #ff6b6b; background: #2a2a2a; margin: 20px; border-radius: 8px;';
+                errorDiv.innerHTML = `
+                    <h2>❌ No Vehicle ID Provided</h2>
+                    <p>This page requires a vehicle ID to edit. Please go back to the vehicles page and click edit on a vehicle.</p>
+                    <div style="margin: 20px 0;">
+                        <button onclick="window.location.href='vehicles.html'" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px;">
+                            Go to Vehicles Page
+                        </button>
+                        <button onclick="testWithSampleVehicle()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px;">
+                            Test with Sample Vehicle
+                        </button>
+                    </div>
+                    <p style="font-size: 12px; color: #999; margin-top: 15px;">
+                        Or manually add a vehicle ID to the URL: vehicle-edit.html?id=VEHICLE_ID
+                    </p>
+                `;
+                
+                const container = document.querySelector('.dashboard-container');
+                if (container) {
+                    container.innerHTML = '';
+                    container.appendChild(errorDiv);
+                }
+                
+                // Add the test function to global scope
+                window.testWithSampleVehicle = async () => {
+                    try {
+                        // Get the first available vehicle
+                        const response = await window.velaaAPI.getVehicles();
+                        if (response.success && response.data?.data?.length > 0) {
+                            const firstVehicle = response.data.data[0];
+                            window.location.href = `vehicle-edit.html?id=${firstVehicle._id}`;
+                        } else {
+                            alert('No vehicles found in the database. Please add a vehicle first.');
+                        }
+                    } catch (error) {
+                        alert('Error loading vehicles: ' + error.message);
+                    }
+                };
+            };
+            
+            // Clear any stale stored id so future edits don't reuse it incorrectly
+            try { sessionStorage.removeItem('editVehicleId'); } catch (_) {}
+            // Show error immediately and prevent further execution
+            showErrorMessage();
+            return;
+        }
+        
+        // Check if user is authenticated
+        console.log('Checking authentication...');
+        console.log('API token exists:', !!window.velaaAPI?.token);
+        console.log('API token value:', window.velaaAPI?.token ? 'Present' : 'Missing');
+        
+        if (!window.velaaAPI?.token) {
+            console.log('No authentication token found');
+            NotificationManager.error('Please login first to edit vehicles');
+            
+            // Show login message instead of redirecting immediately
+            const loginDiv = document.createElement('div');
+            loginDiv.style.cssText = 'padding: 20px; text-align: center; color: #ff6b6b; background: #2a2a2a; margin: 20px; border-radius: 8px;';
+            loginDiv.innerHTML = `
+                <h2>🔒 Authentication Required</h2>
+                <p>You need to be logged in to edit vehicles. Please login first.</p>
+                <button onclick="window.location.href='index.html'" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">
+                    Go to Login Page
+                </button>
+            `;
+            document.querySelector('.dashboard-container').innerHTML = '';
+            document.querySelector('.dashboard-container').appendChild(loginDiv);
+            return;
+        }
+        
+        console.log('Authentication token found:', window.velaaAPI.token);
+        console.log('Vehicle ID from URL:', vehicleId);
+        
+        let vehicleData = null;
+        
+        // Load clients for dropdown
+        async function loadClients() {
+            try {
+                console.log('Loading clients for dropdown...');
+                const response = await window.velaaAPI.getClients({ limit: 100 });
+                console.log('Clients loaded:', response);
+                
+                if (response.success && response.data) {
+                    ownerSelect.innerHTML = '<option value="">Select customer</option>' +
+                        response.data.map(client => 
+                            `<option value="${client._id}">${client.name || client.displayName}</option>`
+                        ).join('');
+                } else {
+                    ownerSelect.innerHTML = '<option value="">Failed to load clients</option>';
+                }
+            } catch (error) {
+                console.error('Error loading clients:', error);
+                ownerSelect.innerHTML = '<option value="">Error loading clients</option>';
+            }
+        }
+        
+        // Load vehicle data from API - with comprehensive error handling
+        try {
+            console.log('=== STARTING VEHICLE DATA LOADING ===');
+            console.log('Loading vehicle data for ID:', vehicleId);
+            
+            // Prevent any form manipulation during loading
+            const formContainer = document.querySelector('.vehicle-form-container');
+            if (formContainer) {
+                formContainer.style.display = 'none';
+            }
+            
+            loadingManager.show('load-vehicle', 'Loading vehicle data...');
+            
+            // Load clients first
+            console.log('Step 1: Loading clients for dropdown...');
+            await loadClients();
+            console.log('Step 1: Clients loaded successfully');
+            
+            console.log('Step 2: Now loading vehicle data...');
+            const response = await window.velaaAPI.getVehicle(vehicleId);
+            console.log('Step 2: Vehicle API response received');
+            console.log('Response success:', response?.success);
+            console.log('Response data exists:', !!response?.data);
+            
+            if (!response || !response.success) {
+                throw new Error(response?.message || 'Failed to load vehicle data from API');
+            }
+            
+            vehicleData = response.data;
+            console.log('Step 3: Vehicle data extracted successfully');
+            console.log('Vehicle chassis:', vehicleData?.chassisNumber);
+            console.log('Vehicle brand:', vehicleData?.brand);
+            
+            // Populate form fields
+            if (vehicleData) {
+                ownerSelect.value = vehicleData.owner?._id || vehicleData.owner || '';
+                marketValueInput.value = vehicleData.marketValue || '';
+                showInMarketplaceInput.checked = vehicleData.showInMarketplace || false;
+                chassisNumberInput.value = vehicleData.chassisNumber || '';
+                brandInput.value = vehicleData.brand || '';
+                yearInput.value = vehicleData.year || '';
+                colorInput.value = vehicleData.color || '';
+                mileageInput.value = vehicleData.mileage || '';
+                monthlyFeeInput.value = vehicleData.monthlyFee || '';
+                
+                // Format dates for input[type="date"]
+                if (vehicleData.purchaseDate) {
+                    purchaseDateInput.value = new Date(vehicleData.purchaseDate).toISOString().split('T')[0];
+                }
+                if (vehicleData.bondExpiryDate) {
+                    bondExpiryDateInput.value = new Date(vehicleData.bondExpiryDate).toISOString().split('T')[0];
+                }
+                
+                statusSelect.value = vehicleData.status || '';
+                isActiveSelect.value = String(vehicleData.isActive !== false);
+                tagsInput.value = vehicleData.tags?.join(', ') || '';
+
+                // Prefill existing images in the preview strip
+                try {
+                    const previewStrip = document.getElementById('imagePreviewStrip');
+                    const imageCountHint = document.getElementById('imageCountHint');
+                    const baseOrigin = new URL(window.velaaAPI.baseURL).origin; // e.g., http://localhost:5001
+                    const existingImages = Array.isArray(vehicleData.images) ? vehicleData.images : [];
+
+                    // Persist existing images count for file selection limit
+                    window.__existingVehicleImagesCount = existingImages.length;
+
+                    if (previewStrip) {
+                        previewStrip.innerHTML = '';
+                        existingImages.forEach((imgObj) => {
+                            const src = (imgObj && imgObj.url)
+                                ? (imgObj.url.startsWith('http') ? imgObj.url : (baseOrigin + imgObj.url))
+                                : '';
+                            if (!src) return;
+
+                            const wrapper = document.createElement('div');
+                            wrapper.style.cssText = 'position: relative; display: inline-block;';
+
+                            const img = document.createElement('img');
+                            img.className = 'image-thumb';
+                            img.src = src;
+                            img.alt = 'Existing vehicle image';
+                            img.style.cssText = 'width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px; border: 2px solid #3a3a3a;';
+
+                            const badge = document.createElement('span');
+                            badge.textContent = 'Existing';
+                            badge.style.cssText = 'position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 6px;';
+
+                            wrapper.appendChild(img);
+                            wrapper.appendChild(badge);
+                            previewStrip.appendChild(wrapper);
+                        });
+
+                        if (imageCountHint) {
+                            imageCountHint.textContent = `${existingImages.length} existing / max 5`;
+                        }
+                    }
+                } catch (imgPrefillErr) {
+                    console.warn('Failed to prefill existing images:', imgPrefillErr);
+                }
+                
+                console.log('Step 4: Form populated with vehicle data successfully');
+                console.log('Form data populated:', {
+                    owner: vehicleData.owner?._id || vehicleData.owner,
+                    chassisNumber: vehicleData.chassisNumber,
+                    brand: vehicleData.brand,
+                    status: vehicleData.status,
+                    isActive: vehicleData.isActive
+                });
+                
+                // Show the form after successful loading
+                if (formContainer) {
+                    formContainer.style.display = 'block';
+                }
+                
+                console.log('=== VEHICLE DATA LOADING COMPLETED SUCCESSFULLY ===');
+                // Cleanup persisted id after successful render
+                try { sessionStorage.removeItem('editVehicleId'); } catch (_) {}
+            } else {
+                console.error('No vehicle data received from API');
+                throw new Error('No vehicle data found for the given ID');
+            }
+            
+        } catch (error) {
+            console.error('Error loading vehicle data:', error);
+            console.error('Error details:', {
+                message: error.message,
+                status: error.status,
+                data: error.data
+            });
+            
+            console.error('=== VEHICLE DATA LOADING FAILED ===');
+            NotificationManager.error('Failed to load vehicle data: ' + error.message);
+            
+            // Show the form container in case it was hidden
+            const formContainer = document.querySelector('.vehicle-form-container');
+            if (formContainer) {
+                formContainer.style.display = 'block';
+            }
+            
+            // Show a comprehensive error message with options
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = 'padding: 20px; text-align: center; color: #ff6b6b; background: #2a2a2a; margin: 20px; border-radius: 8px;';
+            
+            let errorContent = `<h2>❌ Failed to Load Vehicle Data</h2><p><strong>Error:</strong> ${error.message}</p>`;
+            errorContent += `<p><strong>Vehicle ID:</strong> ${vehicleId}</p>`;
+            
+            if (error.message && (error.message.includes('Access denied') || error.message.includes('Token is invalid'))) {
+                errorContent += `
+                    <p>Your session may have expired. Please try logging in again.</p>
+                    <button onclick="window.location.href='index.html'" style="padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px;">
+                        Go to Login
+                    </button>
+                `;
+            }
+            
+            errorContent += `
+                <button onclick="window.location.reload()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px;">
+                    Retry Loading
+                </button>
+                <button onclick="window.location.href='vehicles.html'" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px;">
+                    Back to Vehicles
+                </button>
+                <button onclick="testWithDifferentVehicle()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px;">
+                    Try Different Vehicle
+                </button>
+            `;
+            
+            errorDiv.innerHTML = errorContent;
+            
+            // Replace the form content with error message
+            const container = document.querySelector('.dashboard-container');
+            if (container) {
+                container.innerHTML = '';
+                container.appendChild(errorDiv);
+            }
+            
+            // Add test function
+            window.testWithDifferentVehicle = async () => {
+                try {
+                    const response = await window.velaaAPI.getVehicles();
+                    if (response.success && response.data?.data?.length > 0) {
+                        const vehicles = response.data.data;
+                        const differentVehicle = vehicles.find(v => v._id !== vehicleId) || vehicles[0];
+                        window.location.href = `vehicle-edit.html?id=${differentVehicle._id}`;
+                    } else {
+                        alert('No other vehicles found');
+                    }
+                } catch (err) {
+                    alert('Error loading vehicles: ' + err.message);
+                }
+            };
+            
+        } finally {
+            loadingManager.hide('load-vehicle');
+        }
+        
+        // Handle image upload preview
+        const fileInput = document.getElementById('vehiclePictures');
+        const openPickerBtn = document.getElementById('openImagePicker');
+        const imageCountHint = document.getElementById('imageCountHint');
+        const previewStrip = document.getElementById('imagePreviewStrip');
+
+        if (openPickerBtn && fileInput) {
+            openPickerBtn.addEventListener('click', () => fileInput.click());
+        }
+
+        if (fileInput) {
+            fileInput.addEventListener('change', () => {
+                const existingCount = window.__existingVehicleImagesCount || 0;
+                const allowed = Math.max(0, 5 - existingCount);
+                const selectedFiles = Array.from(fileInput.files).slice(0, allowed);
+
+                // Reset strip but keep existing previews
+                const existingThumbs = Array.from(previewStrip.querySelectorAll('img'));
+                previewStrip.innerHTML = '';
+                existingThumbs.forEach(t => previewStrip.appendChild(t.parentElement?.cloneNode(true) || t.cloneNode(true)));
+
+                selectedFiles.forEach(file => {
+                    const wrapper = document.createElement('div');
+                    wrapper.style.cssText = 'position: relative; display: inline-block;';
+
+                    const img = document.createElement('img');
+                    img.className = 'image-thumb';
+                    img.alt = file.name;
+                    img.src = URL.createObjectURL(file);
+                    img.style.cssText = 'width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin: 5px; border: 2px solid #3a3a3a;';
+
+                    const badge = document.createElement('span');
+                    badge.textContent = 'New';
+                    badge.style.cssText = 'position: absolute; bottom: 8px; left: 8px; background: #2563eb; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 6px;';
+
+                    wrapper.appendChild(img);
+                    wrapper.appendChild(badge);
+                    previewStrip.appendChild(wrapper);
+                });
+
+                if (fileInput.files.length > allowed) {
+                    NotificationManager.warning(`Maximum ${allowed} new image(s) allowed. Extra files will be ignored.`);
+                }
+
+                if (imageCountHint) {
+                    const newCount = selectedFiles.length;
+                    imageCountHint.textContent = `${existingCount} existing + ${newCount} new / max 5`;
+                }
+            });
+        }
+        
+        // Clear field errors
+        function clearFieldErrors() {
+            document.querySelectorAll('.form__error').forEach(error => {
+                error.textContent = '';
+                error.style.display = 'none';
+            });
+        }
+        
+        // Set field error
+        function setFieldError(field, message) {
+            const errorElement = document.querySelector(`[data-error-for="${field}"]`);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+        }
+        
+        // Validate vehicle data
+        function validateVehicleData(vehicle) {
+            const errors = [];
+            
+            if (!vehicle.owner) {
+                errors.push({ field: 'owner', message: 'Please select a customer' });
+            }
+            
+            if (!vehicle.chassisNumber || vehicle.chassisNumber.length < 8) {
+                errors.push({ field: 'chassisNumber', message: 'Chassis number must be at least 8 characters' });
+            }
+            
+            if (!vehicle.brand || vehicle.brand.trim().length < 2) {
+                errors.push({ field: 'brand', message: 'Brand must be at least 2 characters long' });
+            }
+            
+            if (!vehicle.year || vehicle.year < 1900 || vehicle.year > 2100) {
+                errors.push({ field: 'year', message: 'Please enter a valid year between 1900 and 2100' });
+            }
+            
+            if (!vehicle.color || vehicle.color.trim().length < 2) {
+                errors.push({ field: 'color', message: 'Color must be at least 2 characters long' });
+            }
+            
+            if (!vehicle.status) {
+                errors.push({ field: 'status', message: 'Please select a status' });
+            }
+            
+            return errors;
+        }
+        
+        // Upload vehicle images
+        async function uploadVehicleImages(vehicleId, files) {
+            const formData = new FormData();
+            
+            // Add files to FormData
+            Array.from(files).slice(0, 5).forEach((file, index) => {
+                formData.append('images', file);
+            });
+            
+            const response = await fetch(`${window.velaaAPI.baseURL}/vehicles/${vehicleId}/images`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${window.velaaAPI.token}`
+                },
+                body: formData
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Upload failed: ${response.statusText}`);
+            }
+            
+            return await response.json();
+        }
+        
+        // Form submission
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                console.log('Form submitted, preventing default');
+                
+                try {
+                    loadingManager.show('update-vehicle', 'Updating vehicle...');
+                    const formData = new FormData(form);
+
+                    const vehicleUpdates = {
+                        owner: formData.get('owner'),
+                        chassisNumber: (formData.get('chassisNumber') || '').toString().toUpperCase().trim(),
+                        brand: (formData.get('brand') || '').toString().trim(),
+                        year: parseInt(formData.get('year')) || new Date().getFullYear(),
+                        color: (formData.get('color') || '').toString().trim(),
+                        marketValue: parseFloat(formData.get('marketValue')) || 0,
+                        showInMarketplace: formData.get('showInMarketplace') === 'on',
+                        mileage: parseInt(formData.get('mileage')) || 0,
+                        monthlyFee: parseFloat(formData.get('monthlyFee')) || 0,
+                        status: formData.get('status') || 'Available',
+                        isActive: formData.get('isActive') !== 'false',
+                        purchaseDate: formData.get('purchaseDate') || null,
+                        bondExpiryDate: formData.get('bondExpiryDate') || null,
+                        tags: formData.get('tags') ? formData.get('tags').split(',').map(t => t.trim().toLowerCase()).filter(Boolean) : []
+                    };
+
+                    // Send only changed fields to avoid validator stripping and to be explicit
+                    const diff = {};
+                    const original = vehicleData || {};
+                    Object.entries(vehicleUpdates).forEach(([key, value]) => {
+                        const originalValue = original[key];
+                        // Normalize comparisons for dates/arrays/booleans
+                        const norm = (v) => {
+                            if (v === undefined) return undefined;
+                            if (v === null) return null;
+                            if (Array.isArray(v)) return JSON.stringify(v);
+                            if (v instanceof Date) return v.toISOString().split('T')[0];
+                            return v;
+                        };
+                        if (norm(value) !== norm(originalValue)) {
+                            diff[key] = value;
+                        }
+                    });
+
+                    clearFieldErrors();
+                    const frontErrors = validateVehicleData({ ...vehicleUpdates });
+                    console.log('Frontend validation errors:', frontErrors);
+                    if (frontErrors.length) {
+                        frontErrors.forEach(e => setFieldError(e.field, e.message));
+                        NotificationManager.error('Please correct the highlighted errors.');
+                        return;
+                    }
+
+                    const payload = Object.keys(diff).length ? diff : vehicleUpdates;
+                    console.log('Vehicle data to update (diff):', payload);
+                    const response = await window.velaaAPI.updateVehicle(vehicleId, payload);
+                    console.log('Update response:', response);
+                    if (!response || response.success !== true) {
+                        throw new Error(response?.message || 'Backend did not confirm update');
+                    }
+                    
+                    // Handle image upload if files are selected
+                    const files = fileInput.files;
+                    if (files && files.length > 0) {
+                        console.log('Uploading images...');
+                        try {
+                            await uploadVehicleImages(vehicleId, files);
+                            NotificationManager.success('Vehicle and images updated successfully');
+                        } catch (imgError) {
+                            console.error('Image upload failed:', imgError);
+                            NotificationManager.success('Vehicle updated successfully, but image upload failed');
+                        }
+                    } else {
+                        NotificationManager.success('Vehicle updated successfully');
+                    }
+                    
+                    // Force refresh of vehicle list by appending a cache-buster
+                    setTimeout(() => {
+                        const ts = Date.now();
+                        window.location.href = `vehicles.html?_=${ts}`;
+                    }, 1200);
+                    
+                } catch (err) {
+                    console.error(err);
+                    let msg = err?.getUserMessage ? err.getUserMessage() : (err?.message || 'Failed to update vehicle');
+
+                    if (err?.data?.errors) {
+                        if (Array.isArray(err.data.errors)) {
+                            const details = err.data.errors.map(e => `${e.field}: ${e.message}`).join(' | ');
+                            msg = `${msg} (${details})`;
+                        } else if (typeof err.data.errors === 'object') {
+                            const details = Object.entries(err.data.errors).map(([k,v]) => `${k}: ${Array.isArray(v)?v.join(', '):v}`).join(' | ');
+                            msg = `${msg} (${details})`;
+                        }
+                    }
+
+                    NotificationManager.error(msg);
+                } finally {
+                    loadingManager.hide('update-vehicle');
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>

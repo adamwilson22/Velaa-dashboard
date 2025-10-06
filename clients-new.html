@@ -9,154 +9,6 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/pagination.css">
-    <style>
-        /* Table container with fixed height and scroll */
-        .table-wrapper {
-            max-height: calc(100vh - 350px);
-            min-height: 500px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            margin-bottom: 20px;
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            background: #1a1a1a;
-        }
-        
-        /* Add padding to table cells */
-        .clients-table-header .clients-cell,
-        .clients-table-row .clients-cell {
-            padding: 16px 20px !important;
-        }
-        
-        .clients-table-row {
-            border-bottom: 1px solid #2a2a2a;
-        }
-        
-        .clients-table-row:hover {
-            background: #252525;
-        }
-        
-        .table-wrapper::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .table-wrapper::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-        
-        .table-wrapper::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
-        }
-        
-        .table-wrapper::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-        
-        /* Inline pagination styles - matching dark theme */
-        .pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin: 20px 0;
-            padding: 20px 24px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        .pagination__info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            color: #999;
-            margin-right: 20px;
-        }
-        .pagination__controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .pagination__button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 40px;
-            height: 40px;
-            padding: 0 14px;
-            border: 1px solid #3a3a3a;
-            background: #2a2a2a;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
-        .pagination__button:hover:not(:disabled) {
-            background: #3a3a3a;
-            border-color: #4a4a4a;
-            transform: translateY(-1px);
-        }
-        .pagination__button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            background: #2a2a2a;
-        }
-        .pagination__button--active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: #667eea;
-            color: white;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-        .pagination__button--active:hover {
-            background: linear-gradient(135deg, #5568d3 0%, #6a3f91 100%);
-            border-color: #5568d3;
-            transform: translateY(-1px);
-        }
-        .pagination__ellipsis {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 40px;
-            height: 40px;
-            color: #666;
-            font-size: 14px;
-            user-select: none;
-        }
-        .pagination__page-size {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: 20px;
-            font-size: 14px;
-            color: #999;
-        }
-        .pagination__page-size select {
-            padding: 8px 32px 8px 14px;
-            border: 1px solid #3a3a3a;
-            border-radius: 8px;
-            background: #2a2a2a;
-            color: #fff;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .pagination__page-size select:hover {
-            background: #3a3a3a;
-            border-color: #4a4a4a;
-        }
-        .pagination__page-size select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-    </style>
 </head>
 
 <body class="page page--dashboard">
@@ -309,19 +161,17 @@
                         </div>
 
                         <!-- Clients Table -->
-                        <div class="table-wrapper">
                         <div class="clients-table-container">
                             <div class="clients-table-scroll">
                                 <div class="clients-table">
                                     <div class="clients-table-header">
-                                            <div class="clients-cell clients-cell--name">Client Name</div>
-                                            <div class="clients-cell clients-cell--phone">Phone Number</div>
-                                            <div class="clients-cell clients-cell--balance">Outstanding Balance</div>
-                                            <div class="clients-cell clients-cell--type">Client Type</div>
+                                        <div class="clients-cell clients-cell--name">Client name</div>
+                                        <div class="clients-cell clients-cell--phone">Phone number</div>
+                                        <div class="clients-cell clients-cell--balance">Outstanding balance</div>
+                                        <div class="clients-cell clients-cell--type">Client type</div>
                                         <div class="clients-cell clients-cell--actions">Actions</div>
                                     </div>
                                     <!-- Dynamic content will be loaded here -->
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -364,14 +214,6 @@
         const table = document.querySelector('.clients-table');
         const paginationContainer = document.getElementById('pagination');
         
-        console.log('DOM Elements found:');
-        console.log('searchInput:', searchInput);
-        console.log('tableSearchInput:', tableSearchInput);
-        console.log('typeFilter:', typeFilter);
-        console.log('statusFilter:', statusFilter);
-        console.log('table:', table);
-        console.log('paginationContainer:', paginationContainer);
-        
         // State Management
         let currentClients = [];
         let currentPagination = null;
@@ -395,110 +237,87 @@
             }
 
             update(paginationData) {
-                console.log('PaginationManager update called with:', paginationData);
                 this.currentPage = paginationData.page || 1;
                 this.totalPages = paginationData.pages || 1;
                 this.totalItems = paginationData.total || 0;
                 this.itemsPerPage = paginationData.limit || 10;
-                console.log('PaginationManager state:', {
-                    currentPage: this.currentPage,
-                    totalPages: this.totalPages,
-                    totalItems: this.totalItems,
-                    itemsPerPage: this.itemsPerPage
-                });
                 this.render();
             }
 
             render() {
-                // Always show pagination info and page size selector, even with 1 page
-                console.log('PaginationManager render called');
-                console.log('Container element:', this.container);
-
-                if (!this.container) {
-                    console.error('Pagination container not found!');
+                if (this.totalPages <= 1) {
+                    this.container.innerHTML = '';
                     return;
                 }
 
                 const startItem = (this.currentPage - 1) * this.itemsPerPage + 1;
                 const endItem = Math.min(this.currentPage * this.itemsPerPage, this.totalItems);
-                
-                console.log('Pagination render values:', {
-                    startItem,
-                    endItem,
-                    totalItems: this.totalItems,
-                    totalPages: this.totalPages
-                });
 
                 let paginationHTML = `
                     <div class="pagination__info">
                         Showing ${startItem}-${endItem} of ${this.totalItems} clients
                     </div>
+                    <div class="pagination__controls">
                 `;
 
-                // Only show navigation controls if there are multiple pages
-                if (this.totalPages > 1) {
-                    paginationHTML += `<div class="pagination__controls">`;
+                // Previous button
+                paginationHTML += `
+                    <button class="pagination__button pagination__button--prev" 
+                            ${this.currentPage === 1 ? 'disabled' : ''} 
+                            data-page="${this.currentPage - 1}">
+                        Previous
+                    </button>
+                `;
 
-                    // Previous button
-                    paginationHTML += `
-                        <button class="pagination__button pagination__button--prev" 
-                                ${this.currentPage === 1 ? 'disabled' : ''} 
-                                data-page="${this.currentPage - 1}">
-                            Previous
-                        </button>
-                    `;
+                // Page numbers
+                const maxVisiblePages = 5;
+                let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+                let endPage = Math.min(this.totalPages, startPage + maxVisiblePages - 1);
 
-                    // Page numbers
-                    const maxVisiblePages = 5;
-                    let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
-                    let endPage = Math.min(this.totalPages, startPage + maxVisiblePages - 1);
-
-                    if (endPage - startPage + 1 < maxVisiblePages) {
-                        startPage = Math.max(1, endPage - maxVisiblePages + 1);
-                    }
-
-                    // First page
-                    if (startPage > 1) {
-                        paginationHTML += `
-                            <button class="pagination__button" data-page="1">1</button>
-                        `;
-                        if (startPage > 2) {
-                            paginationHTML += `<span class="pagination__ellipsis">...</span>`;
-                        }
-                    }
-
-                    // Page numbers
-                    for (let i = startPage; i <= endPage; i++) {
-                        const isActive = i === this.currentPage ? 'pagination__button--active' : '';
-                        paginationHTML += `
-                            <button class="pagination__button ${isActive}" data-page="${i}">${i}</button>
-                        `;
-                    }
-
-                    // Last page
-                    if (endPage < this.totalPages) {
-                        if (endPage < this.totalPages - 1) {
-                            paginationHTML += `<span class="pagination__ellipsis">...</span>`;
-                        }
-                        paginationHTML += `
-                            <button class="pagination__button" data-page="${this.totalPages}">${this.totalPages}</button>
-                        `;
-                    }
-
-                    // Next button
-                    paginationHTML += `
-                        <button class="pagination__button pagination__button--next" 
-                                ${this.currentPage === this.totalPages ? 'disabled' : ''} 
-                                data-page="${this.currentPage + 1}">
-                            Next
-                        </button>
-                    `;
-
-                    paginationHTML += `</div>`;
+                if (endPage - startPage + 1 < maxVisiblePages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
                 }
 
-                // Page size selector (always show)
+                // First page
+                if (startPage > 1) {
+                    paginationHTML += `
+                        <button class="pagination__button" data-page="1">1</button>
+                    `;
+                    if (startPage > 2) {
+                        paginationHTML += `<span class="pagination__ellipsis">...</span>`;
+                    }
+                }
+
+                // Page numbers
+                for (let i = startPage; i <= endPage; i++) {
+                    const isActive = i === this.currentPage ? 'pagination__button--active' : '';
+                    paginationHTML += `
+                        <button class="pagination__button ${isActive}" data-page="${i}">${i}</button>
+                    `;
+                }
+
+                // Last page
+                if (endPage < this.totalPages) {
+                    if (endPage < this.totalPages - 1) {
+                        paginationHTML += `<span class="pagination__ellipsis">...</span>`;
+                    }
+                    paginationHTML += `
+                        <button class="pagination__button" data-page="${this.totalPages}">${this.totalPages}</button>
+                    `;
+                }
+
+                // Next button
                 paginationHTML += `
+                    <button class="pagination__button pagination__button--next" 
+                            ${this.currentPage === this.totalPages ? 'disabled' : ''} 
+                            data-page="${this.currentPage + 1}">
+                        Next
+                    </button>
+                `;
+
+                // Page size selector
+                paginationHTML += `
+                    </div>
                     <div class="pagination__page-size">
                         <label for="pageSize">Show:</label>
                         <select id="pageSize" onchange="changePageSize(this.value)">
@@ -511,14 +330,6 @@
                 `;
 
                 this.container.innerHTML = paginationHTML;
-                console.log('Pagination HTML set:', paginationHTML);
-                console.log('Container innerHTML after setting:', this.container.innerHTML);
-                
-                // Make sure pagination is visible
-                this.container.style.display = 'flex';
-                this.container.style.visibility = 'visible';
-                this.container.style.opacity = '1';
-                console.log('Pagination container styles applied');
 
                 // Add event listeners
                 this.container.addEventListener('click', (e) => {
@@ -540,10 +351,8 @@
 
         // Page size change handler
         window.changePageSize = (newSize) => {
-            console.log('Page size changed to:', newSize);
             currentLimit = parseInt(newSize);
             currentPage = 1;
-            console.log('New pagination settings:', { currentLimit, currentPage });
             loadClients();
         };
 
@@ -615,13 +424,9 @@
                     }
                 });
                 
-                console.log('API params before call:', params);
-                console.log('Current filters state:', currentFilters);
+                console.log('API params:', params);
                 const response = await window.velaaAPI.getClients(params);
                 console.log('API response:', response);
-                console.log('Response data:', response.data);
-                console.log('Response pagination:', response.pagination);
-                console.log('Response success:', response.success);
                 
                 currentClients = response.data || [];
                 currentPagination = response.pagination;
@@ -633,20 +438,7 @@
                 
                 // Update pagination
                 if (currentPagination) {
-                    console.log('Updating pagination with:', currentPagination);
                     paginationManager.update(currentPagination);
-                } else {
-                    console.log('No pagination data, using default');
-                    // Fallback pagination data
-                    const fallbackPagination = {
-                        page: currentPage,
-                        limit: currentLimit,
-                        total: currentClients.length,
-                        pages: 1,
-                        hasNext: false,
-                        hasPrev: false
-                    };
-                    paginationManager.update(fallbackPagination);
                 }
                 
             } catch (e) {
@@ -677,14 +469,8 @@
             currentFilters.search = tableSearchInput.value.trim();
             currentFilters.type = typeFilter.value;
             currentFilters.isActive = statusFilter.value;
-            
-            console.log('Search triggered with filters:', currentFilters);
-            console.log('Search input value:', tableSearchInput.value);
-            console.log('Type filter value:', typeFilter.value);
-            console.log('Status filter value:', statusFilter.value);
-            
             loadClients();
-        }, 300); // Reduced debounce time for better responsiveness
+        }, 500);
         
         // Clear search function
         window.clearSearch = () => {

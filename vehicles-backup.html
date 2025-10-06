@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicles - Fleet Management System</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body class="page page--dashboard">
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__header">
+                <div class="sidebar__header-top">
+                    <h1 class="sidebar__brand">Velaa</h1>
+                    <button class="sidebar__close" onclick="closeSidebar()">×</button>
+                </div>
+                <div class="sidebar__greeting">
+                    <p class="sidebar__greeting-text">Good Evening</p>
+                    <p class="sidebar__greeting-name">Mr : Managers name</p>
+                </div>
+            </div>
+
+            <nav class="sidebar__nav">
+                <ul class="sidebar__nav-list">
+                    <li class="sidebar__nav-item">
+                        <a href="dashboard.html" class="sidebar__nav-link">
+                            <span class="nav-text">Dashboard</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard 1.png" alt="Dashboard"
+                                    class="nav-icon"></span>
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="vehicles.html" class="sidebar__nav-link sidebar__nav-link--active">
+                            <span class="nav-text">Vehicles</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/car1.png" alt="Vehicles"
+                                    class="nav-icon"></span>
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="vehicle-billing.html" class="sidebar__nav-link">
+                            <span class="nav-text">Billing</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/bag 1.png" alt="Billing"
+                                    class="nav-icon"></span>
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="clients.html" class="sidebar__nav-link">
+                            <span class="nav-text">Clients</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/customer 1.png" alt="Clients"
+                                    class="nav-icon"></span>
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="#" class="sidebar__nav-link">
+                            <span class="nav-text">Reports</span>
+                            <span class="sidebar__nav-icon">📋</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="dashboard-layout__main">
+            <!-- Header -->
+            <header class="header">
+                <button class="mobile-menu-toggle" id="menuToggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <div class="header__center">
+                    <input class="header__search" type="text" placeholder="Search by chassis number" />
+                </div>
+                <div class="header__right">
+                    <button class="header__notifications">
+                        <div class="notification-icon-container">
+                            <img src="images/icons/Bell.png" alt="Notifications" class="notification-icon">
+                            <span class="notification-dot"></span>
+                        </div>
+                        <span class="notification-text">Notifications</span>
+                    </button>
+                    <div class="header__profile" onclick="toggleProfileDropdown()">
+                        <div class="header__profile-avatar">
+                            <img src="images/avatar.png" alt="Owner" class="avatar-img">
+                        </div>
+
+
+                        <!-- Profile Dropdown Menu -->
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-section">
+                                <h3 class="dropdown-section-title">My Account</h3>
+                                <div class="dropdown-menu-item">
+                                    <span>Profile Picture</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>Password and security</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>Personal Details</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-section">
+                                <h3 class="dropdown-section-title">Support</h3>
+                                <div class="dropdown-menu-item">
+                                    <span>Help</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>Privacy center</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>Account status</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                                <div class="dropdown-menu-item">
+                                    <span>About us</span>
+                                    <span class="dropdown-arrow">›</span>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-section">
+                                <h3 class="dropdown-section-title">Login</h3>
+                                <div class="dropdown-menu-item logout">
+                                    <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="dashboard-layout__content">
+                <div class="dashboard-container vehicles-container">
+                    <!-- Vehicle Management Controls -->
+
+
+                    <!-- Vehicle Data Section -->
+                    <div class="vehicle-data-section">
+                        <!-- Search Bar and Add Button -->
+                        <div class="vehicle-search-container">
+                            <div class="search-bar">
+                                <input id="vehicleSearchInput" type="text" class="search-input" placeholder="Search by chassis number">
+                            </div>
+                            <button class="add-vehicle-btn" onclick="window.location.href='vehicle-add.html'">
+                                <span class="btn-icon">
+                                     <img src="./images/icons/plus.png" alt="">
+                                </span>
+                                Add new vehicle
+                            </button>
+                        </div>
+
+                        <!-- Vehicle Data Table -->
+                        <div class="vehicle-table-container">
+                            <div class="vehicle-table-scroll">
+                                <div class="vehicle-table">
+                                    <div class="vehicle-table-header">
+                                        <div class="vehicle-cell vehicle-cell--chassis">Chassis number</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Make</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">Arrival date</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">Expiry date</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Status</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">Actions</div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Audi</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">WCT79827962718MLK</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Benz</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">TCT79027962718MXV</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Audi</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">WCT79827962718MLK</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Benz</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">TCT79027962718MXV</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">WCT79827962718MLK</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Benz</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">TCT79027962718MXV</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-table-row">
+                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
+                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
+                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
+                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
+                                        <div class="vehicle-cell vehicle-cell--actions">
+                                            <button class="action-btn">⋮</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Profile Dropdown Overlay -->
+    <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('vehicleSearchInput');
+        const table = document.querySelector('.vehicle-table');
+
+        async function renderVehicles(list) {
+            const header = table.querySelector('.vehicle-table-header');
+            table.innerHTML = '';
+            table.appendChild(header);
+            (list || []).forEach(v => {
+                const row = document.createElement('div');
+                row.className = 'vehicle-table-row';
+                row.innerHTML = `
+                    <div class="vehicle-cell vehicle-cell--chassis">${v.chassis || ''}</div>
+                    <div class="vehicle-cell vehicle-cell--make">${v.make || ''}</div>
+                    <div class="vehicle-cell vehicle-cell--arrival">${v.arrival_date ? (new Date(v.arrival_date)).toLocaleDateString() : ''}</div>
+                    <div class="vehicle-cell vehicle-cell--expiry">${v.bond_expiry ? (new Date(v.bond_expiry)).toLocaleDateString() : ''}</div>
+                    <div class="vehicle-cell vehicle-cell--status">${v.current_status || ''}</div>
+                    <div class="vehicle-cell vehicle-cell--actions"><button class="action-btn">⋮</button></div>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        async function initialLoad() {
+            try {
+                loadingManager.show('vehicles-load', 'Loading vehicles...');
+                const { data } = await window.velaaAPI.searchVehicles({ page: 1, limit: 20 });
+                await renderVehicles(data.items || []);
+            } catch (e) {
+                console.error(e);
+                NotificationManager.error('Failed to load vehicles');
+            } finally {
+                loadingManager.hide('vehicles-load');
+            }
+        }
+
+        const doSearch = FleetManager.debounce(async () => {
+            try {
+                const q = searchInput.value.trim();
+                const { data } = await window.velaaAPI.searchVehicles({ query: q, page: 1, limit: 20 });
+                await renderVehicles(data.items || []);
+            } catch (e) {
+                console.error(e);
+            }
+        }, 400);
+
+        if (searchInput) {
+            searchInput.addEventListener('input', doSearch);
+        }
+
+        initialLoad();
+    });
+    </script>
+</body>
+
+</html>

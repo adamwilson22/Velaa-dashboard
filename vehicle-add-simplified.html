@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vehicle - Fleet Management System</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="page page--dashboard">
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__header">
+                <h1 class="sidebar__brand">Velaa</h1>
+                <div class="sidebar__greeting">
+                    <p class="sidebar__greeting-text">Good Evening</p>
+                    <p class="sidebar__greeting-name">Mr : Managers name</p>
+                </div>
+            </div>
+            <nav class="sidebar__nav">
+                <ul class="sidebar__nav-list">
+                    <li class="sidebar__nav-item">
+                        <a href="dashboard.html" class="sidebar__nav-link">
+                            <span class="nav-text">Dashboard</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/dashboard 1.png" alt="Dashboard" class="nav-icon"></span>
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="vehicles-list.html" class="sidebar__nav-link sidebar__nav-link--active">
+                            <span class="nav-text">Vehicles</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/car1.png" alt="Vehicles" class="nav-icon"></span>
+                        </a>
+                    </li>
+                    <li class="sidebar__nav-item">
+                        <a href="clients.html" class="sidebar__nav-link">
+                            <span class="nav-text">Clients</span>
+                            <span class="sidebar__nav-icon"><img src="images/icons/customer 1.png" alt="Clients" class="nav-icon"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="dashboard-layout__main">
+            <header class="header">
+                <button class="mobile-menu-toggle" id="menuToggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                <div class="header__center">
+                    <h1 class="header__title">Vehicles Management</h1>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="vehicle-form-container">
+                    <form id="vehicleForm" class="vehicle-form">
+                        <!-- Row 1: Customer, Price, Marketplace -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Select customer *</label>
+                                <select class="form-input" id="owner" name="owner" required>
+                                    <option value="">Loading clients...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Asking Price / Starting from</label>
+                                <input type="number" class="form-input" id="marketValue" name="marketValue" placeholder="Enter price" min="0" step="0.01">
+                            </div>
+                            <div class="form-group marketplace-toggle">
+                                <label class="form-label">Show in marketplace:</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="showInMarketplace" name="showInMarketplace" class="toggle-input">
+                                    <label for="showInMarketplace" class="toggle-label"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 2: Chassis, Make, Year -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Enter chassis number *</label>
+                                <input type="text" class="form-input" id="chassisNumber" name="chassisNumber" 
+                                       placeholder="17-char VIN (A-Z,0-9; no I,O,Q)" required 
+                                       minlength="8" maxlength="17" pattern="[A-HJ-NPR-Z0-9]+">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Make *</label>
+                                <input type="text" class="form-input" id="brand" name="brand" 
+                                       placeholder="e.g. Toyota, Audi, Nissan" required maxlength="50">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Year *</label>
+                                <input type="number" class="form-input" id="year" name="year" 
+                                       placeholder="e.g. 2023" required min="1900" max="2100">
+                            </div>
+                        </div>
+
+                        <!-- Row 3: Color, Mileage, Monthly Fee -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Color *</label>
+                                <input type="text" class="form-input" id="color" name="color" 
+                                       placeholder="e.g. Black, White, Silver" required maxlength="30">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Mileage (km)</label>
+                                <input type="number" class="form-input" id="mileage" name="mileage" 
+                                       placeholder="e.g. 50000" min="0" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Monthly fee</label>
+                                <input type="number" class="form-input" id="monthlyFee" name="monthlyFee" 
+                                       placeholder="Enter monthly fee" min="0" step="0.01">
+                            </div>
+                        </div>
+
+                        <!-- Row 4: Dates -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Arrival date</label>
+                                <input type="date" class="form-input" id="purchaseDate" name="purchaseDate">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Bond expiry date</label>
+                                <input type="date" class="form-input" id="bondExpiryDate" name="bondExpiryDate">
+                            </div>
+                        </div>
+
+                        <!-- Row 5: Status -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Current status *</label>
+                                <select class="form-input" id="status" name="status" required>
+                                    <option value="">Select status</option>
+                                    <option value="Available">Available</option>
+                                    <option value="Reserved">Not available</option>
+                                    <option value="Sold">Sold</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">System status *</label>
+                                <select class="form-input" id="isActive" name="isActive" required>
+                                    <option value="true">Active</option>
+                                    <option value="false">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Row 6: Keywords -->
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 1;">
+                                <label class="form-label">Keywords (comma-separated)</label>
+                                <input type="text" class="form-input" id="tags" name="tags" 
+                                       placeholder="e.g. SUV, automatic, luxury">
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="window.location.href='vehicles-list.html'">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                <span id="submitBtnText">Save Vehicle</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        const api = new VelaaAPI();
+        let isEditMode = false;
+        let currentVehicleId = null;
+
+        // Load clients for dropdown
+        async function loadClients() {
+            try {
+                const response = await api.getClients({ limit: 100 });
+                const select = document.getElementById('owner');
+                
+                if (response.success && response.data) {
+                    select.innerHTML = '<option value="">Select customer</option>' +
+                        response.data.map(client => 
+                            `<option value="${client._id}">${client.name}</option>`
+                        ).join('');
+                } else {
+                    select.innerHTML = '<option value="">Failed to load clients</option>';
+                }
+            } catch (error) {
+                console.error('Error loading clients:', error);
+                document.getElementById('owner').innerHTML = '<option value="">Error loading clients</option>';
+            }
+        }
+
+        // Load vehicle data for editing
+        async function loadVehicleData(vehicleId) {
+            try {
+                const response = await api.getVehicle(vehicleId);
+                
+                if (response.success && response.data) {
+                    const vehicle = response.data;
+                    
+                    // Populate form fields
+                    document.getElementById('owner').value = vehicle.owner?._id || vehicle.owner || '';
+                    document.getElementById('marketValue').value = vehicle.marketValue || '';
+                    document.getElementById('showInMarketplace').checked = vehicle.showInMarketplace || false;
+                    document.getElementById('chassisNumber').value = vehicle.chassisNumber || '';
+                    document.getElementById('brand').value = vehicle.brand || '';
+                    document.getElementById('year').value = vehicle.year || '';
+                    document.getElementById('color').value = vehicle.color || '';
+                    document.getElementById('mileage').value = vehicle.mileage || '';
+                    document.getElementById('monthlyFee').value = vehicle.monthlyFee || '';
+                    
+                    // Format dates for input[type="date"]
+                    if (vehicle.purchaseDate) {
+                        document.getElementById('purchaseDate').value = new Date(vehicle.purchaseDate).toISOString().split('T')[0];
+                    }
+                    if (vehicle.bondExpiryDate) {
+                        document.getElementById('bondExpiryDate').value = new Date(vehicle.bondExpiryDate).toISOString().split('T')[0];
+                    }
+                    
+                    document.getElementById('status').value = vehicle.status || '';
+                    document.getElementById('isActive').value = String(vehicle.isActive !== false);
+                    document.getElementById('tags').value = vehicle.tags?.join(', ') || '';
+                    
+                    document.getElementById('submitBtnText').textContent = 'Update Vehicle';
+                } else {
+                    api.showNotification('Failed to load vehicle data', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading vehicle:', error);
+                api.showNotification('Failed to load vehicle data', 'error');
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('vehicleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const vehicleData = {
+                owner: formData.get('owner'),
+                chassisNumber: formData.get('chassisNumber').toUpperCase(),
+                brand: formData.get('brand'),
+                year: parseInt(formData.get('year')),
+                color: formData.get('color'),
+                marketValue: parseFloat(formData.get('marketValue')) || 0,
+                showInMarketplace: formData.get('showInMarketplace') === 'on',
+                mileage: parseInt(formData.get('mileage')) || 0,
+                monthlyFee: parseFloat(formData.get('monthlyFee')) || 0,
+                status: formData.get('status'),
+                isActive: formData.get('isActive') === 'true',
+                purchaseDate: formData.get('purchaseDate') || new Date().toISOString(),
+                bondExpiryDate: formData.get('bondExpiryDate') || null,
+                tags: formData.get('tags') ? formData.get('tags').split(',').map(t => t.trim().toLowerCase()).filter(Boolean) : []
+            };
+
+            try {
+                let response;
+                if (isEditMode && currentVehicleId) {
+                    response = await api.updateVehicle(currentVehicleId, vehicleData);
+                } else {
+                    response = await api.createVehicle(vehicleData);
+                }
+
+                if (response.success) {
+                    api.showNotification(
+                        isEditMode ? 'Vehicle updated successfully' : 'Vehicle added successfully',
+                        'success'
+                    );
+                    setTimeout(() => {
+                        window.location.href = 'vehicles-list.html';
+                    }, 1500);
+                } else {
+                    api.showNotification(response.message || 'Failed to save vehicle', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving vehicle:', error);
+                api.showNotification('Failed to save vehicle', 'error');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check if editing
+            const urlParams = new URLSearchParams(window.location.search);
+            currentVehicleId = urlParams.get('id');
+            isEditMode = !!currentVehicleId;
+            
+            // Load clients
+            await loadClients();
+            
+            // Load vehicle data if editing
+            if (isEditMode) {
+                await loadVehicleData(currentVehicleId);
+            } else {
+                // Set default date to today
+                document.getElementById('purchaseDate').value = new Date().toISOString().split('T')[0];
+            }
+        });
+    </script>
+</body>
+</html>

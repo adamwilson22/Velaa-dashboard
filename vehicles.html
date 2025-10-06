@@ -8,6 +8,210 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/pagination.css">
+    
+    <style>
+        /* Table wrapper for scrolling */
+        .vehicle-table-container {
+            overflow-y: auto;
+            overflow-x: visible;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #1a1a1a;
+            min-height: 300px;
+            position: relative;
+        }
+        
+        .vehicle-table-scroll {
+            overflow: visible;
+        }
+        
+        /* Main content container height fix */
+        .main-content {
+            height: calc(100vh - 80px);
+            overflow: hidden;
+        }
+        
+        .content-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .content-container > div:last-child {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vehicle-table {
+            width: 100%;
+            background: #1a1a1a;
+        }
+        
+        .vehicle-table-row {
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        /* Status badges */
+        .status-available { color: #10b981; background: rgba(16, 185, 129, 0.1); padding: 4px 8px; border-radius: 4px; }
+        .status-sold { color: #ef4444; background: rgba(239, 68, 68, 0.1); padding: 4px 8px; border-radius: 4px; }
+        .status-reserved { color: #f59e0b; background: rgba(245, 158, 11, 0.1); padding: 4px 8px; border-radius: 4px; }
+        
+        /* Pagination styling - matching clients.html */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-top: 20px;
+            border-top: 1px solid #333;
+            color: #e5e7eb;
+        }
+        
+        .pagination__info {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+        
+        .pagination__controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pagination__button {
+            background: #374151;
+            color: #e5e7eb;
+            border: 1px solid #4b5563;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .pagination__button:hover:not(:disabled) {
+            background: #4b5563;
+            border-color: #6b7280;
+        }
+        
+        .pagination__button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination__button--active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+        
+        .pagination__ellipsis {
+            color: #9ca3af;
+            padding: 0 8px;
+        }
+        
+        .pagination__page-size {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pagination__page-size select {
+            background: #374151;
+            color: #e5e7eb;
+            border: 1px solid #4b5563;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+        
+        /* Action dropdown styling - dark theme */
+        .action-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .action-btn {
+            background: transparent;
+            border: none;
+            color: #e5e7eb;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #374151;
+        }
+        
+        .action-menu {
+            position: fixed;
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 99999;
+            min-width: 120px;
+            display: none !important;
+            overflow: visible;
+            margin-top: 4px;
+        }
+        
+        .action-menu.show {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            animation: fadeInDown 0.2s ease-out;
+        }
+        
+        .action-menu button {
+            width: 100%;
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            color: #e5e7eb;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        
+        .action-menu button:hover {
+            background: #374151;
+        }
+        
+        .action-menu button:first-child {
+            border-radius: 6px 6px 0 0;
+        }
+        
+        .action-menu button:last-child {
+            border-radius: 0 0 6px 6px;
+        }
+        
+        .action-menu button.danger {
+            color: #ef4444;
+        }
+        
+        .action-menu button.danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body class="page page--dashboard">
@@ -161,8 +365,10 @@
                             </button>
                         </div>
 
+                        <!-- Table and Pagination Container -->
+                        <div style="flex: 1; display: flex; flex-direction: column;">
                         <!-- Vehicle Data Table -->
-                        <div class="vehicle-table-container">
+                            <div class="vehicle-table-container" style="flex: 1; margin-bottom: 16px;">
                             <div class="vehicle-table-scroll">
                                 <div class="vehicle-table">
                                     <div class="vehicle-table-header">
@@ -173,167 +379,14 @@
                                         <div class="vehicle-cell vehicle-cell--status">Status</div>
                                         <div class="vehicle-cell vehicle-cell--actions">Actions</div>
                                     </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Audi</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">WCT79827962718MLK</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Benz</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">TCT79027962718MXV</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Audi</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">WCT79827962718MLK</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Benz</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">TCT79027962718MXV</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">WCT79827962718MLK</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Benz</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">TCT79027962718MXV</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Toyota</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">GYWBR32E779056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Available</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
-                                    </div>
-                                    <div class="vehicle-table-row">
-                                        <div class="vehicle-cell vehicle-cell--chassis">JTDBR32E720056478</div>
-                                        <div class="vehicle-cell vehicle-cell--make">Nissan</div>
-                                        <div class="vehicle-cell vehicle-cell--arrival">18 Oct 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--expiry">18 Sep 2025</div>
-                                        <div class="vehicle-cell vehicle-cell--status">Sold</div>
-                                        <div class="vehicle-cell vehicle-cell--actions">
-                                            <button class="action-btn">⋮</button>
-                                        </div>
+                                        <!-- Dynamic vehicle rows will be inserted here by JavaScript -->
                                     </div>
                                 </div>
+                            </div>
+                            
+                            <!-- Pagination Component - Always visible at bottom -->
+                            <div class="pagination" id="pagination" style="flex-shrink: 0; margin-top: auto;">
+                                <!-- Pagination will be dynamically generated here -->
                             </div>
                         </div>
                     </div>
@@ -348,57 +401,443 @@
     <script src="js/api.js"></script>
     <script src="js/scripts.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const searchInput = document.getElementById('vehicleSearchInput');
-        const table = document.querySelector('.vehicle-table');
+    const api = new VelaaAPI();
+    
+    // Simple notification function
+    function showNotification(message, type = 'info') {
+        alert(message);
+    }
+    
+    // Format date helper
+    function formatDate(dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+    }
 
-        async function renderVehicles(list) {
+    // Render vehicles table
+    function renderVehicles(vehicles) {
+        console.log('Rendering vehicles:', vehicles);
+        const table = document.querySelector('.vehicle-table');
             const header = table.querySelector('.vehicle-table-header');
+
+        // Clear table but keep header
             table.innerHTML = '';
             table.appendChild(header);
-            (list || []).forEach(v => {
+        
+        // Handle if vehicles is not an array
+        if (!Array.isArray(vehicles)) {
+            console.error('Vehicles is not an array:', vehicles);
+            vehicles = [];
+        }
+        
+        if (vehicles.length === 0) {
+            const emptyRow = document.createElement('div');
+            emptyRow.style.cssText = 'padding: 40px; text-align: center; color: #666;';
+            emptyRow.textContent = 'No vehicles found';
+            table.appendChild(emptyRow);
+            return;
+        }
+        
+        vehicles.forEach(vehicle => {
                 const row = document.createElement('div');
                 row.className = 'vehicle-table-row';
+            
+            const statusClass = vehicle.status === 'Available' ? 'status-available' : 
+                              vehicle.status === 'Sold' ? 'status-sold' : 'status-reserved';
+            
                 row.innerHTML = `
-                    <div class="vehicle-cell vehicle-cell--chassis">${v.chassis || ''}</div>
-                    <div class="vehicle-cell vehicle-cell--make">${v.make || ''}</div>
-                    <div class="vehicle-cell vehicle-cell--arrival">${v.arrival_date ? (new Date(v.arrival_date)).toLocaleDateString() : ''}</div>
-                    <div class="vehicle-cell vehicle-cell--expiry">${v.bond_expiry ? (new Date(v.bond_expiry)).toLocaleDateString() : ''}</div>
-                    <div class="vehicle-cell vehicle-cell--status">${v.current_status || ''}</div>
-                    <div class="vehicle-cell vehicle-cell--actions"><button class="action-btn">⋮</button></div>
+                <div class="vehicle-cell vehicle-cell--chassis">${vehicle.chassisNumber || 'N/A'}</div>
+                <div class="vehicle-cell vehicle-cell--make">${vehicle.brand || 'N/A'}</div>
+                <div class="vehicle-cell vehicle-cell--arrival">${formatDate(vehicle.purchaseDate)}</div>
+                <div class="vehicle-cell vehicle-cell--expiry">${formatDate(vehicle.bondExpiryDate)}</div>
+                <div class="vehicle-cell vehicle-cell--status">
+                    <span class="${statusClass}">${vehicle.status || 'Unknown'}</span>
+                </div>
+                        <div class="vehicle-cell vehicle-cell--actions">
+                            <div class="action-dropdown">
+                                <button class="action-btn" onclick="toggleActionMenu(this)">⋮</button>
+                                <div class="action-menu" style="display: none;">
+                                    <button onclick="viewVehicle('${vehicle._id}')">View</button>
+                                    <button onclick="editVehicle('${vehicle._id}')">Edit</button>
+                                    <button onclick="deleteVehicle('${vehicle._id}')" class="danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
                 `;
                 table.appendChild(row);
             });
         }
 
-        async function initialLoad() {
-            try {
-                loadingManager.show('vehicles-load', 'Loading vehicles...');
-                const { data } = await window.velaaAPI.searchVehicles({ page: 1, limit: 20 });
-                await renderVehicles(data.items || []);
-            } catch (e) {
-                console.error(e);
-                NotificationManager.error('Failed to load vehicles');
-            } finally {
-                loadingManager.hide('vehicles-load');
+    // Load vehicles from API
+    async function loadVehicles() {
+        try {
+            const searchTerm = currentFilters.search;
+            console.log('Loading vehicles, search:', searchTerm, 'page:', currentPage, 'limit:', currentLimit);
+            
+            const params = {
+                page: currentPage,
+                limit: currentLimit
+            };
+            
+            if (searchTerm) {
+                params.search = searchTerm;
             }
+            
+            const response = await api.getVehicles(params);
+            console.log('API Response:', response);
+            
+            // Handle different response formats
+            let vehiclesData = [];
+            let paginationData = null;
+            
+            if (response.success && response.data) {
+                // Check if data has nested structure (response.data.data)
+                if (response.data.data && Array.isArray(response.data.data)) {
+                    vehiclesData = response.data.data;
+                    paginationData = response.data.pagination;
+                } else if (Array.isArray(response.data)) {
+                    vehiclesData = response.data;
+                    paginationData = response.pagination;
+                } else {
+                    vehiclesData = [];
+                }
+            } else if (response.data && response.data.data && Array.isArray(response.data.data)) {
+                vehiclesData = response.data.data;
+                paginationData = response.data.pagination;
+            } else if (Array.isArray(response.data)) {
+                vehiclesData = response.data;
+                paginationData = response.pagination;
+            } else if (Array.isArray(response)) {
+                vehiclesData = response;
+            }
+            
+            console.log('Vehicles to render:', vehiclesData);
+            console.log('Pagination data:', paginationData);
+            
+            // Store current data
+            currentVehicles = vehiclesData;
+            currentPagination = paginationData;
+            
+            renderVehicles(vehiclesData);
+            
+            // Update pagination using PaginationManager
+            if (paginationManager) {
+                if (paginationData) {
+                    paginationManager.update(paginationData);
+                } else {
+                    // Fallback pagination data when API doesn't provide it
+                    const fallbackPagination = {
+                        page: currentPage,
+                        pages: Math.ceil(vehiclesData.length / currentLimit) || 1,
+                        total: vehiclesData.length,
+                        limit: currentLimit
+                    };
+                    console.log('Using fallback pagination:', fallbackPagination);
+                    paginationManager.update(fallbackPagination);
+                }
+            }
+            
+        } catch (error) {
+            console.error('Error loading vehicles:', error);
+            showNotification('Failed to load vehicles: ' + error.message);
+        }
+    }
+
+    // Search with debounce
+    let searchTimeout;
+    function doSearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const searchValue = document.getElementById('vehicleSearchInput').value.trim();
+            currentFilters.search = searchValue;
+            currentPage = 1; // Reset to first page when searching
+            loadVehicles();
+        }, 300);
+    }
+
+    // View vehicle
+    function viewVehicle(vehicleId) {
+        window.location.href = `vehicle-view.html?id=${vehicleId}`;
+    }
+
+    // Edit vehicle
+    function editVehicle(vehicleId) {
+        console.log('Edit vehicle clicked, ID:', vehicleId);
+        try {
+            // Persist the ID as a fallback in case query params are stripped by the server/router
+            sessionStorage.setItem('editVehicleId', vehicleId);
+        } catch (e) {
+            console.warn('Unable to persist editVehicleId in sessionStorage:', e);
+        }
+        console.log('Navigating to vehicle-edit.html?id=' + vehicleId);
+        window.location.href = `vehicle-edit.html?id=${vehicleId}`;
+    }
+
+    // Toggle action menu
+    window.toggleActionMenu = (button) => {
+        console.log('toggleActionMenu called', button);
+        const menu = button.nextElementSibling;
+        console.log('menu element:', menu);
+        
+        if (!menu) {
+            console.error('No menu found next to button');
+            return;
+        }
+        
+        const isOpen = menu.classList.contains('show');
+        console.log('menu is open:', isOpen);
+        
+        // Close all other menus
+        document.querySelectorAll('.action-menu.show').forEach(m => {
+            m.classList.remove('show');
+        });
+        
+        if (!isOpen) {
+            // Position the menu relative to the button
+            const rect = button.getBoundingClientRect();
+            menu.style.top = (rect.bottom + 4) + 'px';
+            menu.style.left = (rect.right - 120) + 'px'; // 120px is min-width of menu
+            
+            menu.classList.add('show');
+            console.log('menu opened at position:', menu.style.top, menu.style.left);
+        } else {
+            console.log('menu closed');
+        }
+    };
+
+    // Delete vehicle
+    async function deleteVehicle(vehicleId) {
+        if (!confirm('Are you sure you want to delete this vehicle?')) {
+            return;
+        }
+        
+        try {
+            const response = await api.deleteVehicle(vehicleId);
+            if (response.success || response.status === 'success') {
+                showNotification('Vehicle deleted successfully!');
+                loadVehicles();
+            } else {
+                showNotification(response.message || 'Failed to delete vehicle');
+            }
+        } catch (error) {
+            console.error('Error deleting vehicle:', error);
+            showNotification('Failed to delete vehicle');
+        }
+    }
+
+    // State Management
+    let currentVehicles = [];
+    let currentPagination = null;
+    let currentPage = 1;
+    let currentLimit = 10;
+    let currentFilters = {
+        search: ''
+    };
+
+    // Pagination Component (copied from clients.html)
+    class PaginationManager {
+        constructor(container, onPageChange) {
+            this.container = container;
+            this.onPageChange = onPageChange;
+            this.currentPage = 1;
+            this.totalPages = 1;
+            this.totalItems = 0;
+            this.itemsPerPage = 10;
         }
 
-        const doSearch = FleetManager.debounce(async () => {
-            try {
-                const q = searchInput.value.trim();
-                const { data } = await window.velaaAPI.searchVehicles({ query: q, page: 1, limit: 20 });
-                await renderVehicles(data.items || []);
-            } catch (e) {
-                console.error(e);
-            }
-        }, 400);
+        update(paginationData) {
+            console.log('PaginationManager update called with:', paginationData);
+            this.currentPage = paginationData.page || 1;
+            this.totalPages = paginationData.pages || 1;
+            this.totalItems = paginationData.total || 0;
+            this.itemsPerPage = paginationData.limit || 10;
+            console.log('PaginationManager state:', {
+                currentPage: this.currentPage,
+                totalPages: this.totalPages,
+                totalItems: this.totalItems,
+                itemsPerPage: this.itemsPerPage
+            });
+            this.render();
+        }
 
+        render() {
+            console.log('PaginationManager render called');
+            console.log('Container element:', this.container);
+
+            if (!this.container) {
+                console.error('Pagination container not found!');
+                return;
+            }
+
+            const startItem = (this.currentPage - 1) * this.itemsPerPage + 1;
+            const endItem = Math.min(this.currentPage * this.itemsPerPage, this.totalItems);
+            
+            console.log('Pagination render values:', {
+                startItem,
+                endItem,
+                totalItems: this.totalItems,
+                totalPages: this.totalPages
+            });
+
+            let paginationHTML = `
+                <div class="pagination__info">
+                    Showing ${startItem}-${endItem} of ${this.totalItems} vehicles
+                </div>
+            `;
+
+            // Only show navigation controls if there are multiple pages
+            if (this.totalPages > 1) {
+                paginationHTML += `<div class="pagination__controls">`;
+
+                // Previous button
+                paginationHTML += `
+                    <button class="pagination__button pagination__button--prev" 
+                            ${this.currentPage === 1 ? 'disabled' : ''} 
+                            data-page="${this.currentPage - 1}">
+                        Previous
+                    </button>
+                `;
+
+                // Page numbers
+                const maxVisiblePages = 5;
+                let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+                let endPage = Math.min(this.totalPages, startPage + maxVisiblePages - 1);
+
+                if (endPage - startPage + 1 < maxVisiblePages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                }
+
+                // First page
+                if (startPage > 1) {
+                    paginationHTML += `
+                        <button class="pagination__button" data-page="1">1</button>
+                    `;
+                    if (startPage > 2) {
+                        paginationHTML += `<span class="pagination__ellipsis">...</span>`;
+                    }
+                }
+
+                // Page numbers
+                for (let i = startPage; i <= endPage; i++) {
+                    const isActive = i === this.currentPage ? 'pagination__button--active' : '';
+                    paginationHTML += `
+                        <button class="pagination__button ${isActive}" data-page="${i}">${i}</button>
+                    `;
+                }
+
+                // Last page
+                if (endPage < this.totalPages) {
+                    if (endPage < this.totalPages - 1) {
+                        paginationHTML += `<span class="pagination__ellipsis">...</span>`;
+                    }
+                    paginationHTML += `
+                        <button class="pagination__button" data-page="${this.totalPages}">${this.totalPages}</button>
+                    `;
+                }
+
+                // Next button
+                paginationHTML += `
+                    <button class="pagination__button pagination__button--next" 
+                            ${this.currentPage === this.totalPages ? 'disabled' : ''} 
+                            data-page="${this.currentPage + 1}">
+                        Next
+                    </button>
+                `;
+
+                paginationHTML += `</div>`;
+            }
+
+            // Page size selector (always show)
+            paginationHTML += `
+                <div class="pagination__page-size">
+                    <label for="pageSize">Show:</label>
+                    <select id="pageSize" onchange="changePageSize(this.value)">
+                        <option value="5" ${this.itemsPerPage === 5 ? 'selected' : ''}>5</option>
+                        <option value="10" ${this.itemsPerPage === 10 ? 'selected' : ''}>10</option>
+                        <option value="25" ${this.itemsPerPage === 25 ? 'selected' : ''}>25</option>
+                        <option value="50" ${this.itemsPerPage === 50 ? 'selected' : ''}>50</option>
+                    </select>
+                </div>
+            `;
+
+            this.container.innerHTML = paginationHTML;
+            console.log('Pagination HTML set:', paginationHTML);
+            
+            // Make sure pagination is visible
+            this.container.style.display = 'flex';
+            this.container.style.visibility = 'visible';
+            this.container.style.opacity = '1';
+            console.log('Pagination container styles applied');
+
+            // Add event listeners
+            this.container.addEventListener('click', (e) => {
+                if (e.target.classList.contains('pagination__button') && !e.target.disabled) {
+                    const page = parseInt(e.target.dataset.page);
+                    if (page && page !== this.currentPage) {
+                        this.onPageChange(page);
+                    }
+                }
+            });
+        }
+    }
+
+    // Change page size function
+    function changePageSize(newSize) {
+        currentLimit = parseInt(newSize);
+        currentPage = 1;
+        loadVehicles();
+    }
+
+    // Initialize PaginationManager
+    let paginationManager;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM loaded - Loading vehicles...');
+        
+        // DOM Elements
+        const searchInput = document.getElementById('vehicleSearchInput');
+        const paginationContainer = document.getElementById('pagination');
+        
+        console.log('DOM Elements found:');
+        console.log('searchInput:', searchInput);
+        console.log('paginationContainer:', paginationContainer);
+        
+        // Initialize pagination manager
+        paginationManager = new PaginationManager(paginationContainer, (page) => {
+            currentPage = page;
+            loadVehicles();
+        });
+        
+        // Setup search
         if (searchInput) {
             searchInput.addEventListener('input', doSearch);
         }
 
-        initialLoad();
+        // Load vehicles
+        loadVehicles();
+
+        // Close action menus when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.action-dropdown')) {
+                document.querySelectorAll('.action-menu.show').forEach(m => {
+                    m.classList.remove('show');
+                    console.log('Menu closed by outside click');
+                });
+            }
+        });
+        
+        // Close menus on scroll to prevent them from staying in wrong position
+        document.querySelector('.vehicle-table-container')?.addEventListener('scroll', () => {
+            document.querySelectorAll('.action-menu.show').forEach(m => {
+                m.classList.remove('show');
+                console.log('Menu closed by scroll');
+            });
+        });
     });
     </script>
 </body>

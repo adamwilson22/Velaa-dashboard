@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Client - Fleet Management System</title>
+    <title>Edit Client - Velaa</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -63,18 +63,14 @@
         <div class="dashboard-layout__main">
             <!-- Header -->
             <header class="header">
-                <div class="header__left">
-                    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-
+                <button class="mobile-menu-toggle" id="menuToggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
                 <div class="header__center">
-                    <h1 class="header__title">Add new client</h1>
+                    <h1 class="header__title">Edit Client</h1>
                 </div>
-
                 <div class="header__right">
                     <button class="header__notifications">
                         <div class="notification-icon-container">
@@ -86,53 +82,6 @@
                     <div class="header__profile" onclick="toggleProfileDropdown()">
                         <div class="header__profile-avatar">
                             <img src="images/avatar.png" alt="Owner" class="avatar-img">
-                        </div>
-                        
-                        
-                        <!-- Profile Dropdown Menu -->
-                        <div class="profile-dropdown" id="profileDropdown">
-                            <div class="dropdown-section">
-                                <h3 class="dropdown-section-title">My Account</h3>
-                                <div class="dropdown-menu-item">
-                                    <span>Profile Picture</span>
-                                    <span class="dropdown-arrow">›</span>
-                                </div>
-                                <div class="dropdown-menu-item">
-                                    <span>Password and security</span>
-                                    <span class="dropdown-arrow">›</span>
-                                </div>
-                                <div class="dropdown-menu-item">
-                                    <span>Personal Details</span>
-                                    <span class="dropdown-arrow">›</span>
-                                </div>
-                            </div>
-                            
-                            <div class="dropdown-section">
-                                <h3 class="dropdown-section-title">Support</h3>
-                                <div class="dropdown-menu-item">
-                                    <span>Help</span>
-                                    <span class="dropdown-arrow">›</span>
-                                </div>
-                                <div class="dropdown-menu-item">
-                                    <span>Privacy center</span>
-                                    <span class="dropdown-arrow">›</span>
-                                </div>
-                                <div class="dropdown-menu-item">
-                                    <span>Account status</span>
-                                    <span class="dropdown-arrow">›</span>
-                                </div>
-                                <div class="dropdown-menu-item">
-                                    <span>About us</span>
-                                    <span class="dropdown-arrow">›</span>
-                                </div>
-                            </div>
-                            
-                            <div class="dropdown-section">
-                                <h3 class="dropdown-section-title">Login</h3>
-                                <div class="dropdown-menu-item logout">
-                                    <span>Log out</span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -157,24 +106,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Client type</label>
-                                    <div class="dropdown-container">
-                                        <select class="form-input" name="client_type" required>
-                                            <option value="">Select client type</option>
-                                            <option value="individual">Individual</option>
-                                            <option value="dealer">Dealer</option>
-                                            <option value="company">Company</option>
-                                        </select>
-                                    </div>
+                                    <select class="form-input" name="client_type" required>
+                                        <option value="">Select client type</option>
+                                        <option value="individual">Individual</option>
+                                        <option value="company">Company</option>
+                                        <option value="dealer">Dealer</option>
+                                    </select>
                                     <div class="form__error" data-error-for="type"></div>
                                 </div>
                             </div>
 
-                            <!-- Row 2: Single column -->
-                            <div class="form-row single-column">
+                            <!-- Row 2: Two columns -->
+                            <div class="form-row two-columns">
                                 <div class="form-group">
                                     <label class="form-label">System status</label>
                                     <select class="form-input" name="system_status" required>
-                                        <option value="">Active / Inactive</option>
                                         <option value="active">Active</option>
                                         <option value="inactive">Inactive</option>
                                     </select>
@@ -184,8 +130,7 @@
 
                             <!-- Submit Button -->
                             <div class="form-row single-column">
-                                <button type="submit" class="submit-btn">Submit</button>
-                                <button type="button" onclick="testAPI()" style="margin-top: 10px; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px;">Test API</button>
+                                <button type="submit" class="submit-btn">Update Client</button>
                             </div>
                         </form>
                     </div>
@@ -200,8 +145,8 @@
     <script src="js/api.js"></script>
     <script src="js/scripts.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM loaded, initializing client form');
+    document.addEventListener('DOMContentLoaded', async () => {
+        console.log('DOM loaded, initializing client edit form');
         console.log('velaaAPI available:', !!window.velaaAPI);
         console.log('loadingManager available:', !!window.loadingManager);
         console.log('NotificationManager available:', !!window.NotificationManager);
@@ -214,74 +159,160 @@
         const submitBtn = document.querySelector('.submit-btn');
         
         console.log('Form elements found:', { form: !!form, phoneInput: !!phoneInput, nameInput: !!nameInput, typeSelect: !!typeSelect, statusSelect: !!statusSelect, submitBtn: !!submitBtn });
+        console.log('API functions available:', {
+            formatTanzaniaPhone: typeof window.velaaAPI?.formatTanzaniaPhone,
+            validateTanzaniaPhone: typeof window.velaaAPI?.validateTanzaniaPhone
+        });
         
-        // Check if we're in edit mode
+        // Check if user is authenticated
+        if (!window.velaaAPI?.token) {
+            console.log('No authentication token found, redirecting to login');
+            NotificationManager.error('Please login first to edit clients');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+            return;
+        }
+        
+        // Get client ID from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const isEditMode = urlParams.get('edit') === 'true';
-        let editingClientId = null;
+        const clientId = urlParams.get('id');
         
-        // Load client data if editing
-        if (isEditMode) {
-            const clientData = sessionStorage.getItem('editingClient');
+        if (!clientId) {
+            console.error('No client ID provided in URL');
+            NotificationManager.error('No client ID provided');
+            window.location.href = 'clients.html';
+            return;
+        }
+        
+        console.log('Authentication token found:', window.velaaAPI.token);
+        
+        let clientData = null;
+        
+        // Load client data from API
+        try {
+            console.log('Loading client data for ID:', clientId);
+            console.log('API mock mode:', window.velaaAPI?.mockMode);
+            loadingManager.show('load-client', 'Loading client data...');
+            
+            const response = await window.velaaAPI.getClient(clientId);
+            console.log('Client data loaded:', response);
+            
+            clientData = response.data;
+            
+            // Populate form fields
             if (clientData) {
-                try {
-                    const client = JSON.parse(clientData);
-                    editingClientId = client._id;
-                    nameInput.value = client.name || '';
-                    phoneInput.value = client.phone || '';
-                    typeSelect.value = (client.type || '').toLowerCase();
-                    statusSelect.value = client.isActive ? 'active' : 'inactive';
-                    submitBtn.textContent = 'Update Client';
-                    document.querySelector('.header__title').textContent = 'Edit Client';
-                } catch (e) {
-                    console.error('Failed to parse client data:', e);
-                    NotificationManager.error('Failed to load client data');
+                nameInput.value = clientData.name || '';
+                phoneInput.value = clientData.phone || '';
+                typeSelect.value = (clientData.type || '').toLowerCase();
+                statusSelect.value = clientData.isActive ? 'active' : 'inactive';
+                
+                console.log('Form populated with client data:', {
+                    name: clientData.name,
+                    phone: clientData.phone,
+                    type: clientData.type,
+                    isActive: clientData.isActive
+                });
+            } else {
+                console.warn('No client data received from API');
+                NotificationManager.error('No client data found for the given ID');
+            }
+            
+        } catch (error) {
+            console.error('Error loading client data:', error);
+            console.error('Error details:', {
+                message: error.message,
+                status: error.status,
+                data: error.data
+            });
+            
+            if (error.message && error.message.includes('Access denied')) {
+                NotificationManager.error('Authentication failed. Please login again.');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                return;
+            } else if (error.message && error.message.includes('Token is invalid')) {
+                NotificationManager.error('Your session has expired. Please login again.');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                return;
+            } else {
+                // Don't redirect immediately, show error and let user decide
+                NotificationManager.error('Failed to load client data: ' + error.message);
+                
+                // Show a retry button instead of redirecting
+                const retryButton = document.createElement('button');
+                retryButton.textContent = 'Retry Loading';
+                retryButton.className = 'retry-btn';
+                retryButton.style.cssText = 'margin: 20px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;';
+                retryButton.onclick = () => {
+                    window.location.reload();
+                };
+                
+                const form = document.querySelector('.client-form');
+                if (form) {
+                    form.innerHTML = '';
+                    form.appendChild(retryButton);
                 }
+            }
+            
+        } finally {
+            loadingManager.hide('load-client');
+        }
+        
+        // Phone number formatting
+        if (phoneInput) {
+            phoneInput.addEventListener('input', (e) => {
+                const formatted = window.velaaAPI.formatTanzaniaPhone(e.target.value);
+                e.target.value = formatted;
+            });
+        }
+        
+        // Clear field errors
+        function clearFieldErrors() {
+            document.querySelectorAll('.form__error').forEach(error => {
+                error.textContent = '';
+                error.style.display = 'none';
+            });
+        }
+        
+        // Set field error
+        function setFieldError(field, message) {
+            const errorElement = document.querySelector(`[data-error-for="${field}"]`);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
             }
         }
         
-        // Tanzania phone formatting
-        if (phoneInput) {
-            phoneInput.addEventListener('blur', () => {
-                const formatted = window.velaaAPI.formatTanzaniaPhone(phoneInput.value);
-                phoneInput.value = formatted;
-            });
-        }
-
-        function clearFieldErrors() {
-            form.querySelectorAll('.form__error').forEach(el => { el.textContent = ''; });
-        }
-
-        function setFieldError(fieldName, message) {
-            const errorEl = form.querySelector(`.form__error[data-error-for="${CSS.escape(fieldName)}"]`);
-            if (errorEl) errorEl.textContent = message;
-        }
-
+        // Validate client data
         function validateClientData(client) {
             const errors = [];
             
             if (!client.name || client.name.trim().length < 2) {
-                errors.push({ field: 'name', message: 'Client name must be at least 2 characters.' });
+                errors.push({ field: 'name', message: 'Name must be at least 2 characters long' });
             }
             
             if (!client.phone || !window.velaaAPI.validateTanzaniaPhone(client.phone)) {
-                errors.push({ field: 'phone', message: 'Please enter a valid Tanzania phone number.' });
+                errors.push({ field: 'phone', message: 'Please enter a valid Tanzania phone number' });
             }
             
-            if (!['Individual', 'Dealer', 'Company'].includes(client.type)) {
-                errors.push({ field: 'type', message: 'Please select a valid client type.' });
+            if (!client.type || !['individual', 'company', 'dealer'].includes(client.type.toLowerCase())) {
+                errors.push({ field: 'type', message: 'Please select a valid client type' });
             }
             
             return errors;
         }
-
+        
+        // Form submission
         if (form) {
-            console.log('Form found, adding submit listener');
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 console.log('Form submitted, preventing default');
                 try {
-                    loadingManager.show('add-client', `${isEditMode ? 'Updating' : 'Saving'} client...`);
+                    loadingManager.show('update-client', 'Updating client...');
                     const formData = new FormData(form);
 
                     const client = {
@@ -300,55 +331,32 @@
                         return;
                     }
 
-                    console.log('Client data to submit:', client);
-                    let response;
-                    if (isEditMode && editingClientId) {
-                        console.log('Updating client with ID:', editingClientId);
-                        response = await window.velaaAPI.updateClient(editingClientId, client);
-                        console.log('Update response:', response);
-                        NotificationManager.success('Client updated successfully');
-                    } else {
-                        console.log('Creating new client');
-                        response = await window.velaaAPI.createClient(client);
-                        console.log('Create response:', response);
-                        NotificationManager.success('Client added successfully');
-                    }
+                    console.log('Client data to update:', client);
+                    const response = await window.velaaAPI.updateClient(clientId, client);
+                    console.log('Update response:', response);
+                    NotificationManager.success('Client updated successfully');
                     window.location.href = 'clients.html';
                     return response;
                 } catch (err) {
                     console.error(err);
-                    let msg = err?.getUserMessage ? err.getUserMessage() : (err?.message || `Failed to ${isEditMode ? 'update' : 'add'} client`);
-                    if (Array.isArray(err?.data?.errors)) {
-                        clearFieldErrors();
-                        err.data.errors.forEach(e => setFieldError(e.field || e.path || 'form', e.message || 'Invalid'));
-                        msg = 'Validation failed. Please review errors.';
-                    } else if (err?.data?.errors && typeof err.data.errors === 'object') {
-                        Object.entries(err.data.errors).forEach(([field, messages]) => setFieldError(field, Array.isArray(messages)?messages.join(', '):String(messages)));
-                        msg = 'Validation failed. Please review errors.';
+                    let msg = err?.getUserMessage ? err.getUserMessage() : (err?.message || 'Failed to update client');
+
+                    if (err?.data?.errors) {
+                        if (Array.isArray(err.data.errors)) {
+                            const details = err.data.errors.map(e => `${e.field}: ${e.message}`).join(' | ');
+                            msg = `${msg} (${details})`;
+                        } else if (typeof err.data.errors === 'object') {
+                            const details = Object.entries(err.data.errors).map(([k,v]) => `${k}: ${Array.isArray(v)?v.join(', '):v}`).join(' | ');
+                            msg = `${msg} (${details})`;
+                        }
                     }
+
                     NotificationManager.error(msg);
                 } finally {
-                    loadingManager.hide('add-client');
+                    loadingManager.hide('update-client');
                 }
             });
         }
-        // Test API function
-        window.testAPI = async () => {
-            console.log('Testing API...');
-            try {
-                const response = await window.velaaAPI.createClient({
-                    name: 'Test Client',
-                    phone: '+255123456789',
-                    type: 'Individual',
-                    isActive: true
-                });
-                console.log('API test successful:', response);
-                NotificationManager.success('API test successful!');
-            } catch (error) {
-                console.error('API test failed:', error);
-                NotificationManager.error('API test failed: ' + error.message);
-            }
-        };
     });
     </script>
 </body>
