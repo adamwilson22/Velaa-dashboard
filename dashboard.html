@@ -310,7 +310,79 @@
     <!-- Profile Dropdown Overlay -->
     <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
+    <script src="js/api.js"></script>
     <script src="js/scripts.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const api = new VelaaAPI();
+        try {
+            const res = await api.getDashboardOverview();
+            if (!res.success) throw new Error(res.message || 'Failed to load dashboard');
+
+            const { stats, stockChart, vehicles } = res.data || {};
+
+            // Update stat cards
+            const statNumbers = document.querySelectorAll('.stat-number');
+            if (statNumbers && statNumbers.length >= 3) {
+                statNumbers[0].textContent = stats?.totalVehiclesInStock ?? '-';
+                statNumbers[1].textContent = stats?.vehiclesAvailableForSale ?? '-';
+                statNumbers[2].textContent = stats?.totalVehicles ?? '-';
+            }
+
+            // Update Stock Overview chart dynamically (top brands by count)
+            const brandCounts = (stockChart?.byBrand || []).slice(0, 8);
+            const chartBars = document.querySelector('.chart-bars');
+            if (chartBars) {
+                // Build bars from API instead of relying on static DOM
+                chartBars.innerHTML = '';
+                const maxCount = Math.max(1, ...brandCounts.map(b => b.count || 0));
+                brandCounts.forEach((b) => {
+                    const container = document.createElement('div');
+                    container.className = 'bar-container';
+                    const bar = document.createElement('div');
+                    bar.className = 'bar';
+                    const fill = document.createElement('div');
+                    fill.className = 'bar-fill';
+                    // Start from 0 for a smooth animation
+                    fill.style.height = '0%';
+                    bar.appendChild(fill);
+                    const label = document.createElement('span');
+                    label.className = 'bar-label';
+                    label.textContent = (b.brand || 'Unknown');
+                    container.appendChild(bar);
+                    container.appendChild(label);
+                    chartBars.appendChild(container);
+                    // Animate to scaled height (8% min, 95% max)
+                    const scaled = Math.min(95, Math.max(8, Math.round((b.count / maxCount) * 95)));
+                    requestAnimationFrame(() => {
+                        fill.style.height = scaled + '%';
+                    });
+                });
+            }
+
+            // Update recent vehicles
+            const rowsContainer = document.querySelector('.activity-table');
+            const header = rowsContainer?.querySelector('.activity-header');
+            if (rowsContainer && header) {
+                // Clear old rows
+                rowsContainer.innerHTML = '';
+                rowsContainer.appendChild(header);
+                (vehicles?.recentAdded || []).forEach(v => {
+                    const row = document.createElement('div');
+                    row.className = 'activity-row';
+                    row.innerHTML = `
+                        <span>${v.brand || ''}</span>
+                        <span>${v.chassisNumber || ''}</span>
+                        <span>${v.year || ''}</span>
+                    `;
+                    rowsContainer.appendChild(row);
+                });
+            }
+        } catch (e) {
+            console.error('Dashboard load error:', e);
+        }
+    });
+    </script>
 </body>
 
 </html>

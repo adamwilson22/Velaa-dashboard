@@ -588,6 +588,13 @@ class VelaaAPI {
     }
 
     /**
+     * Dashboard overview (stats + chart + recent vehicles)
+     */
+    async getDashboardOverview() {
+        return this.request('/dashboard/overview', { method: 'GET' });
+    }
+
+    /**
      * Create new vehicle
      * @param {Object} vehicleData - Vehicle data
      * @returns {Promise<Object>} Created vehicle
