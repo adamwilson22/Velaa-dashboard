@@ -181,7 +181,14 @@
         <aside class="dashboard-layout__sidebar">
             <div class="sidebar">
                 <div class="sidebar__header">
-                    <img src="images/logos/logo.svg" alt="Velaa" class="sidebar__logo">
+                    <div class="sidebar__header-top">
+                        <h1 class="sidebar__brand">Velaa</h1>
+                        <button class="sidebar__close" onclick="closeSidebar()">×</button>
+                    </div>
+                    <div class="sidebar__greeting">
+                        <p class="sidebar__greeting-text">Good Evening</p>
+                        <p class="sidebar__greeting-name">Mr : Managers name</p>
+                    </div>
                 </div>
                 <nav class="sidebar__nav">
                     <ul class="nav-list">
@@ -371,10 +378,16 @@
     <!-- Profile Dropdown Overlay -->
     <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
-    <script src="js/api.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="js/config.js?v=2.0.1"></script>
+    <script src="js/api.js?v=2.0.1"></script>
+    <script src="js/auth-helper.js?v=2.0.1"></script>
+    <script src="js/scripts.js?v=2.0.1"></script>
     <script>
-    const api = new VelaaAPI();
+    // Initialize authentication
+    if (!window.authHelper.init()) {
+        throw new Error("Authentication required");
+    }
+    const api = window.authHelper.getAPI();
     let currentVehicleId = null;
     
     // Simple notification function

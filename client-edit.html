@@ -7,9 +7,16 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/loader.css">
 </head>
 <body class="page page--dashboard">
-    <div class="dashboard-layout">
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Client<span class="loader-dots">...</span></div>
+    </div>
+
+    <div class="dashboard-layout page-content">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
@@ -142,10 +149,15 @@
     <!-- Profile Dropdown Overlay -->
     <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
-    <script src="js/api.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="js/config.js?v=2.0.1"></script>
+    <script src="js/api.js?v=2.0.1"></script>
+    <script src="js/auth-helper.js?v=2.0.1"></script>
+    <script src="js/scripts.js?v=2.0.1"></script>
     <script>
     document.addEventListener('DOMContentLoaded', async () => {
+        const pageLoader = document.getElementById('pageLoader');
+        const pageContent = document.querySelector('.page-content');
+        
         console.log('DOM loaded, initializing client edit form');
         console.log('velaaAPI available:', !!window.velaaAPI);
         console.log('loadingManager available:', !!window.loadingManager);
@@ -218,8 +230,20 @@
                 NotificationManager.error('No client data found for the given ID');
             }
             
+            // Hide page loader after data is loaded
+            setTimeout(() => {
+                if (pageLoader) pageLoader.classList.add('hidden');
+                if (pageContent) pageContent.classList.add('loaded');
+            }, 300);
+            
         } catch (error) {
             console.error('Error loading client data:', error);
+            
+            // Hide loader on error
+            setTimeout(() => {
+                if (pageLoader) pageLoader.classList.add('hidden');
+                if (pageContent) pageContent.classList.add('loaded');
+            }, 1000);
             console.error('Error details:', {
                 message: error.message,
                 status: error.status,

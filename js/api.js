@@ -6,12 +6,14 @@
 
 class VelaaAPI {
     constructor() {
-        this.baseURL = 'http://localhost:5001/api';
+        // Use environment configuration
+        this.baseURL = window.envConfig ? window.envConfig.getApiBaseUrl() : 'http://localhost:5001/api';
         this.timeout = 30000; // 30 seconds
         this.registrationData = {}; // Store registration data across steps
         this.defaultCountryCode = '+255'; // Tanzania country code
-        this.mockMode = false; // Set to true for testing without backend
-        this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGRkYWVlNTljMGU5ZTAzMjJhMzJjOTEiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1OTM1ODcwMSwiZXhwIjoxNzU5OTYzNTAxfQ.njUBxzFb97At0yrlkmKLDf7-kaTxDDtTm7d_Kzv6xpU'; // Test token
+        this.mockMode = window.envConfig ? window.envConfig.isMockMode() : false; // Set to true for testing without backend
+        // Load token from storage instead of hardcoding
+        this.token = this.getStoredToken();
     }
 
     /**
@@ -59,6 +61,9 @@ class VelaaAPI {
         }
 
         try {
+            console.log('[API][REQUEST] url=', url);
+            console.log('[API][REQUEST] options.method=', config.method);
+            console.log('[API][REQUEST] options.headers=', config.headers);
             // Create abort controller for timeout
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), this.timeout);
@@ -73,6 +78,20 @@ class VelaaAPI {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
+                console.log('[API][RESPONSE][ERROR]', response.status, errorData);
+                
+                // Handle 401 Unauthorized - token expired or invalid
+                if (response.status === 401) {
+                    console.warn('[API] Token expired or invalid, clearing token and redirecting to login');
+                    this.clearToken();
+                    // Redirect to login if not already there
+                    if (!window.location.pathname.includes('index.html') && !window.location.pathname.endsWith('/')) {
+                        setTimeout(() => {
+                            window.location.href = '/index.html?expired=true';
+                        }, 1000);
+                    }
+                }
+                
                 throw new APIError(
                     errorData.message || `HTTP ${response.status}: ${response.statusText}`,
                     response.status,
@@ -80,17 +99,21 @@ class VelaaAPI {
                 );
             }
 
-            return await response.json();
+            const json = await response.json();
+            console.log('[API][RESPONSE][OK] status=', response.status, 'dataKeys=', Object.keys(json||{}));
+            return json;
         } catch (error) {
             if (error.name === 'AbortError') {
                 throw new APIError('Request timeout. Please try again.', 408);
             }
             
             if (error instanceof APIError) {
+                console.log('[API][ERROR] APIError message=', error.message, 'status=', error.status, 'data=', error.data);
                 throw error;
             }
 
             // Network or other errors
+            console.log('[API][ERROR] Network/Other err=', error && error.stack ? error.stack : error);
             throw new APIError(
                 'Network error. Please check your connection and try again.',
                 0,
@@ -592,6 +615,15 @@ class VelaaAPI {
      */
     async getDashboardOverview() {
         return this.request('/dashboard/overview', { method: 'GET' });
+    }
+
+    /**
+     * Billing - List monthly (optionally lazy-generate)
+     */
+    async getMonthlyBilling(month) {
+        const params = {};
+        if (month) params.month = month;
+        return this.request('/billing/list', { method: 'GET', params });
     }
 
     /**

@@ -73,9 +73,16 @@
             transform: scale(1.05);
         }
     </style>
+    <link rel="stylesheet" href="css/loader.css">
 </head>
 <body class="page page--dashboard">
-    <div class="dashboard-layout">
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Form<span class="loader-dots">...</span></div>
+    </div>
+
+    <div class="dashboard-layout page-content">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
@@ -338,10 +345,16 @@
         </div>
     </div>
 
-    <script src="js/api.js"></script>
-    <script src="js/navigation.js"></script>
+    <script src="js/config.js?v=2.0.1"></script>
+    <script src="js/api.js?v=2.0.1"></script>
+    <script src="js/auth-helper.js?v=2.0.1"></script>
+    <script src="js/navigation.js?v=2.0.1"></script>
     <script>
-    const api = new VelaaAPI();
+    // Initialize authentication
+    if (!window.authHelper.init()) {
+        throw new Error('Authentication required');
+    }
+    const api = window.authHelper.getAPI();
     let isEditMode = false;
     let currentVehicleId = null;
     
@@ -457,6 +470,9 @@
 
     // Initialize
     document.addEventListener('DOMContentLoaded', async () => {
+        const pageLoader = document.getElementById('pageLoader');
+        const pageContent = document.querySelector('.page-content');
+        
         // Check if editing
         const urlParams = new URLSearchParams(window.location.search);
         currentVehicleId = urlParams.get('id');
@@ -472,6 +488,12 @@
             // Set default date to today
             document.getElementById('purchaseDate').value = new Date().toISOString().split('T')[0];
         }
+        
+        // Hide loader after form is ready
+        setTimeout(() => {
+            if (pageLoader) pageLoader.classList.add('hidden');
+            if (pageContent) pageContent.classList.add('loaded');
+        }, 300);
 
         // Handle image upload preview
         const form = document.getElementById('vehicleForm');
@@ -555,12 +577,19 @@
                     if (files && files.length > 0) {
                         console.log('Uploading images...');
                         try {
-                            const vehicleId = response.data?._id || currentVehicleId;
+                            // Extract vehicle ID correctly from response
+                            const vehicleId = response.data?.vehicle?._id || response.data?._id || currentVehicleId;
+                            console.log('[IMAGE UPLOAD] Extracted vehicle ID:', vehicleId);
+                            
+                            if (!vehicleId) {
+                                throw new Error('Vehicle ID not found in response');
+                            }
+                            
                             await uploadVehicleImages(vehicleId, files);
                             showNotification('Images uploaded successfully!');
                         } catch (imgError) {
-                            console.error('Image upload failed:', imgError);
-                            showNotification('Vehicle saved but image upload failed');
+                            console.error('[IMAGE UPLOAD] Failed:', imgError);
+                            showNotification('Vehicle saved but image upload failed: ' + imgError.message);
                         }
                     }
                     

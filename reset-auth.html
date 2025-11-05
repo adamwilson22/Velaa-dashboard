@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Authentication - Velaa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-label {
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .status-value {
+            font-family: monospace;
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .instructions {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .instructions h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+            color: #856404;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            color: #155724;
+            display: none;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Authentication Reset</h1>
+        <p class="subtitle">Clear cache and fix authentication issues</p>
+        
+        <div class="status">
+            <div class="status-item">
+                <span class="status-label">Token Status:</span>
+                <span id="tokenStatus" class="badge badge-danger">Checking...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Token Value:</span>
+                <span id="tokenValue" class="status-value">-</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">User Data:</span>
+                <span id="userStatus" class="badge badge-danger">Checking...</span>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="clearEverything()">
+            🧹 Clear All Data & Reload
+        </button>
+        
+        <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+            🔑 Go to Login Page
+        </button>
+        
+        <div class="instructions">
+            <h3>📝 Manual Steps (If Auto-Clear Doesn't Work):</h3>
+            <ol>
+                <li>Press <strong>Cmd+Shift+R</strong> (Mac) or <strong>Ctrl+Shift+R</strong> (Windows) to hard reload</li>
+                <li>Open Developer Console (Press <strong>F12</strong>)</li>
+                <li>Go to <strong>Application</strong> tab → <strong>Local Storage</strong> → Clear all</li>
+                <li>Go to <strong>Network</strong> tab → Check "Disable cache"</li>
+                <li>Close and reopen your browser</li>
+                <li>Go to <a href="index.html">Login Page</a></li>
+            </ol>
+        </div>
+        
+        <div id="successMessage" class="success-message">
+            ✅ All data cleared! Redirecting to login in <span id="countdown">3</span> seconds...
+        </div>
+        
+        <div class="code-block">
+            <strong>Console Commands:</strong><br>
+            localStorage.clear();<br>
+            sessionStorage.clear();<br>
+            location.reload(true);
+        </div>
+    </div>
+    
+    <script>
+        // Check current token status
+        function checkStatus() {
+            const token = localStorage.getItem('authToken');
+            const tokenStatus = document.getElementById('tokenStatus');
+            const tokenValue = document.getElementById('tokenValue');
+            const userStatus = document.getElementById('userStatus');
+            const userData = localStorage.getItem('userData');
+            
+            if (token) {
+                tokenStatus.textContent = 'Found';
+                tokenStatus.className = 'badge badge-success';
+                tokenValue.textContent = token.substring(0, 30) + '...';
+            } else {
+                tokenStatus.textContent = 'Not Found';
+                tokenStatus.className = 'badge badge-danger';
+                tokenValue.textContent = 'No token in storage';
+            }
+            
+            if (userData) {
+                userStatus.textContent = 'Found';
+                userStatus.className = 'badge badge-success';
+            } else {
+                userStatus.textContent = 'Not Found';
+                userStatus.className = 'badge badge-danger';
+            }
+        }
+        
+        // Clear everything and reload
+        function clearEverything() {
+            console.log('Clearing all authentication data...');
+            
+            // Clear localStorage
+            localStorage.clear();
+            
+            // Clear sessionStorage
+            sessionStorage.clear();
+            
+            // Clear cookies
+            document.cookie.split(";").forEach(function(c) { 
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+            });
+            
+            console.log('All data cleared!');
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            
+            // Countdown and redirect
+            let count = 3;
+            const countdownEl = document.getElementById('countdown');
+            const interval = setInterval(() => {
+                count--;
+                countdownEl.textContent = count;
+                if (count === 0) {
+                    clearInterval(interval);
+                    // Hard reload to clear cache
+                    window.location.href = 'index.html';
+                    location.reload(true);
+                }
+            }, 1000);
+        }
+        
+        // Check status on page load
+        checkStatus();
+        
+        // Auto-refresh status every 2 seconds
+        setInterval(checkStatus, 2000);
+    </script>
+</body>
+</html>
+

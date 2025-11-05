@@ -73,14 +73,26 @@
             transform: scale(1.05);
         }
     </style>
+    <link rel="stylesheet" href="css/loader.css">
 </head>
 <body class="page page--dashboard">
-    <div class="dashboard-layout">
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Vehicle<span class="loader-dots">...</span></div>
+    </div>
+
+    <div class="dashboard-layout page-content">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
-                <div class="sidebar__logo">
-                    <img src="images/logos/logo.svg" alt="Velaa Logo" class="logo-img">
+                <div class="sidebar__header-top">
+                    <h1 class="sidebar__brand">Velaa</h1>
+                    <button class="sidebar__close" onclick="closeSidebar()">×</button>
+                </div>
+                <div class="sidebar__greeting">
+                    <p class="sidebar__greeting-text">Good Evening</p>
+                    <p class="sidebar__greeting-name">Mr : Managers name</p>
                 </div>
             </div>
             <nav class="sidebar__nav">
@@ -288,10 +300,15 @@
     <!-- Profile Dropdown Overlay -->
     <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
-    <script src="js/api.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="js/config.js?v=2.0.1"></script>
+    <script src="js/api.js?v=2.0.1"></script>
+    <script src="js/auth-helper.js?v=2.0.1"></script>
+    <script src="js/scripts.js?v=2.0.1"></script>
     <script>
     document.addEventListener('DOMContentLoaded', async () => {
+        const pageLoader = document.getElementById('pageLoader');
+        const pageContent = document.querySelector('.page-content');
+        
         console.log('DOM loaded, initializing vehicle edit form');
         
         // Wait a bit for scripts to fully load
@@ -305,7 +322,7 @@
         if (!window.velaaAPI) {
             console.log('API not found, trying to initialize...');
             try {
-                window.velaaAPI = new VelaaAPI();
+                // Global API instance is already created in api.js
                 console.log('API initialized manually');
             } catch (e) {
                 console.error('Failed to initialize API:', e);
@@ -693,6 +710,12 @@
             
         } finally {
             loadingManager.hide('load-vehicle');
+            
+            // Hide page loader after data is loaded
+            setTimeout(() => {
+                if (pageLoader) pageLoader.classList.add('hidden');
+                if (pageContent) pageContent.classList.add('loaded');
+            }, 300);
         }
         
         // Handle image upload preview

@@ -8,10 +8,83 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Dashboard Loader Styles */
+        .dashboard-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .dashboard-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .loader-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(102, 126, 234, 0.1);
+            border-top: 4px solid #667eea;
+            border-right: 4px solid #764ba2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loader-text {
+            margin-top: 24px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .loader-dots {
+            display: inline-block;
+            min-width: 20px;
+        }
+        
+        .dashboard-content {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .dashboard-content.loaded {
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body class="page page--dashboard">
-    <div class="dashboard-layout">
+    <!-- Dashboard Loader -->
+    <div class="dashboard-loader" id="dashboardLoader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Dashboard<span class="loader-dots">...</span></div>
+    </div>
+
+    <div class="dashboard-layout dashboard-content" id="dashboardContent">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
@@ -310,16 +383,59 @@
     <!-- Profile Dropdown Overlay -->
     <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
-    <script src="js/api.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="js/config.js?v=2.0.1"></script>
+    <script src="js/api.js?v=2.0.1"></script>
+    <script src="js/scripts.js?v=2.0.1"></script>
     <script>
     document.addEventListener('DOMContentLoaded', async () => {
-        const api = new VelaaAPI();
+        // Use the global API instance to ensure consistency
+        const api = window.velaaAPI;
+        const loader = document.getElementById('dashboardLoader');
+        const content = document.getElementById('dashboardContent');
+        
+        console.log('[DASHBOARD] API Instance:', api ? 'Found' : 'Not found');
+        console.log('[DASHBOARD] API Token before check:', api.token ? api.token.substring(0, 20) + '...' : 'NO TOKEN');
+        
+        // Check authentication before loading dashboard
+        const storedToken = localStorage.getItem('authToken');
+        console.log('[DASHBOARD] localStorage token:', storedToken ? storedToken.substring(0, 20) + '...' : 'NO TOKEN');
+        
+        if (!storedToken) {
+            console.warn('[DASHBOARD] No authentication token found, redirecting to login...');
+            NotificationManager.warning('Please login to access the dashboard');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+            return;
+        }
+        
+        // Ensure the API instance has the token loaded
+        if (!api.token || api.token !== storedToken) {
+            console.log('[DASHBOARD] Loading token into API instance...');
+            api.token = storedToken;
+            console.log('[DASHBOARD] Token loaded:', api.token.substring(0, 20) + '...');
+        } else {
+            console.log('[DASHBOARD] API instance already has correct token');
+        }
+        
+        // Animated dots for loader
+        let dotCount = 0;
+        const dotsInterval = setInterval(() => {
+            const dotsEl = document.querySelector('.loader-dots');
+            if (dotsEl) {
+                dotCount = (dotCount + 1) % 4;
+                dotsEl.textContent = '.'.repeat(dotCount);
+            }
+        }, 500);
+        
         try {
+            console.log('[DASHBOARD] Starting data load...');
+            console.log('[DASHBOARD] Using token:', api.token ? api.token.substring(0, 20) + '...' : 'NO TOKEN');
             const res = await api.getDashboardOverview();
             if (!res.success) throw new Error(res.message || 'Failed to load dashboard');
 
             const { stats, stockChart, vehicles } = res.data || {};
+            console.log('[DASHBOARD] Data loaded successfully');
 
             // Update stat cards
             const statNumbers = document.querySelectorAll('.stat-number');
@@ -378,8 +494,32 @@
                     rowsContainer.appendChild(row);
                 });
             }
+
+            console.log('[DASHBOARD] UI updated, hiding loader...');
+            
+            // Hide loader and show content with smooth transition
+            setTimeout(() => {
+                clearInterval(dotsInterval);
+                loader.classList.add('hidden');
+                content.classList.add('loaded');
+            }, 500); // Small delay for smooth transition
+            
         } catch (e) {
-            console.error('Dashboard load error:', e);
+            console.error('[DASHBOARD] Load error:', e);
+            clearInterval(dotsInterval);
+            
+            // Show error state
+            const loaderText = document.querySelector('.loader-text');
+            if (loaderText) {
+                loaderText.textContent = 'Failed to load dashboard';
+                loaderText.style.color = '#ff6b6b';
+            }
+            
+            // Hide loader after 2 seconds and show content anyway
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                content.classList.add('loaded');
+            }, 2000);
         }
     });
     </script>

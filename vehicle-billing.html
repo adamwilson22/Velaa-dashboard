@@ -7,9 +7,16 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/loader.css">
 </head>
 <body class="page page--dashboard">
-    <div class="dashboard-layout">
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Billing<span class="loader-dots">...</span></div>
+    </div>
+
+    <div class="dashboard-layout page-content">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
@@ -327,6 +334,86 @@
     <!-- Profile Dropdown Overlay -->
     <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
-    <script src="js/scripts.js"></script>
+    <script src="js/config.js?v=2.0.1"></script>
+    <script src="js/api.js?v=2.0.1"></script>
+    <script src="js/auth-helper.js?v=2.0.1"></script>
+    <script src="js/scripts.js?v=2.0.1"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Initialize authentication
+        if (!window.authHelper.init()) {
+            throw new Error('Authentication required');
+        }
+        const api = window.authHelper.getAPI();
+        const pageLoader = document.getElementById('pageLoader');
+        const pageContent = document.querySelector('.page-content');
+        const table = document.querySelector('.billing-table');
+        const originalHeader = table ? table.querySelector('.billing-table-header') : null;
+        const header = originalHeader ? originalHeader.cloneNode(true) : null;
+
+        function formatTZS(n){ try { return ((n||0) * 1).toLocaleString() + ' TZS'; } catch(_) { return `${n||0} TZS`; } }
+        function formatDate(d){ if(!d) return ''; const dt = new Date(d); return dt.toLocaleDateString(undefined, { day:'2-digit', month:'short', year:'numeric' }); }
+
+        try {
+            console.log('[UI][BILLING] start load');
+            const res = await api.getMonthlyBilling();
+            console.log('[UI][BILLING] api result keys=', Object.keys(res||{}));
+            const bills = res?.data?.bills || [];
+            console.log('[UI][BILLING] bills.length=', bills.length);
+
+            if (!table) return;
+            table.innerHTML = '';
+            if (header) table.appendChild(header);
+
+            if (bills.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'billing-table-row';
+                empty.innerHTML = `
+                    <div class="billing-cell billing-cell--chassis">—</div>
+                    <div class="billing-cell billing-cell--customer">No records for this month</div>
+                    <div class="billing-cell billing-cell--date">—</div>
+                    <div class="billing-cell billing-cell--fee">—</div>
+                    <div class="billing-cell billing-cell--balance">—</div>
+                    <div class="billing-cell billing-cell--actions"></div>
+                `;
+                table.appendChild(empty);
+                return;
+            }
+
+            bills.forEach(b => {
+                const row = document.createElement('div');
+                row.className = 'billing-table-row';
+                const customerName = (b?.client?.name) || (b?.vehicle?.owner?.name) || '';
+                row.innerHTML = `
+                    <div class="billing-cell billing-cell--chassis">${b?.vehicle?.chassisNumber || ''}</div>
+                    <div class="billing-cell billing-cell--customer">${customerName}</div>
+                    <div class="billing-cell billing-cell--date">${formatDate(b?.vehicle?.purchaseDate)}</div>
+                    <div class="billing-cell billing-cell--fee">${formatTZS(b?.vehicle?.monthlyFee)}</div>
+                    <div class="billing-cell billing-cell--balance">${formatTZS(b?.balanceAmount)}</div>
+                    <div class="billing-cell billing-cell--actions"><button class="action-btn">⋮</button></div>
+                `;
+                table.appendChild(row);
+            });
+            
+            // Hide loader
+            setTimeout(() => {
+                if (pageLoader) pageLoader.classList.add('hidden');
+                if (pageContent) pageContent.classList.add('loaded');
+            }, 500);
+            
+        } catch (e) {
+            console.error('Billing load failed:', e);
+            if (window.NotificationManager) {
+                NotificationManager.error('Failed to load billing: ' + (e?.message || 'unknown error'));
+            }
+            
+            // Hide loader on error
+            setTimeout(() => {
+                if (pageLoader) pageLoader.classList.add('hidden');
+                if (pageContent) pageContent.classList.add('loaded');
+            }, 1000);
+        }
+    });
+    </script>
 </body>
 </html>

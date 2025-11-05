@@ -175,10 +175,16 @@
         </div>
     </div>
 
-    <script src="js/api.js"></script>
+    <script src="js/config.js?v=2.0.1"></script>
+    <script src="js/api.js?v=2.0.1"></script>
+    <script src="js/auth-helper.js?v=2.0.1"></script>
     <script src="js/navigation.js"></script>
     <script>
-        const api = new VelaaAPI();
+        // Initialize authentication
+    if (!window.authHelper.init()) {
+        throw new Error("Authentication required");
+    }
+    const api = window.authHelper.getAPI();
         let isEditMode = false;
         let currentVehicleId = null;
 

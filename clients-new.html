@@ -16,8 +16,13 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar__header">
-                <div class="sidebar__logo">
-                    <img src="images/logos/logo.svg" alt="Velaa Logo" class="logo-img">
+                <div class="sidebar__header-top">
+                    <h1 class="sidebar__brand">Velaa</h1>
+                    <button class="sidebar__close" onclick="closeSidebar()">×</button>
+                </div>
+                <div class="sidebar__greeting">
+                    <p class="sidebar__greeting-text">Good Evening</p>
+                    <p class="sidebar__greeting-name">Mr : Managers name</p>
                 </div>
             </div>
             <nav class="sidebar__nav">
@@ -190,6 +195,7 @@
     <!-- Profile Dropdown Overlay -->
     <div class="profile-dropdown-overlay" id="profileDropdownOverlay" onclick="closeProfileDropdown()"></div>
 
+    <script src="js/config.js"></script>
     <script src="js/api.js"></script>
     <script src="js/scripts.js"></script>
     <script>
