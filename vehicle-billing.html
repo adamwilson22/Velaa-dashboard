@@ -279,11 +279,37 @@
             bills.forEach(b => {
                 const row = document.createElement('div');
                 row.className = 'billing-table-row';
-                const customerName = (b?.client?.name) || (b?.vehicle?.owner?.name) || (b?.clientId?.name) || '';
+                
+                // Get customer name from multiple possible sources
+                const customerName = (b?.client?.name) || 
+                                    (b?.vehicle?.owner?.name) || 
+                                    (b?.clientId?.name) || 
+                                    (b?.vehicle?.owner?.firstName && b?.vehicle?.owner?.lastName ? 
+                                      `${b.vehicle.owner.firstName} ${b.vehicle.owner.lastName}` : '') ||
+                                    '';
+                
+                // Get chassis number
                 const chassisNumber = b?.vehicle?.chassisNumber || b?.vehicleId?.chassisNumber || '';
-                const purchaseDate = b?.vehicle?.purchaseDate || b?.vehicleId?.purchaseDate || b?.arrivalDate;
-                const monthlyFee = b?.vehicle?.monthlyFee || b?.vehicleId?.monthlyFee || b?.amount || 0;
-                const balanceAmount = b?.balanceAmount || b?.outstandingBalance || 0;
+                
+                // Get date - prefer purchaseDate, fallback to arrivalDate or dueDate
+                const purchaseDate = b?.vehicle?.purchaseDate || 
+                                   b?.vehicleId?.purchaseDate || 
+                                   b?.arrivalDate || 
+                                   b?.dueDate ||
+                                   b?.invoiceDate;
+                
+                // Get monthly fee
+                const monthlyFee = b?.vehicle?.monthlyFee || 
+                                 b?.vehicleId?.monthlyFee || 
+                                 b?.baseAmount || 
+                                 b?.amount || 
+                                 0;
+                
+                // Get balance amount
+                const balanceAmount = b?.balanceAmount || 
+                                    b?.outstandingBalance || 
+                                    (b?.totalAmount || 0) - (b?.paidAmount || 0) ||
+                                    0;
                 
                 row.innerHTML = `
                     <div class="billing-cell billing-cell--chassis">${chassisNumber}</div>
