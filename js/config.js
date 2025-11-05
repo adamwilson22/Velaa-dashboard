@@ -62,7 +62,7 @@ class EnvironmentConfig {
                 mockMode: false
             },
             production: {
-                apiBaseUrl: 'https://velaa.the4loop.com/backend/api',
+                apiBaseUrl: 'https://velaabackend.vercel.app/api',
                 environment: 'production',
                 debug: false,
                 mockMode: false
